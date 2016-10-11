@@ -1,0 +1,41 @@
+Dátum stretnutia: 04.11.2016
+
+Zápisnica zo stretnutia so zadávateľom
+
+Prítomní: Mitas, Skrip, Mašek, Trubač, Hudák
+
+
+- zádavateľ už nežije v Bratislave, išlo teda o stretnutie so sprostredkovateľom
+- sprostredkovateľ a ani zadávateľ nie sú zamestanci Národnej transfúznej služby
+- sprostredkovateľ prezentoval jasnú predstavu o projekte. Chce informačný systém ako webovú aplikáciu. Tento IS chce ponúknuť všetkým NTS na Slovensku. NTS v súčasnosti využíva informačný systém, ktorý sprostredkovateľ nevedel definovať.
+
+	1. UI pre Darcu - mobilná aplikácia 
+		- klúčovou funkcionalitou je možnosť vyplniť dotazník darcu. Darca sa bude môcť registrovať
+		- dopyty vo forme push notifikácií, ktoré bude IS posielať vhodným darcom na základe atribútov ako krvná skupina, dátum posledného darovania krvi a pod.
+		- história darcu jeho výsledkov z kontroly
+	2. UI pre Doktora NTS - webová aplikácia
+		- kontroluje dáta z dotazníka dopĺňa výsledky z kontroly
+		- má prístup k informáciam o pacientovi(darcovi) jeho histórií
+	3. UI pre Správcu NTS
+		- má prístup ku všetkým agendám IS
+		- informácie o darcoch
+		- informácie o vzorkách dostupných na sklade 
+		- má možnosť vytvárať dopyty
+	4. UI pre zadávanie dopytov
+		- možnosť zadávať dopyty na vzorky a atribútov ktoré sa budú zobrazovať vhoným darcom
+		- Správca NTS môže udeliť práva na toto rozhranie externým osobám. Napr.: zamestananec nemocnice
+
+IS má ukladať informácie o darcoch, ktoré získa z dotazníka darcu a z výsledkov kontroli, ktoré zadáva doktor NTS
+IS má ukladať informácie a viesť evidenciu skladu odobratých vzoriek
+
+
+Do budúceho stretnutia:
+- sprostredkovateľ
+	- poradí sa s právnikmi o legislatve viažucej sa k uchovávaniu a ochrane osobných údajov pacientov
+	- vybaví HMST solutions exkurziu v NTS
+	- spíše zoznam atribútov darcov a vzoriek, ktoré NTS uchováva, bude hladať konvencie medzi nimi
+	- zanalyzuje proces darovania krvi
+- HMST solutions:
+	- spíše prvú verziu špecifikácie na základe stretnutia
+
+- 
