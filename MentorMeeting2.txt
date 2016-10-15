@@ -1,0 +1,23 @@
+
+Dátum stretnutia: 11.10.2016 
+Zoznam prítomných členov týmu: Samuel Mitas, Marián Skrip, Jakub Trubač, Martin Mašek, Patrik Hudák 
+Priebeh stretnutia: 
+1."Stand up meeting": 
+Martin Mašek : Pomohol s kontrolou zápisníc a odsúhlasil ich že sú v poriadku .  
+Patrik Hudák : Prečítal si špecifikáciu. 
+Marián Skrip : Prečítal si špecifikáciu a skontroloval ju. 
+Samuel Mitas : Napísal špecifikáciu. 
+Jakub Trubač : Spísal zápisnicu zo stretnutia s cvičiacim a sledoval github. 
+2.Správa o celkovom pokračovaní projektu pre cvičiaceho: 
+Od predošlého stretnutia sme nemali žiadne iné stretnutie. 
+Celý pokrok v projekte predstavovala špecifikácia. 
+3.Spätná väzba od cvičiaceho o odovzdanej dokumentácii a pokračovaní projektu: 
+Na začiatku stretnutia cvičiaci vyjadril nespokojnosť z našou špecifikáciou a dal nám za úlohu ju prerobiť. 
+Pre inspiráciu nám ukázal špecifikáciu ich projektu. 
+Cvičiaci vyjadril nespokojnosť z absenciou tímového stretnutia v našom rozvrhu. 
+4.Diskusia: 
+Samuel Mitas predložil problém nedostatku informácii ktorého dôvod je že náš sprostredkovateľ ani zadávateľ niesu zamestnancami NTS. 
+Cvičiaci nám odporučil chýbajúce údaje nahradiť približnými. 
+Cvičiacemu sme oznámili že spolu s sprostredkovateľom navštívime NTS. 
+Cvičiaci nám oznámil že do ďalšieho týždňa musíme mať hotový entitno relačný diagram, use-case diagramy, stavové diagramy a sekvenčné diagramy a prerobenú špecifikáciu 
+Jednotlivé diagramy vysvetlil 
