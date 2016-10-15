@@ -1,0 +1,16 @@
+Dátum stretnutia: 11.10.2016 
+Zoznam prítomných členov týmu: Samuel Mitas, Marián Skrip, Jakub Trubač, Martin Mašek, Patrik Hudák 
+Zhodnotenie predchádzajúceho obdobia: 
+Ako prvý sme prediskutovali fakt že špecifikácia nebola úplná a cvičiacemu nevyhovovala. 
+Samuel Mitas dostal za úlohu špecifikáciu do ďalšieho stretnutia s cvičiacim prerobiť. 
+Všetci vyjadrili spokojnosť s ganttovým diagramom nášho projektu. 
+Prediskutovali sme udalosti a fakty z predošlých stretnutí a zhodli sme sa že našim hlavným problémom je nedostatok informácii o jednotlivých procesoch v NTS. 
+Zhodli sme sa na tom že počas stretnutia s zadávateľom a návštevy NTS by nám mali byť všetky chýbajúce informácie poskytnuté. 
+Naplánovanie úloh na nasledujúce obdobie: 
+Samuel Mitas dostal za úlohu prerobiť špecifikáciu do stavu spĺňajúceho požiadavky cvičiaceho. 
+Jakub Trubač dostal za úlohu zhotoviť use-case diagramy, spísať zápisnicu z stretnutia s cvičiacim a spísať zápisnicu z týmového stretnutia. 
+Marian Skrip dostal za úlohu zhotoviť stavové diagramy a dohodnúť stretnutie s zadávateľom. 
+Patrik Hudák dostal za úlohu zhotoviť entitno-relačný diagram a spísať zápisnicu z stretnutia s zadávateľom. 
+Martin Mašek dostal za úlohu zhotoviť sekvenčné diagramy. 
+Zistili sme že nám nedostatok informácii o jednotlivých procesoch v NTS zabraňuje v napredovaní a preto dostali všetci za úlohu pripraviť si otázky na stretnutie s zadávateľom. 
+ 
