@@ -1,0 +1,99 @@
+Dátum stretnutia: 15.10.2016
+Zoznam prítomných členov týmu: Patrik Hudák, Jakub Trubač, Marián Skrip 
+Priebeh stretnutia:
+
+0. časť "Stretnutie pred príchodom zadávateľa"
+Pred príchodom zadávateľa sme si prítomní spolu so Samuelom Mitasom (prítomný online) dohodli priebeh stretnutia. Spísali sme si pripravené otázky
+a rozdelili priebeh stretnutia do 2 hlavných častí. V prvej časti sme chceli podrobne poznať priebeh darovania krvi z hľadiska darcu aj NTS.
+V druhej časti sme chceli počuť názor zadávateľa na funkcionalitu a rozsah pripravovanej webovej aplikácie a dohodnúť sa na jej konečnej štruktúre a funkciách.
+
+1. Časť "Zbieranie informácií o procese darovania krvi"
+
+V prvej časti sme sa zadávateľa pýtali na podrobný priebeh darovania krvi. Chceli sme pochopiť 
+systém darovania krvi z hľadiska darcu aj NTS.
+
+Z hľadiska darcu sme sa dozvedeli nasledovné:
+- darca musí mať 18 až 60 rokov
+- musí vždy po príchode do NTS vyplniť dotazník
+- môže darovať krv každé 3 mesiace
+- nemôže darovať krv ak patrí do rizikovej skupiny (prostitúcia,drogy), ak má alebo prekonal závažnú chorobu (žltačku, AIDS)
+- dočasne nemôže darovať krv ak sa v jeho krvi nevyskytuje potrebné množstvo lekárom meraných látok
+
+Z hľadiska NTS sme sa dozvedeli nasledovné:
+- 1. časť preverovania darcu je na základe darcovho dotazníka a subjektívneho posudk. Subjektívny posudok je spísaný 
+  lekárom na základe osobného pohovoru s darcom
+- 2.časť preverovania darcu je na základe vzorky krvi, ktorú darca poskytne pred samotným darovaním krvy. Výsledky sú známe "na počkanie". Lekár z danej krvy
+  kontroluje  množstvo červených krviniek, bielych krviniek, krvných doštičiek a pod.
+- po preverení darcu lekár založí danému darcovi darcovskú kartu  
+- darcovi je možné zobrať 400 až 450ml krvi
+- lekár sa so zvýšenou opatrnosťou venuje darcom s prekonanou závažnou infekčnou chorobou a darcom s tetovaním alebo piercingom
+- lekár z krvi môže odseparovať viacero látok (podrobný zoznam nám zadávateľ dodatočne pošle emailom)
+- NTS si medzi sebou môžu posielať krv
+- NTS nemocnici vydáva krv na základe písomnej čiadosti ( predlohu žiadosti sa nám zadávateľ pokúsi zohnať )
+- pri nadbytku krvi NTS posiela krv do zahraničia
+
+2. Časť "Diskutovanie o aplikácii"
+
+V druhej časti sme požiadali zadávateľa o jeho názor a predstavu o pripravovanej webovej aplikácii. Chceli sme vedieť, čo od aplikácie očakáva, čo požaduje,
+na čo apeluje, prípadne sme mu chceli poskytnúť lepšie alternatívy. 
+
+Po ukončení diskusii sme sa zhodli na nasledovnom:
+
+Darca:
+- účet (t.j. online darcovská karta) mu založí lekár po preverení
+- heslo do aplikácie sa darcovi nastaví pri zakladaní účtu, to si však môže kedykoľvek zmeniť
+- darca po prihlásení do aplikácie vidí len svoju darcovskú kartu, dátumy kedy bol darovať krv a prípadne 
+  report toho, prečo ju darovať nemohol. Informácie o iných darcoch a kapacitách NTS mu nebudu prístupné
+- darca sa po prihlásení do aplikácie môže objednať do ním zvolenej NTS na darovanie krvi a to na konkrétny čas a dátum.
+  Aplikácia mu dovolí objednať sa na darovanie iba v dátumoch a časoch, ktoré budú vhodné. 
+  Vhodný čas a dátum:
+  - od posledného darovania krvi ubehli 3 mesiace
+  - lekár nestanovil odklad darovania krvi (lekár môže na základe výsledkov urobiť odklad darovania krvi na viac ako 3 mesiace)
+  - NTS v daný dátum a čas prijíma darcov
+  - NTS má v daný dátum a čas voľnú kapacitu lôžka pre darcu
+  - nebol vylúčený z programu darovania krvi
+- darca si pri objednaní môže zvoliť preferovaného lekára zo zoznamu lekárov ordinujúcich v daný deň a čas v prípade, že lekár ešte nieje obsadený
+- v prípade, že je darca trvalo vylúčený z darovania krvi, jeho karta zaniká a nemá prístup k prihláseniu na svoj účet
+- darcovi automaticky zaniká účet aj v prípade, že jeho vek presiahne 60 rokov ( ** doplnené, je potrebné schváliť zadávateľom)
+
+NTS:
+- každá NTS bude mať svoj účet
+- účet bude evidovať zoznam ošetrujúcich lekárov a sestričiek
+- v účte si môže každá NTS nastaviť svoje otváracie hodiny a kontaktné údaje
+- každá NTS bude mať zoznam objednaných darcov na dané dni, spolu s ich preferenciami na lekára
+- každá NTS bude mať prístupné údaje o všetkých darcoch a bude ich môcť kontaktovať nielen telefonicky, ale aj emailom prostredníctvom aplikácie
+- účet bude danej NTS uchovávať záznamy o kapacite krvi a jej zložiek. Dané záznamy nebudú pre inú NTS a darcov prístupné. Kapacity si bude každá NTS nastavovať sama
+- NTS bude môcť pridať lekára a vytvoriť darcovi darcovskú kartu
+- NTS bude môcť na svoj profil publikovať oznamy
+- NTS bude môcť cez svoj účet žiadať iné NTS o import krvi
+- NTS bude môcť reagovať na prosbu o import krvi
+** POZN: Keďže NTS nesmú iným staniciam poskytovať informácie o svojich zásobách rozhodli sme sa daný problém vyriešiť formou broadcastu.
+**       NTS vyšle požiadavku na import krvi všetkým staniciam a počká kto sa ozve. Ostatné stanice si požiadavku prečítajú a buď ju akceptujú
+**       alebo neakceptujú. NTS, ktorá požiadavku odoslala, dostane zoznam staníc so statusom akceptované. Z týchto staníc si vyberie jednu.
+- zamestnanec NTS si môže pomocou filtra vybrať darcov, ktorí spĺňájú jeho požiadavky a odoslať im emaily. Taktiež ich môže kontaktovať telefonicky. Telefonický
+  kontakt bude taktiež súčasťou darcovskej karty.
+- účet bude evidovať nielen kapacitu krvi v danej NTS ale aj kapacitu všetkých odoberaných zložiek z krvi. Ich podrobný zoznam nám zadávateľ zašle emailom.  
+  
+BONUSOVÉ funkcie aplikácie:
+Bonusové funkcie aplikácie sa budú riešiť po implementovaní spísaných požiadaviek. Sú to:
+- Riaditeľstvo NTS: 
+  bude mať prehľad o zásobách všetkých NTS. Bude môcť vytvárať a zatvárať NTS. Ďalšie informácie budú poskytnuté po konzultácii so zadávateľom.
+- Komunikácia medzi nemocnicou a NTS: 
+  Nemocnica musí vypísať žiadanku do NTS. Tá ju musí potvrdiť a odoslať spať nemocnici. Cieľom tohto bonusu bude umožniť nemocnici zaslanie elektronickej 
+  žiadanky do NTS, kde ju následne NTS môže elektronicky potvrdiť a tým zefektívniť komunikáciu medzi nimi.
+  
+ZÁVER:
+
+- na stretnutí sme si stanovili požiadavky a cieľ aplikácie a pochopili sme fungovanie NTS
+- ďalšie plánované stretnutie so zadávateľom je dňa 28.10.2016 (čas sa upresní prostredníctvom emailovej a telefonickej komunikácii)
+Od zadávateľa požadujeme:
+- presný rozpis odoberateľných zložiek krvi
+- vzor žiadanky, ktorú nemocnica posiela do NTS v prípade, že od nich žiada krv
+- informácie o prípadnej zmene fungovania NTS. Túto informáciu žiadame, nakoľko má zadávateľ dňa 21.10.2016 školenie o NTS, na ktorom môžu predstaviť zmeny 
+  v spomínaných procesoch fungovania.
+
+   
+
+  
+
+
