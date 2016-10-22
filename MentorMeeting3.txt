@@ -1,0 +1,22 @@
+Dátum stretnutia: 18.10.2016  
+Zoznam prítomných členov týmu: Samuel Mitas, Marián Skrip, Jakub Trubač, Martin Mašek, Patrik Hudák  
+Priebeh stretnutia:  
+1."Stand up meeting":  
+Martin Mašek : Sledoval github.  
+Patrik Hudák : Zhotovil Entitno-relačný diagram a spísal zápisnicu z stretnutia s zadávateľom. 
+Marián Skrip : Zhotovil stavový diagram. 
+Samuel Mitas : Pracoval na špecifikácii. 
+Jakub Trubač : Zhotovil Use-case diagram, spísal zápisnicu z stretnutia s cvičiacim a z tímového stretnutia. 
+2.Správa o celkovom pokračovaní projektu pre cvičiaceho:  
+Cvičiacemu sme popísali priebeh stretnutia zo zadávateľom a oboznámili ho z novými faktami. 
+Prebrali sme pokrok v špecifikácií ktorá bola stále v nedokončenej forme. 
+3.Spätná väzba od cvičiaceho o odovzdanej dokumentácii a pokračovaní projektu:  
+Cvičiaci sa postupne vyjadril ku každému diagramu: 
+- V Entitno-relačnom diagram boli navyše atribúty vlastností , entity boli správne identifikované a rozumne pospájané. 
+- V Use-case diagrame boli nesprávne použité relácie extends. 
+- V Stavovom diagrame bola nesprávna značka terminálneho stavu, stavový diagram mal končiť tam kde sa krv rozdeľuje na 4 entity. 
+- Sekvenčný diagram nebol vyhotovený. 
+Ku každému diagramu nám cvičiaci vysvetlil postupy na opravu.  
+4.Diskusia:  
+Cvičiaci vyzdvihol dôležitosť dokončenia špecifikácie. 
+Cvičiaci nám popísal úlohy ktoré by mali byť splnené do ďalšieho týždňa a vysvetlil nám metódy návrhu grafického dizajnu.
