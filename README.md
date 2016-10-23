@@ -3,7 +3,7 @@ HMST Solutions: Jakub Trubač, Marián Skrip, Patrik Hudák, Samuel Mitas, Marti
 
 # Requirements
 
-To build and run this project you need to install python3 and Make.
+To build and run this project you need to install python3 and Make (make for Windows: http://gnuwin32.sourceforge.net/packages/make.htm).
 
 # Building and running
 
