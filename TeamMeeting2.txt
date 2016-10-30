@@ -1,5 +1,5 @@
 Dátum stretnutia:           21.10.2016
-Prítomní členovia týmu:     Patrik Hudák, Marián Skrip, Jakub Trubač, Martin Mašek, Samuel Mitas
+Prítomní členovia tímu:     Patrik Hudák, Marián Skrip, Jakub Trubač, Martin Mašek, Samuel Mitas
 
 Dôvod stretnutia: Po návšteve NTS Mariánom a Samuelom sme museli zorganizovať team meeting z dôvodu zmeny štruktúry IS.
 
@@ -14,11 +14,11 @@ Užívateľ
 
 NTS:
 
-- pribudla nová entita NTS ktorá bude môcť spravovať údaje o samotnej NTS a o jej zamestnancoch
+- pribudla nová entita NTS, ktorá bude môcť spravovať údaje o samotnej NTS a o jej zamestnancoch
 - pribudla registrácia pre lekára alebo zdravotnú sestru
 - NTS pribudnú otváracie hodiny s možnosťou pridať výnimku. Na základe dátumu a času otvorenia sa bude môcť darca objednať
 - zrušený inport a export krvi prostredníctvom kuriéra (po konzultácii s primárkou NTS)
 - rozdelenie zamestnancov do 2 skupín (lekár a sestra). Každá skupina bude mať iné prístupové práva.
 - prerobený systém skladovania krvi (krv sa krátkodobo skladuje iba dovtedy, pokým nebude exportovaná), preto sklad nahradí položka "evidencia". Evidenciu krvi si môže sestra vytlačiť a zoznam dať
   kuriérovi v písomnej podobe na kontrolu pred exportom
-- zmena zobrazenia objednávok. Lekár nevidí len svoje objednávky, ale objednávky celej NTS so zvýrazneným svojím menom (dôvod : vseobecne je v NTS málo odberov v priebehu dňa) 
+- zmena zobrazenia objednávok. Lekár nevidí len svoje objednávky, ale objednávky celej NTS so zvýrazneným svojím menom (dôvod : všeobecne je v NTS málo odberov v priebehu dňa) 
