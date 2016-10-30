@@ -1,0 +1,62 @@
+Dátum stretnutia:           25.10.2016
+Prítomní členovia tímu:     Patrik Hudák, Marián Skrip, Jakub Trubač, Martin Mašek, Samuel Mitas
+
+Dôvod: po konzultácii s mentorom sme si potrebovali stanoviť konečnú štruktúru webu kvôli dizajnu a rozdeliť úlohy pri tvorbe webu 
+
+Hlavná štruktúra stránky:
+
+Webová stránka bude mať 2 hlavné kategórie: Darca a NTS
+
+1.  Darca
+
+Darca bude mať v menu nasledovné položky:
+
+  - Karta -> dashboard s darcovými osobnými údajmi a zoznamom odberov krvi, ktoré sa dajú rozkliknúť na podrobnosti. V podrobnostiach
+    budú údaje o odbere a darcov vyplnený dotazník. Novinkou bude systém ocenovania na základe odberov. Systém oceňovania funguje dávno a ponúka
+    brondzovú, striebornú, zlatú a diamantovú plaketu. Najvyšším ocenením je Kňazovického medaila. viac info tu: http://darujkrv.redcross.sk/ocenovanie_darcov_krvi 
+    
+  - Objednávky  -> v objednávkach sa prostredníctvom voľby NTS a dátumu z kalendára bude môcť objednať na termín odberu a predvyplniť si 
+    dotazník, ktorý by ináč musel vypisovať vždy po príchode
+    
+  - Kontakty -> darca si tu môže vyhľadať NTS a získať tak informácie o jej polohe. Zverejnené budú tiež kontaktné informácie na NTS a jej zamestnancoch.
+  
+
+ 2. 0. NTS
+ 
+NTS bude mať v menu nasledovné položky:
+
+  - Informácie -> dashboard s informáciami o NTS a inými všeobecnými informáciami. Novinkou budú žiadosti o pridelenie lekára do danej NTS. Tie si budú lekári 
+    posielať sami zo svojho profilu.
+  
+  - Darcovia -> vyhľadávanie darcu alebo skupinu darcvo na základe určených atribútov. Po vyhľadaní bude môcť NTS odoslať hromadný email danej skupine-
+  
+  - Zamestnanci -> obsahuje zoznam zamestnancov ktorí sa dajú filtrovať na základe atribútov. Po rozkliknutí lekára sa zobrazia podrobnosti o ňom.
+    NTS môže daného lekára presunúť do svojho zoznamu zamestnancov 
+    
+  - Objednávky -> Zoznam všetkých objednávok na daný týždeň pre danú NTS. 
+  
+  - Expedícia -> Zoznam položiek krvi určených na expedíciu. Zoznam položiek bude môcť tvoriť lekár aj sestra. K dispozícii bude možnosť vytlačiť si zoznam na kontrolu kuriérom a vložiť ich do stavu vybavené.
+  
+  - Kontakty -> rovnako ako darca
+  
+ 2. 1. Lekár / Sestra 
+ 
+  - Informácie -> dashboard s jeho informáciami a informáciami o jemu pridelenej NTS. Lekár bude môcť inej NTS poslať žiadosť na preradenie
+  
+  - Darcovia -> rovnako ako NTS
+  
+  - Zamestnanci -> zoznam zamestnancov v NTS jemu priradenej
+  
+  - Expedícia -> rovnako ako NTS
+  
+  - Objednávky -> rovnako ako NTS ale objednávky na jeho meno budú špeciálne vyznačené
+  
+  - Kontakty -> Rovnako ako darca
+  
+  
+Rozdelenie úloh pri tvorbe IS
+
+BACKEND - Samuel Mitas, Marián Skrip
+
+FRONT-END - Patrik Hudák, Jakub Trubač, Martin Mašek
+   
