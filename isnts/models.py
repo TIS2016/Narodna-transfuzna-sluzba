@@ -37,33 +37,33 @@ class Blood_type(models.Model):
 
 class Region(models.Model):
 
-     @unique
-     class Regions(Enum):
-         Bratislavsky = 0
-         Nitriansky = 1
-         Trnavsky = 2
-         BanskoBystricky = 3
-         Zilinsky = 4
-         Kosicky = 5
-         Presovsky = 6
+    @unique
+    class Regions(Enum):
+        Bratislavsky = 0
+        Nitriansky = 1
+        Trnavsky = 2
+        BanskoBystricky = 3
+        Zilinsky = 4
+        Kosicky = 5
+        Presovsky = 6
 
     REGION_CHOICES = {
-        (Regions.Bratislavsky.values,"Bratislavsky"),
-        (Regions.Nitriansky.values,"Nitriansky"),
-        (Regions.Trnavsky.values,"Trnavsky"),
-        (Regions.BanskoBystricky.values,"BanskoBystricky"),
-        (Regions.Zilinsky.values,"Zilinsky"),
-        (Regions.Kosicky.values,"Kosicky"),
-        (Regions.Presovsky.values,"Presovsky"),
+        (Regions.Bratislavsky.value,"Bratislavsky"),
+        (Regions.Nitriansky.value,"Nitriansky"),
+        (Regions.Trnavsky.value,"Trnavsky"),
+        (Regions.BanskoBystricky.value,"BanskoBystricky"),
+        (Regions.Zilinsky.value,"Zilinsky"),
+        (Regions.Kosicky.value,"Kosicky"),
+        (Regions.Presovsky.value,"Presovsky")
     }
 
     name = models.PositiveSmallIntegerField(choices=REGION_CHOICES)
 
 class Address(models.Model):
-    city = models.CharField(max_length=50)
-    zip_code = models.CharField(max_length=10)
-    street = model.CharField(max_length=30)
-    number = models.CharField(max_length=10)
+    city = models.CharField(max_length=50,null=True)
+    zip_code = models.CharField(max_length=10,null=True)
+    street = models.CharField(max_length=30,null=True)
+    number = models.CharField(max_length=10,null=True)
     id_region = models.ForeignKey(Region,on_delete=models.SET_NULL,null=True)
 
 class Office_hours(models.Model):
@@ -80,7 +80,7 @@ class NTS(models.Model):
     email = models.CharField(max_length=30)
     other_contact = models.CharField(max_length=255)
     info = models.CharField(max_length=255)
-    id_boss = models.ForeignKey(Employee,on_delete=models.SET_NULL,null=True)
+    id_boss = models.IntegerField()
 
 class Announcement(models.Model):
     id_nts = models.ForeignKey(NTS,on_delete=models.CASCADE)
@@ -90,10 +90,10 @@ class Announcement(models.Model):
     creation_date = models.DateTimeField(auto_now_add=True)
 
 class Employee(models.Model):
-    id_nts = models.ForeignKey(NTS,on_delete=models.CASCADE)
-    id_user = models.OneToOneField(User)
-    username = models.CharField(max_length=255)
-    password = models.CharField(max_length=255)
+    id_nts = models.ForeignKey(NTS,on_delete=models.CASCADE,null=True)
+    id_user = models.OneToOneField(User,null=True)
+    username = models.CharField(max_length=255,null=True)
+    password = models.CharField(max_length=255,null=True)
     email = models.CharField(max_length=255,null=True)
     phone = models.CharField(max_length=30,null=True)
 
@@ -115,17 +115,17 @@ class Donor(models.Model):
     id_card = models.ForeignKey(Donor_card, on_delete=models.CASCADE)
     active_acount = models.SmallIntegerField(default=0)
     id_user = models.OneToOneField(User)
-    username = models.CharField(max_length=255)
-    password = models.CharField(max_length=255)
-    email = models.CharField(max_length=255)
+    username = models.CharField(max_length=255,null=True)
+    password = models.CharField(max_length=255,null=True)
+    email = models.CharField(max_length=255,null=True)
 
 class Questions(models.Model):
     question_text = models.CharField(max_length=255)
 
 class Questionnaire(models.Model):
     name = models.CharField(max_length=50)
-    weight = models.DecimalField()
-    height = models.DecimalField()
+    weight = models.DecimalField(max_digits=6, decimal_places=3)
+    height = models.DecimalField(max_digits=6, decimal_places=6)
     date_of_birth = models.DateField()
     phone = models.CharField(max_length=20)
     email = models.CharField(max_length=20)
