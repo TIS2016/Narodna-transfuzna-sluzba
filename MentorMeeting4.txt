@@ -1,0 +1,28 @@
+Dátum stretnutia: 25.10.2016   
+Zoznam prítomných členov týmu: Samuel Mitas, Marián Skrip, Jakub Trubač, Martin Mašek, Patrik Hudák   
+Priebeh stretnutia: 
+   
+1."Stand up meeting":  
+ 
+Martin Mašek pracoval na špecifikácii.  
+Jakub Trubač Spísal zápisnicu zo stretnutia z cvičiacim a prerobil Use-case diagram. 
+Marián Skrip prerobil stavový diagram a bol na prieskume v NTS. 
+Samuel Mitas bol na prieskume v NTS. 
+Patrik Hudák navrhol dizajn. 
+ 
+2.Správa o celkovom pokračovaní projektu pre cvičiaceho: 
+ 
+Po návšteve v NTS sme navrhli novú funkcionalitu a UI. 
+Špecifikácia stále nebola dokončená. 
+ 
+3.Spätná väzba od cvičiaceho o odovzdanej dokumentácii a pokračovaní projektu: 
+ 
+Cvičiaci súhlasil z vynechaním spracovateľského centra z projektu a odsúhlasil novú funkcionalitu a UI. 
+Cvičiaci nás oboznámil z nutnými zmenami v diagramoch a dizajne.  
+ 
+4.Diskusia: 
+ 
+Cvičiaceho sme oboznámili z novými zmenami v projekte. 
+Zistili sme že NTS sa stará iba o odber krvi nie o skladovanie a spracovanie. 
+NTS a nemocnice majú informácie iba o svojich darcoch. 
+Nové UI budú UI pre darcu, UI pre sestru, UI pre doktora a UI pre NTS (Superuser).   
