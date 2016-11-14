@@ -137,21 +137,7 @@ class Donor(User):
     id_card = models.ForeignKey(DonorCard, on_delete=models.CASCADE)
     active_acount = models.SmallIntegerField(default=0)
     email_verification_token = models.CharField(max_length=100, null=True)
-
-
-class Questionnaire(models.Model):
-    name = models.CharField(max_length=50)
-    weight = models.DecimalField(max_digits=6, decimal_places=3)
-    height = models.DecimalField(max_digits=6, decimal_places=6)
-    date_of_birth = models.DateField()
-    phone = models.CharField(max_length=20)
-    email = models.CharField(max_length=20)
-    address = models.ForeignKey(
-        Address, on_delete=models.SET_NULL, null=True, related_name="lives_in")
-    created_address = models.ForeignKey(
-        Address, on_delete=models.SET_NULL, null=True, related_name="created")
-    created_date = models.DateTimeField(auto_now_add=True)
-
+  
     @unique
     class Gender(Enum):
         male = 0
@@ -165,8 +151,19 @@ class Questionnaire(models.Model):
     gender = models.PositiveSmallIntegerField(choices=GENDER_CHOICES)
 
 
+
+class Questionnaire(models.Model):
+    id_donor = models.ForeignKey(Donor, on_delete=models.CASCADE)
+    weight = models.DecimalField(max_digits=6, decimal_places=3)
+    height = models.DecimalField(max_digits=6, decimal_places=6)
+    phone = models.CharField(max_length=20)
+    created_address = models.ForeignKey(
+        Address, on_delete=models.SET_NULL, null=True, related_name="created")
+    created_date = models.DateTimeField(auto_now_add=True)
+
+
 class Questions(models.Model):
-    question_text = models.PositiveSmallIntegerField(choices=QUESTION_CHOICES)
+    id_question = models.PositiveSmallIntegerField(choices=QUESTION_CHOICES)
 
     @unique
     class Answer(Enum):
@@ -179,7 +176,9 @@ class Questions(models.Model):
         (Answer.yes.value, 'yes'),
         (Answer.not_sure.value, 'not sure')
     )
+
     questionnaire = models.ForeignKey(Questionnaire, on_delete=models.CASCADE)
+    answer = models.PositiveSmallIntegerField(choices=ANSWER_CHOICES)
 
     class Meta:
         unique_together = ('questionnaire', 'question_text')
