@@ -134,10 +134,10 @@ class DonorCard(models.Model):
 
 
 class Donor(User):
-    id_card = models.ForeignKey(DonorCard, on_delete=models.CASCADE)
+    id_card = models.ForeignKey(DonorCard, on_delete=models.CASCADE, null=True)
     active_acount = models.SmallIntegerField(default=0)
     email_verification_token = models.CharField(max_length=100, null=True)
-  
+
     @unique
     class Gender(Enum):
         male = 0
@@ -149,7 +149,6 @@ class Donor(User):
     )
 
     gender = models.PositiveSmallIntegerField(choices=GENDER_CHOICES)
-
 
 
 class Questionnaire(models.Model):
@@ -181,7 +180,7 @@ class Questions(models.Model):
     answer = models.PositiveSmallIntegerField(choices=ANSWER_CHOICES)
 
     class Meta:
-        unique_together = ('questionnaire', 'question_text')
+        unique_together = ('questionnaire', 'id_question')
 
 
 class Booking(models.Model):
