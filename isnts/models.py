@@ -116,25 +116,7 @@ class Employee(User):
     phone = models.CharField(max_length=30, null=True)
 
 
-class DonorCard(models.Model):
-    name = models.CharField(max_length=30)
-    date_of_birth = models.DateField()
-    id_blood_type = models.ForeignKey(
-        BloodType, on_delete=models.SET_NULL, null=True)
-    phone_num = models.CharField(max_length=20)
-    id_address_perm = models.ForeignKey(
-        Address, on_delete=models.PROTECT, null=True, related_name="perm")
-    id_address_temp = models.ForeignKey(
-        Address, on_delete=models.SET_NULL, null=True, related_name="temp")
-    card_created_date = models.DateTimeField(auto_now_add=True)
-    card_created_by = models.ForeignKey(
-        Employee, on_delete=models.SET_NULL, null=True)
-    info = models.CharField(max_length=255, null=True)
-    can_donate_from = models.DateField(null=True)
-
-
 class Donor(User):
-    id_card = models.ForeignKey(DonorCard, on_delete=models.CASCADE, null=True)
     active_acount = models.SmallIntegerField(default=0)
     email_verification_token = models.CharField(max_length=100, null=True)
 
@@ -150,6 +132,21 @@ class Donor(User):
 
     gender = models.PositiveSmallIntegerField(choices=GENDER_CHOICES)
 
+class DonorCard(Donor):
+    name = models.CharField(max_length=30)
+    date_of_birth = models.DateField()
+    id_blood_type = models.ForeignKey(
+        BloodType, on_delete=models.SET_NULL, null=True)
+    phone_num = models.CharField(max_length=20)
+    id_address_perm = models.ForeignKey(
+        Address, on_delete=models.PROTECT, null=True, related_name="perm")
+    id_address_temp = models.ForeignKey(
+        Address, on_delete=models.SET_NULL, null=True, related_name="temp")
+    card_created_date = models.DateTimeField(auto_now_add=True)
+    card_created_by = models.ForeignKey(
+        Employee, on_delete=models.SET_NULL, null=True)
+    info = models.CharField(max_length=255, null=True)
+    can_donate_from = models.DateField(null=True)
 
 class Questionnaire(models.Model):
     id_donor = models.ForeignKey(Donor, on_delete=models.CASCADE)

@@ -9,5 +9,6 @@ handler404 = 'nts.views.my_custom_page_not_found_view'
 urlpatterns = [
     url(r'^donors/(?P<donor_id>[0-9]+)/$', views.donor_detail),
     url(r'^donors/$', views.donor_listview),
+    url(r'^login/$', views.login, name='login'),
     url(r'^$', views.home)
 ]
