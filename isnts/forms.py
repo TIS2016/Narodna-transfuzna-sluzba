@@ -8,11 +8,13 @@ class CreateNewUser(forms.ModelForm):
         model = DonorCard
         fields = ['first_name', 'last_name', 'username', 'email', 'password', 'gender']
 
+
 class Login(forms.ModelForm):
 
     class Meta:
-        model = Donor
+        model = User
         fields = ['username', 'password']
+
 
 class Register(forms.ModelForm):
 

@@ -3,8 +3,8 @@ from django import forms
 from .models import Donor
 from .forms import *
 from django.core.exceptions import ObjectDoesNotExist
-from django.http import HttpResponse
-from django.contrib.auth import authenticate
+from django.http import HttpResponse, HttpResponseRedirect
+from django.contrib.auth import authenticate, login
 
 
 def get_or_none(model, *args, **kwargs):
@@ -38,20 +38,27 @@ def donor_detail(request, donor_id):
         form = CreateNewUser(instance=donor)
     return render(request, 'donors/detailview.html', {'form': form})
 
-def login(request):
-    if request.method == 'POST':
-        if request.POST.get("register_btn"):
-            form = CreateNewUser(request.POST)
-            if form.is_valid():
-                form.save()
-                return render(request, 'donors/login.html', {'form': form})
-        elif request.POST.get("login_btn"):
-            user = authenticate(username=request.user.username, password= request.user.password)
-            if user is not None:
-                return render(request, 'home.html', {'form': form})
-            else:
-                ...
-    else:
-        form1 = Login()
-        form2 = Register()
-    return render(request, 'donors/login.html', {'form1': form1, 'form2': form2})
+
+def donor_login(request):
+    if not request.user.is_authenticated():
+        if request.method == 'POST':
+            if request.POST.get('register_btn'):
+                form = Register(request.POST)
+                if form.is_valid():
+                    form.save()
+                    return render(request, 'donors/login.html', {'form': form})
+            elif request.POST.get('login_btn'):
+                print(request.POST.get('username'))
+                print(request.POST.get('password'))
+                user = authenticate(username=request.POST.get('username'),
+                                    password=request.POST.get('password'))
+                if user is not None:
+                    login(request, user)
+                    return HttpResponseRedirect('/donors/information/')
+                else:
+                    return HttpResponseRedirect('/donors/not')
+        else:
+            form1 = Login()
+            form2 = Register()
+            return render(request, 'donors/login.html', {'form1': form1, 'form2': form2})
+    return HttpResponseRedirect('/donors/information/')
