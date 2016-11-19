@@ -4,7 +4,7 @@ from .models import Donor
 from .forms import *
 from django.core.exceptions import ObjectDoesNotExist
 from django.http import HttpResponse, HttpResponseRedirect
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, logout
 
 
 def get_or_none(model, *args, **kwargs):
@@ -40,25 +40,40 @@ def donor_detail(request, donor_id):
 
 
 def donor_login(request):
+    def render_form():
+        login_form = Login(request.POST if request.POST else None)
+        registration_form = Register(request.POST if request.POST else None)
+        return render(request, 'donors/login.html', {'login_form': login_form, 'registration_form': registration_form})
+
     if not request.user.is_authenticated():
         if request.method == 'POST':
             if request.POST.get('register_btn'):
                 form = Register(request.POST)
                 if form.is_valid():
-                    form.save()
+                    user = form.save()
+                    user.set_password(user.password)
+                    user.save()
                     return render(request, 'donors/login.html', {'form': form})
+                else:
+                    return render_form()
             elif request.POST.get('login_btn'):
-                print(request.POST.get('username'))
-                print(request.POST.get('password'))
                 user = authenticate(username=request.POST.get('username'),
                                     password=request.POST.get('password'))
                 if user is not None:
                     login(request, user)
-                    return HttpResponseRedirect('/donors/information/')
+                    return HttpResponseRedirect('/donors/information')
                 else:
-                    return HttpResponseRedirect('/donors/not')
+                    return render_form()
         else:
-            form1 = Login()
-            form2 = Register()
-            return render(request, 'donors/login.html', {'form1': form1, 'form2': form2})
+            return render_form()
     return HttpResponseRedirect('/donors/information/')
+
+
+def donor_logout(request):
+    logout(request)
+    return HttpResponseRedirect('/login')
+
+
+def donor_information(request):
+    donor = Donor.objects.get(id=request.user.id)
+    return render(request, 'donors/information.html', {'donor': donor})

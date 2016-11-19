@@ -10,5 +10,7 @@ urlpatterns = [
     url(r'^donors/(?P<donor_id>[0-9]+)/$', views.donor_detail),
     url(r'^donors/$', views.donor_listview),
     url(r'^login/$', views.donor_login),
+    url(r'^logout/$', views.donor_logout),
+    url(r'^donors/information/$', views.donor_information),
     url(r'^$', views.home)
 ]
