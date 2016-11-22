@@ -1,0 +1,35 @@
+Dátum stretnutia: 15.11.2016   
+Zoznam prítomných členov týmu: Samuel Mitas, Jakub Trubač, Martin Mašek, Patrik Hudák   
+Priebeh stretnutia: 
+   
+1."Stand up meeting":  
+ 
+Martin Mašek dorobil špecifikáciu.   
+Jakub Trubač upravil use-case diagram a urobil sekvenčný diagram.  
+Samuel Mitas pracoval na frontend aj backend implementácii.
+Patrik Hudák spravil analýzu technológii a testovacie scenáre.
+Marián Škrip spravil triedny diagram a pracoval na modeloch.  
+ 
+2.Správa o celkovom pokračovaní projektu pre cvičiaceho:
+
+Cvičiaci vyjadril spokojnosť s celkovým pokračovaním projektu.
+Všetky chýbajúce časti projektu okrem dekompozície boli dokončené.
+Z hľadiska implementácie sú spravené modely respektíve kostra systému ale žiadne features. 
+ 
+ 
+3.Spätná väzba od cvičiaceho o odovzdanej dokumentácii a pokračovaní projektu: 
+  
+Špecifikácia bola v poriadku cvičiaci k nej nemal nijaké výhrady.
+Use-case diagram bol už presne podla špecifikácie a cvičiaci s ním bol spokojní.
+Cvičiaci vyjadril nespokojnosť s sekvenčným diagramom:
+	-Sekvenčný diagram nepredstavoval iba jeden scenár.
+	-Kontexti zanikali aj ked nemali.
+Sekvenčný diagram sme dostali za úlohu prerobiť.
+Analýza technológii bola v poriadku cvičiaci k nej nemal nijaké výhrady.
+Triedny diagram bol v poriadku až na jednu triedu ktorú nám dal cvičiaci za úlohu prerobiť.
+ 
+4.Diskusia: 
+
+Cvičiaci nás oboznámil z postupom tvorby sekvenčného diagramu. 
+Cvičiaci nás oboznámil z postupom tvorby dekompozície.
+Spolu s cvičiacim sme naplánovali prácu na implementácii.
