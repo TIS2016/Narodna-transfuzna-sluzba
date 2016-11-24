@@ -13,7 +13,7 @@ class BloodExtractionForm(forms.ModelForm):
 
     class Meta:
         model = BloodExtraction
-        exclude = ['id_nts', 'blood_type']
+        exclude = ['id_nts']
 
 
 class Login(forms.ModelForm):

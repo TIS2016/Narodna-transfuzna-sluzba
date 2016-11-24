@@ -2,13 +2,13 @@
 
 all: install test
 
-install: 
+install:
 	pip install -r requirements/development.txt
 
-test: 
+test:
 	python manage.py test
 
-run: 
+run:
+	python manage.py loaddata isnts/fixtures/bloodtypes.json
 	python manage.py migrate
 	python manage.py runserver
-	

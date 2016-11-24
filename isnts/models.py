@@ -35,6 +35,9 @@ class BloodType(models.Model):
     )
     RH = models.BooleanField(choices=RH_CHOICES)
 
+    def __str__(self):
+        return self.get_type_display() + self.get_RH_display()
+
 
 class Region(models.Model):
 
@@ -207,7 +210,7 @@ class BloodExtraction(models.Model):
     )
 
     state = models.PositiveSmallIntegerField(choices=STATE_CHOICES, default=0)
-    blood_type = models.ForeignKey(BloodType, on_delete=models.CASCADE, null=True)
+    blood_type = models.ForeignKey(BloodType, on_delete=models.CASCADE)
     barcode = models.CharField(max_length=255)
     id_donor = models.ForeignKey(Donor, on_delete=models.CASCADE)
     id_nts = models.ForeignKey(NTS, on_delete=models.SET_NULL, null=True)
