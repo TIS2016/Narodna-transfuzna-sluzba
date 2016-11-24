@@ -77,3 +77,21 @@ def donor_logout(request):
 def donor_information(request):
     donor = Donor.objects.get(id=request.user.id)
     return render(request, 'donors/information.html', {'donor': donor})
+
+
+def blood_extraction_listview(request):
+    samples = BloodExtraction.objects.exclude(state=1)
+    samples_ready_for_exp = BloodExtraction.objects.filter(state=1)
+    return render(request, 'blood_extraction/listview.html', {'samples': samples, 'samples_ready_for_exp': samples_ready_for_exp})
+
+
+def blood_extraction_detailview(request, blood_extraction_id):
+    blood_extraction = get_or_none(BloodExtraction, id=blood_extraction_id)
+    if request.method == 'POST':
+        form = BloodExtractionForm(request.POST, instance=blood_extraction)
+        if form.is_valid():
+            form.save()
+            return render(request, 'blood_extraction/detailview.html', {'form': form})
+    else:
+        form = BloodExtractionForm(instance=blood_extraction)
+    return render(request, 'blood_extraction/detailview.html', {'form': form})

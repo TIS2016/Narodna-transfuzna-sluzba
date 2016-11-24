@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+{% block title %}Login{% endblock %}
+{% block content %}
+<a href="0"  class="row">
+    <span>New blood sample</span>
+</a>
+<h2>Ready for expedition</h2>
+{% for blood in samples_ready_for_exp %}
+    <a href="{{ blood.id }}" class="row">
+        <span>{{ blood.id }}</span>
+        <span>{{ blood.id_donor }}</span>
+        <span>{{ blood.get_state_display }}</span>
+        <span>{{ blood.date }}</span>
+    </a>
+{% endfor %}
+
+<h2>Other samples</h2>
+{% for blood in samples %}
+    <a href="{{ blood.id }}" class="row">
+        <span>{{ blood.id }}</span>
+        <span>{{ blood.id_donor }}</span>
+        <span>{{ blood.get_state_display }}</span>
+        <span>{{ blood.date }}</span>
+    </a>
+{% endfor %}
+
+{% endblock %}
