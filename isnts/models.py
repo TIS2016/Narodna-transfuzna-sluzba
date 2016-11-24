@@ -192,29 +192,25 @@ class Booking(models.Model):
         Questionnaire, on_delete=models.SET_NULL, null=True)
 
 
-class Barcode(models.Model):
-    code = models.CharField(max_length=255)
-    id_donor = models.ForeignKey(Donor, on_delete=models.CASCADE)
-
-
-class Expedition(models.Model):
-    done = models.BooleanField()
-    number_of_sacks = models.IntegerField()
-
-
-class Blood(models.Model):
-    blood_type = models.ForeignKey(BloodType, on_delete=models.CASCADE)
-    barcode = models.OneToOneField(
-        Barcode, on_delete=models.SET_NULL, null=True)
-    expedition = models.ForeignKey(
-        Expedition, default=None, on_delete=models.SET_DEFAULT, null=True)
-
-
 class BloodExtraction(models.Model):
+
+    @unique
+    class State(Enum):
+        new = 0
+        ready_for_expedition = 1
+        shipped = 2
+
+    STATE_CHOICES = (
+        (State.new.value, 'new'),
+        (State.ready_for_expedition.value, 'ready for expedition'),
+        (State.shipped.value, 'shipped')
+    )
+
+    state = models.PositiveSmallIntegerField(choices=STATE_CHOICES, default=0)
+    blood_type = models.ForeignKey(BloodType, on_delete=models.CASCADE, null=True)
+    barcode = models.CharField(max_length=255)
     id_donor = models.ForeignKey(Donor, on_delete=models.CASCADE)
     id_nts = models.ForeignKey(NTS, on_delete=models.SET_NULL, null=True)
     date = models.DateTimeField()
     postpone = models.DateTimeField(null=True)
-    blood_taken = models.ForeignKey(
-        Blood, on_delete=models.SET_NULL, null=True)
     note = models.CharField(max_length=255)
