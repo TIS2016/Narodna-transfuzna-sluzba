@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+{% block title %}Login{% endblock %}
+{% block content %}
+<a href="0"  class="row">
+    <span>Vytvorit noveho darcu</span>
+</a>
+{% for donor in donors %}
+    <a href="{{ donor.id }}" class="row">
+        <span>{{ donor.id }}</span>
+        <span>{{ donor.first_name }}</span>
+        <span>{{ donor.last_name }}</span>
+    </a>
+{% endfor %}
+{% endblock %}

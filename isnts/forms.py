@@ -1,13 +1,23 @@
 from django import forms
-from .models import Donor
+from .models import *
 
 
 class CreateNewUser(forms.ModelForm):
 
     class Meta:
-        model = Donor
-        fields = ['username', 'email', 'password']
-        widgets = {
-            'username': forms.TextInput(attrs={'placeholder': 'Username'}),
-            'password': forms.PasswordInput(),
-        }
+        model = DonorCard
+        fields = ['first_name', 'last_name', 'username', 'email', 'password', 'gender']
+
+
+class Login(forms.ModelForm):
+
+    class Meta:
+        model = User
+        fields = ['username', 'password']
+
+
+class Register(forms.ModelForm):
+
+    class Meta:
+        model = DonorCard
+        fields = ['first_name', 'last_name', 'username', 'email', 'password', 'gender']
