@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+{% block title %}Employee info{% endblock %}
+{% block content %}
+<h2>Employee {{ request.user.username }} is loged in</h2>
+<a href="/employees/logout"  class="row">Logout</a>
+<a href="/pass_change"  class="row">Zmeniť heslo</a>
+<section>
+    <span>{{ employee.id }}</span>
+    <span>{{ employee.first_name }}</span>
+    <span>{{ employee.last_name }}</span>
+</section>
+{% endblock %}

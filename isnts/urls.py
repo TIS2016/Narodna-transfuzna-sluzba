@@ -14,5 +14,11 @@ urlpatterns = [
     url(r'^register/$', views.donor_register),
     url(r'^pass_change/$', views.donor_pass_change),
     url(r'^donors/information/$', views.donor_information),
+    url(r'^employees/(?P<employee_id>[0-9]+)/$', views.employee_detail),
+    url(r'^employees/$', views.employee_listview),
+    url(r'^employees/login/$', views.employee_login),
+    url(r'^employees/register/$', views.employee_register),
+    url(r'^employees/interface/$', views.employee_interface),
+    url(r'^employees/logout/$', views.employee_logout),
     url(r'^$', views.home)
 ]
