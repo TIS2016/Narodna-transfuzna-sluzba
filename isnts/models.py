@@ -115,6 +115,11 @@ class Employee(User):
     id_nts = models.ForeignKey(NTS, on_delete=models.CASCADE, null=True)
     phone = models.CharField(max_length=30, null=True)
 
+    class Meta:
+        permissions = (
+            ("is_employee", "is employee"),
+        )
+
 
 class Donor(User):
     active_acount = models.SmallIntegerField(default=0)
@@ -131,6 +136,11 @@ class Donor(User):
     )
 
     gender = models.PositiveSmallIntegerField(choices=GENDER_CHOICES)
+
+    class Meta:
+        permissions = (
+            ("is_donor", "is donor"),
+        )
 
 
 class DonorCard(Donor):

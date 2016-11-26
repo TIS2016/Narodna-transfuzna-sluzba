@@ -6,8 +6,7 @@ from django.core.exceptions import ObjectDoesNotExist
 from django.http import HttpResponse, HttpResponseRedirect
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import Group
-from django.contrib.auth.decorators import login_required, user_passes_test
-
+from django.contrib.auth.decorators import login_required, user_passes_test, permission_required
 
 
 def get_or_none(model, *args, **kwargs):
@@ -21,22 +20,28 @@ def error404(request):
     return HttpResponse("404 error")
 
 
-def home(request):
-    return render(request, 'home.html')
-
-def is_doctor_or_nurse_or_su(user):
-    return user.groups.filter(name='Doctor') or user.groups.filter(name='Nurse') or user.groups.filter(name='NTSsu')
+def is_not_admin(user):
+    return user.is_superuser == False
 
 
 @login_required(login_url='/login/')
-@user_passes_test(is_doctor_or_nurse_or_su, login_url='/nopermission/')
+@permission_required('is_employee', login_url='/donors/information/')
+def home(request):
+    return render(request, 'home.html')
+
+
+@login_required(login_url='/login/')
+@permission_required('is_employee', login_url='/nopermission/')
 def donor_listview(request):
     donors = Donor.objects.all()
     return render(request, 'donors/listview.html', {'donors': donors})
 
 
 def donor_detail(request, donor_id):
-    donor = get_or_none(Donor, id=donor_id)
+    if request.user.id == donor_id or request.user.has_perm('is_employee'):
+        donor = get_or_none(Donor, id=donor_id)
+    else:
+        return HttpResponseRedirect('/nopermission/')
     if request.method == 'POST':
         form = CreateNewUser(request.POST, instance=donor)
         if form.is_valid():
@@ -65,6 +70,7 @@ def donor_login(request):
             return render_form()
     return HttpResponseRedirect('/donors/information/')
 
+
 def donor_register(request):
     def render_form():
         registration_form = Register(request.POST if request.POST else None)
@@ -91,11 +97,14 @@ def donor_logout(request):
     logout(request)
     return HttpResponseRedirect('/login')
 
+
 def donor_pass_change(request):
     form = PassChange()
     return render(request, 'donors/pass_change.html', {'form': form})
 
 
+@login_required(login_url='/login/')
+@user_passes_test(is_not_admin, login_url='/admin/')
 def donor_information(request):
     donor = User.objects.get(id=request.user.id)
     return render(request, 'donors/information.html', {'donor': donor})
