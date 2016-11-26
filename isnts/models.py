@@ -135,7 +135,7 @@ class Donor(User):
 
 class DonorCard(Donor):
     name = models.CharField(max_length=30)
-    date_of_birth = models.DateField(null=True)
+    #date_of_birth = models.DateField(null=True)
     id_blood_type = models.ForeignKey(
         BloodType, on_delete=models.SET_NULL, null=True)
     phone_num = models.CharField(max_length=20)

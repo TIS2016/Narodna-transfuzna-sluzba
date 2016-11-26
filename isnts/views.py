@@ -42,28 +42,36 @@ def donor_detail(request, donor_id):
 def donor_login(request):
     def render_form():
         login_form = Login(request.POST if request.POST else None)
-        registration_form = Register(request.POST if request.POST else None)
-        return render(request, 'donors/login.html', {'login_form': login_form, 'registration_form': registration_form})
+        return render(request, 'donors/login.html', {'login_form': login_form})
 
     if not request.user.is_authenticated():
         if request.method == 'POST':
-            if request.POST.get('register_btn'):
-                form = Register(request.POST)
-                if form.is_valid():
-                    user = form.save()
-                    user.set_password(user.password)
-                    user.save()
-                    return render(request, 'donors/login.html', {'form': form})
-                else:
-                    return render_form()
-            elif request.POST.get('login_btn'):
-                user = authenticate(username=request.POST.get('username'),
-                                    password=request.POST.get('password'))
-                if user is not None:
-                    login(request, user)
-                    return HttpResponseRedirect('/donors/information')
-                else:
-                    return render_form()
+            user = authenticate(username=request.POST.get('username'),
+                                password=request.POST.get('password'))
+            if user is not None:
+                login(request, user)
+                return HttpResponseRedirect('/donors/information')
+            else:
+                return render_form()
+        else:
+            return render_form()
+    return HttpResponseRedirect('/donors/information/')
+
+def donor_register(request):
+    def render_form():
+        registration_form = Register(request.POST if request.POST else None)
+        return render(request, 'donors/register.html', {'registration_form': registration_form})
+
+    if not request.user.is_authenticated():
+        if request.method == 'POST':
+            form = Register(request.POST)
+            if form.is_valid():
+                user = form.save()
+                user.set_password(user.password)
+                user.save()
+                return render(request, 'donors/register.html', {'form': form})
+            else:
+                return render_form()
         else:
             return render_form()
     return HttpResponseRedirect('/donors/information/')
@@ -72,6 +80,10 @@ def donor_login(request):
 def donor_logout(request):
     logout(request)
     return HttpResponseRedirect('/login')
+
+def donor_pass_change(request):
+    form = PassChange()
+    return render(request, 'donors/pass_change.html', {'form': form})
 
 
 def donor_information(request):
