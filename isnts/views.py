@@ -5,6 +5,9 @@ from .forms import *
 from django.core.exceptions import ObjectDoesNotExist
 from django.http import HttpResponse, HttpResponseRedirect
 from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.models import Group
+from django.contrib.auth.decorators import login_required, user_passes_test
+
 
 
 def get_or_none(model, *args, **kwargs):
@@ -21,7 +24,12 @@ def error404(request):
 def home(request):
     return render(request, 'home.html')
 
+def is_doctor_or_nurse_or_su(user):
+    return user.groups.filter(name='Doctor') or user.groups.filter(name='Nurse') or user.groups.filter(name='NTSsu')
 
+
+@login_required(login_url='/login/')
+@user_passes_test(is_doctor_or_nurse_or_su, login_url='/nopermission/')
 def donor_listview(request):
     donors = Donor.objects.all()
     return render(request, 'donors/listview.html', {'donors': donors})
@@ -68,6 +76,8 @@ def donor_register(request):
             if form.is_valid():
                 user = form.save()
                 user.set_password(user.password)
+                g = Group.objects.get(name='Donor')
+                g.user_set.add(user)
                 user.save()
                 return render(request, 'donors/register.html', {'form': form})
             else:
@@ -87,5 +97,5 @@ def donor_pass_change(request):
 
 
 def donor_information(request):
-    donor = Donor.objects.get(id=request.user.id)
+    donor = User.objects.get(id=request.user.id)
     return render(request, 'donors/information.html', {'donor': donor})

@@ -16,7 +16,7 @@
     "model": "auth.group",
     "pk": 3,
     "fields": {
-        "name": "Receptionist",
+        "name": "Nurse",
         "permissions": [52, 53, 43, 44, 45, 28, 29, 55, 56, 25, 26, 41, 64, 65, 67, 68, 61, 62, 47, 34, 35, 32, 59]
     }
 }, {
