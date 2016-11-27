@@ -46,10 +46,11 @@ class Region(models.Model):
         Bratislavsky = 0
         Nitriansky = 1
         Trnavsky = 2
-        BanskoBystricky = 3
-        Zilinsky = 4
-        Kosicky = 5
-        Presovsky = 6
+        Trenciansky = 3
+        BanskoBystricky = 4
+        Zilinsky = 5
+        Kosicky = 6
+        Presovsky = 7
 
     REGION_CHOICES = (
         (Regions.Bratislavsky.value, "Bratislavsky"),
@@ -58,19 +59,20 @@ class Region(models.Model):
         (Regions.BanskoBystricky.value, "BanskoBystricky"),
         (Regions.Zilinsky.value, "Zilinsky"),
         (Regions.Kosicky.value, "Kosicky"),
-        (Regions.Presovsky.value, "Presovsky")
+        (Regions.Presovsky.value, "Presovsky"),
+        (Regions.Trenciansky.value, "Trenciansky")
     )
 
     name = models.PositiveSmallIntegerField(choices=REGION_CHOICES)
 
 
-class City(models.Model):
+class Town(models.Model):
     name = models.CharField(max_length=20)
     id_region = models.ForeignKey(Region, on_delete=models.SET_NULL, null=True)
 
 
 class Address(models.Model):
-    city = models.ForeignKey(City, on_delete=models.SET_NULL, null=True)
+    town = models.ForeignKey(Town, on_delete=models.SET_NULL, null=True)
     zip_code = models.CharField(max_length=10, null=True)
     street = models.CharField(max_length=30, null=True)
     number = models.CharField(max_length=10, null=True)
