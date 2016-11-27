@@ -14,5 +14,6 @@ urlpatterns = [
     url(r'^register/$', views.donor_register),
     url(r'^pass_change/$', views.donor_pass_change),
     url(r'^donors/information/$', views.donor_information),
+    url(r'^nopermission/$', views.permission_denied),
     url(r'^$', views.home)
 ]
