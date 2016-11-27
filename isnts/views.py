@@ -121,11 +121,8 @@ def blood_extraction_listview(request):
 
 def blood_extraction_detailview(request, blood_extraction_id):
     blood_extraction = get_or_none(BloodExtraction, id=blood_extraction_id)
+    form = BloodExtractionForm(request.POST or None, instance=blood_extraction)
     if request.method == 'POST':
-        form = BloodExtractionForm(request.POST, instance=blood_extraction)
         if form.is_valid():
             form.save()
-            return render(request, 'blood_extraction/detailview.html', {'form': form})
-    else:
-        form = BloodExtractionForm(instance=blood_extraction)
     return render(request, 'blood_extraction/detailview.html', {'form': form})
