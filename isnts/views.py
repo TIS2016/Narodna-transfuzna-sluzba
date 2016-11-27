@@ -110,3 +110,19 @@ def donor_pass_change(request):
 def donor_information(request):
     donor = User.objects.get(id=request.user.id)
     return render(request, 'donors/information.html', {'donor': donor})
+
+
+def blood_extraction_listview(request):
+    samples_new = BloodExtraction.objects.filter(state=0)
+    samples_ready_for_exp = BloodExtraction.objects.filter(state=1)
+    samples_shipped = BloodExtraction.objects.filter(state=2)
+    return render(request, 'blood_extraction/listview.html', {'samples_new': samples_new, 'samples_ready_for_exp': samples_ready_for_exp, 'samples_shipped': samples_shipped})
+
+
+def blood_extraction_detailview(request, blood_extraction_id):
+    blood_extraction = get_or_none(BloodExtraction, id=blood_extraction_id)
+    form = BloodExtractionForm(request.POST or None, instance=blood_extraction)
+    if request.method == 'POST':
+        if form.is_valid():
+            form.save()
+    return render(request, 'blood_extraction/detailview.html', {'form': form})

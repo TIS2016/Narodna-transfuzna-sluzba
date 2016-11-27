@@ -10,6 +10,13 @@ class CreateNewUser(forms.ModelForm):
                   'username', 'email', 'password', 'gender']
 
 
+class BloodExtractionForm(forms.ModelForm):
+
+    class Meta:
+        model = BloodExtraction
+        exclude = ['id_nts']
+
+
 class Login(forms.ModelForm):
 
     class Meta:
