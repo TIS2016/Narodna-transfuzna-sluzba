@@ -9,6 +9,7 @@ test:
 	python manage.py test
 
 run:
-	python manage.py loaddata isnts/fixtures/bloodtypes.json
+	python manage.py makemigrations
 	python manage.py migrate
+	python manage.py loaddata auth.group.json bloodtypes.json
 	python manage.py runserver

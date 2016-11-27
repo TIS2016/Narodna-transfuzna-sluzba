@@ -118,6 +118,11 @@ class Employee(User):
     id_nts = models.ForeignKey(NTS, on_delete=models.CASCADE, null=True)
     phone = models.CharField(max_length=30, null=True)
 
+    class Meta:
+        permissions = (
+            ("is_employee", "is employee"),
+        )
+
 
 class Donor(User):
     active_acount = models.SmallIntegerField(default=0)
@@ -135,10 +140,15 @@ class Donor(User):
 
     gender = models.PositiveSmallIntegerField(choices=GENDER_CHOICES)
 
+    class Meta:
+        permissions = (
+            ("is_donor", "is donor"),
+        )
+
 
 class DonorCard(Donor):
     name = models.CharField(max_length=30)
-    date_of_birth = models.DateField(null=True)
+    #date_of_birth = models.DateField(null=True)
     id_blood_type = models.ForeignKey(
         BloodType, on_delete=models.SET_NULL, null=True)
     phone_num = models.CharField(max_length=20)
