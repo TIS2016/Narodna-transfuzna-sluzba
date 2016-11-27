@@ -2,7 +2,7 @@ from django.shortcuts import render
 from django import forms
 from .models import Donor
 from .forms import *
-from django.core.exceptions import ObjectDoesNotExist
+from django.core.exceptions import ObjectDoesNotExist, PermissionDenied
 from django.http import HttpResponse, HttpResponseRedirect
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import Group
@@ -19,6 +19,8 @@ def get_or_none(model, *args, **kwargs):
 def error404(request):
     return HttpResponse("404 error")
 
+def permission_denied(request):
+    raise PermissionDenied
 
 def is_not_admin(user):
     return user.is_superuser == False
