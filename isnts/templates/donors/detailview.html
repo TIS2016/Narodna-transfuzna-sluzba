@@ -2,8 +2,8 @@
 {% load staticfiles %}
 {% block title %}Login{% endblock %}
 {% block content %}
-<section>
-    <h2>Zakldane info</h2>
+<section class="row">
+    <h2>Donor Card information</h2>
     <form method="post" role="form">
         {% for field in form.visible_fields %}
         <div id="div_{{ field.html_name }}" class="form-group{% if field.errors %} has-error{% endif %} input-field">
@@ -14,14 +14,16 @@
         </div>
         {% endfor %} {% for hidden in form.hidden_fields %} {{ hidden }} {% endfor %} {% csrf_token %}
         <div class="form-group">
-            <input type="submit" value="Submit" class="btn btn-primary" />
+            <input type="submit" value="Submit" name="save_donor" class="btn btn-primary" />
         </div>
     </form>
 </section>
-<section>
-    <h2>Lekarske karty</h2>
-</section>
-<section>
-    <h2>Dotazniky</h2>
+<section class="row">
+    <div class="col s6">
+        <h2>Questionnaires</h2>
+    </div>
+    <div class="col s6">
+        <h2>Blood samples</h2>
+    </div>
 </section>
 {% endblock %}

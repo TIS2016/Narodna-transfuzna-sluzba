@@ -1,10 +1,14 @@
 from django.shortcuts import render
 from django import forms
-from .models import Donor
+from .models import *
 from .forms import *
 from django.core.exceptions import ObjectDoesNotExist
 from django.http import HttpResponse, HttpResponseRedirect
 from django.contrib.auth import authenticate, login, logout
+from .questions_enum import QUESTION_COUNT
+
+
+from django.forms import formset_factory
 
 
 def get_or_none(model, *args, **kwargs):
@@ -29,6 +33,7 @@ def donor_listview(request):
 
 def donor_detail(request, donor_id):
     donor = get_or_none(Donor, id=donor_id)
+    questionnaires = Questionnaire.objects.filter(id_donor=donor_id)
     if request.method == 'POST':
         form = CreateNewUser(request.POST, instance=donor)
         if form.is_valid():
@@ -37,6 +42,42 @@ def donor_detail(request, donor_id):
     else:
         form = CreateNewUser(instance=donor)
     return render(request, 'donors/detailview.html', {'form': form})
+
+
+def donor_quastionnare(request, donor_id, questionnaire_id):
+    donor = get_or_none(Donor, id=donor_id)
+    if not donor:
+        return HttpResponseRedirect('/donors/')
+    questionnaire = get_or_none(Questionnaire, id=questionnaire_id)
+    if questionnaire:
+        questions = Questions.objects.filter(
+            questionnaire_id=questionnaire.id).values('id', 'question', 'answer')
+    else:
+        questions = list({'question': x} for x in range(1, QUESTION_COUNT + 1))
+    QuestionsFormSet = formset_factory(QuestionsForm, extra=0)
+    questionnaire_form = QuestionnaireForm(request.POST or None, instance=questionnaire)
+    questions_forms = QuestionsFormSet(request.POST or None, initial=questions)
+    if request.method == 'POST':
+        if questions_forms.is_valid() and questionnaire_form.is_valid():
+            questionnaire_form.id_donor = donor_id
+            questionnaire_form.save()
+            if questionnaire:
+                for questions_form in questions_forms:
+                    cleaned_data = questions_form.cleaned_data
+                    Questions.objects.filter(
+                        questionnaire_id=questionnaire.id).filter(
+                        question=cleaned_data.get('question')).update(
+                        answer=cleaned_data.get('answer')
+                    )
+            else:
+                for questions_form in questions_forms:
+                    questions_form.instance.questionnaire = questionnaire_form.instance
+                    questions_form.save()
+    return render(request, 'donors/questionnaire.html', {
+        'donor_id': donor_id,
+        'questionnaire_form': questionnaire_form,
+        'questions_forms': questions_forms
+    })
 
 
 def donor_login(request):

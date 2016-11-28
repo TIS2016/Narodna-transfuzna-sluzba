@@ -9,6 +9,5 @@ test:
 	python manage.py test
 
 run:
-	python manage.py loaddata isnts/fixtures/bloodtypes.json
 	python manage.py migrate
 	python manage.py runserver

@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+{% block title %}Login{% endblock %}
+{% block content %}
+<a href="/donors/{{ donor_id }}">back</a>
+<form method="post" role="form">
+    {{ questions_forms.management_form }}
+    {% for questions_form in questions_forms %}
+        {% for field in questions_form.visible_fields %}
+        <div id="div_{{ field.html_name }}" class="form-group{% if field.errors %} has-error{% endif %} input-field">
+            {{ field }}
+            <div class="help-block">
+                {{ field.errors }}
+            </div>
+        </div>
+        {% endfor %} {% for hidden in questions_form.hidden_fields %} {{ hidden }} {% endfor %}
+        {% endfor %}
+        {% for field in questionnaire_form.visible_fields %}
+        <div id="div_{{ field.html_name }}" class="form-group{% if field.errors %} has-error{% endif %} input-field">
+            {{ field }} {{ field.label_tag }}
+            <div class="help-block">
+                {{ field.errors }}
+            </div>
+        </div>
+        {% endfor %} {% for hidden in questionnaire_form.hidden_fields %} {{ hidden }}
+    {% endfor %} {% csrf_token %}
+    <input type="submit" value="Submit" name="save_questionnare" class="btn btn-primary" />
+</form>
+{% endblock %}
