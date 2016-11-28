@@ -6,7 +6,15 @@ class CreateNewUser(forms.ModelForm):
 
     class Meta:
         model = DonorCard
-        fields = ['first_name', 'last_name', 'username', 'email', 'password', 'gender']
+        fields = ['first_name', 'last_name',
+                  'username', 'email', 'password', 'gender']
+
+
+class BloodExtractionForm(forms.ModelForm):
+
+    class Meta:
+        model = BloodExtraction
+        exclude = ['id_nts']
 
 class Login(forms.ModelForm):
 

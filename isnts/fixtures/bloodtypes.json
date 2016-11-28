@@ -1,0 +1,57 @@
+[{
+    "model": "isnts.bloodtype",
+    "pk": 1,
+    "fields": {
+        "type": 0,
+        "RH": true
+    }
+}, {
+    "model": "isnts.bloodtype",
+    "pk": 2,
+    "fields": {
+        "type": 0,
+        "RH": false
+    }
+}, {
+    "model": "isnts.bloodtype",
+    "pk": 3,
+    "fields": {
+        "type": 1,
+        "RH": true
+    }
+}, {
+    "model": "isnts.bloodtype",
+    "pk": 4,
+    "fields": {
+        "type": 1,
+        "RH": false
+    }
+}, {
+    "model": "isnts.bloodtype",
+    "pk": 5,
+    "fields": {
+        "type": 2,
+        "RH": true
+    }
+}, {
+    "model": "isnts.bloodtype",
+    "pk": 6,
+    "fields": {
+        "type": 2,
+        "RH": false
+    }
+}, {
+    "model": "isnts.bloodtype",
+    "pk": 7,
+    "fields": {
+        "type": 3,
+        "RH": true
+    }
+}, {
+    "model": "isnts.bloodtype",
+    "pk": 8,
+    "fields": {
+        "type": 3,
+        "RH": false
+    }
+}]

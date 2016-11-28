@@ -1,19 +1,22 @@
 <!DOCTYPE html>
 <html lang="sk">
+
 <head>
     <meta charset="utf-8">
     <title></title>
 </head>
+
 <body>
-  <table>
-    {% for donor in donors %}
-    <a href="{{ donor.donor_id }}">
-        <tr>
-            <td>{{ donor.donor_id }}</td>
-            <td>{{ donor.name }}</td>
-        </tr>
-    </a>
-    {% endfor %}
-  </table>
+    <table>
+        {% for donor in donors %}
+        <a href="{{ donor.donor_id }}">
+            <tr>
+                <td>{{ donor.id }}</td>
+                <td>{{ donor.name }}</td>
+            </tr>
+        </a>
+        {% endfor %}
+    </table>
 </body>
+
 </html>
