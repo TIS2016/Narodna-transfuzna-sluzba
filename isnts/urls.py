@@ -14,6 +14,9 @@ urlpatterns = [
     url(r'^blood_extraction/$', views.blood_extraction_listview),
     url(r'^login/$', views.donor_login),
     url(r'^logout/$', views.donor_logout),
+    url(r'^register/$', views.donor_register),
+    url(r'^pass_change/$', views.donor_pass_change),
     url(r'^donors/information/$', views.donor_information),
+    url(r'^nopermission/$', views.permission_denied),
     url(r'^$', views.home)
 ]

@@ -12,7 +12,8 @@ class CreateNewUser(forms.ModelForm):
 
     class Meta:
         model = DonorCard
-        fields = ['first_name', 'last_name', 'username', 'email', 'password', 'gender']
+        fields = ['first_name', 'last_name',
+                  'username', 'email', 'password', 'gender']
 
 
 class BloodExtractionForm(forms.ModelForm):
@@ -54,3 +55,8 @@ class QuestionsForm(forms.ModelForm):
         widgets = {
             'question': PlainTextWidget(),
         }
+
+class PassChange(forms.Form):
+    old_password = forms.CharField()
+    new_password = forms.CharField()
+    new_password2 = forms.CharField()
