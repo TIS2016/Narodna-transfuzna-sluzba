@@ -109,7 +109,6 @@ def donor_information(request):
     donor = Donor.objects.get(id=request.user.id)
     return render(request, 'donors/information.html', {'donor': donor})
 
-<<<<<<< HEAD
 def employee_login(request):
     def render_form():
         form = EmployeeLogin(request.POST if request.POST else None)
@@ -169,7 +168,6 @@ def employee_interface(request):
 def employee_logout(request):
     logout(request)
     return HttpResponseRedirect('/employees/login')
-=======
 
 def blood_extraction_listview(request):
     samples_new = BloodExtraction.objects.filter(state=0)
@@ -185,4 +183,3 @@ def blood_extraction_detailview(request, blood_extraction_id):
         if form.is_valid():
             form.save()
     return render(request, 'blood_extraction/detailview.html', {'form': form})
->>>>>>> master
