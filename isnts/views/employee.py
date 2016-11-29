@@ -3,6 +3,12 @@ from isnts.forms import *
 from django.shortcuts import render
 
 
+def get_or_none(model, *args, **kwargs):
+    try:
+        return model.objects.get(*args, **kwargs)
+    except model.DoesNotExist:
+        return None
+
 
 def listview(request):
     employees = Employee.objects.all()
