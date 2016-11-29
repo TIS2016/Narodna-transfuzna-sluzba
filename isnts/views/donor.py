@@ -20,7 +20,7 @@ def is_not_admin(user):
 
 
 @login_required(login_url='/login/')
-@permission_required('isnts.is_employee')
+#@permission_required('isnts.is_employee')
 def home(request):
     return render(request, 'home.html')
 
