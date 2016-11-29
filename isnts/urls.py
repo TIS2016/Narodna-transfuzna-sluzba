@@ -23,7 +23,7 @@ urlpatterns = [
     url(r'^login/$', views.auth.donor_login),
     url(r'^logout/$', views.auth.donor_logout),
     url(r'^register/$', views.auth.donor_register),
-    url(r'^pass_change/$', views.auth.donor_pass_change),
+    url(r'^password_change/$', views.auth.donor_password_change),
     url(r'^nopermission/$', views.auth.permission_denied),
     url(r'^$', views.donor.home)
 ]
