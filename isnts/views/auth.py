@@ -66,3 +66,45 @@ def donor_logout(request):
 def donor_pass_change(request):
     form = PassChange()
     return render(request, 'donors/pass_change.html', {'form': form})
+
+def employee_login(request):
+    def render_form():
+        employee_login_form = EmployeeLogin(request.POST if request.POST else None)
+        return render(request, 'employees/login.html', {'form': employee_login_form})
+
+    if not request.user.is_authenticated():
+        if request.method == 'POST':
+            user = authenticate(username=request.POST.get('username'),
+                                password=request.POST.get('password'))
+            if user is not None:
+                login(request, user)
+                return HttpResponseRedirect('/employees/interface')
+            else:
+                return render_form()
+        else:
+            return render_form()
+    return HttpResponseRedirect('/employees/interface/')
+
+def employee_register(request):
+    def render_form():
+        employee_registration_form = EmployeeRegister(request.POST if request.POST else None)
+        return render(request, 'employees/register.html', {'form': employee_registration_form})
+
+    if not request.user.is_authenticated():
+        if request.method == 'POST':
+            employee_registration_form = EmployeeRegister(request.POST)
+            if employee_registration_form.is_valid():
+                user = employee_registration_form.save()
+                user.set_password(user.password)
+                user.save()
+                return render(request, 'employees/register_message.html', {'form': employee_registration_form})
+            else:
+                return render_form()
+        else:
+            return render_form()
+    return HttpResponseRedirect('/')
+
+
+def employee_logout(request):
+    logout(request)
+    return HttpResponseRedirect('/employees/login')

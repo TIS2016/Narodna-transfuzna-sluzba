@@ -31,7 +31,6 @@ class BloodExtractionForm(forms.ModelForm):
         model = BloodExtraction
         exclude = ['id_nts']
 
-
 class Login(forms.ModelForm):
 
     class Meta:
@@ -44,6 +43,20 @@ class Register(forms.ModelForm):
     class Meta:
         model = DonorCard
         fields = ['first_name', 'last_name', 'username', 'email', 'password', 'gender']
+
+
+class EmployeeRegister(forms.ModelForm):
+
+    class Meta:
+        model = Employee
+        fields = ['first_name', 'last_name', 'username', 'email', 'password']
+
+
+class EmployeeLogin(forms.ModelForm):
+
+    class Meta:
+        model = Employee
+        fields = ['username', 'password']
 
 
 class QuestionnaireForm(forms.ModelForm):
