@@ -37,6 +37,7 @@ def detailview(request, donor_id):
         donor = get_or_none(DonorCard, id=donor_id)
         perm_address = get_or_none(Address, id=donor.id_address_perm.id if donor else None)
         temp_address = get_or_none(Address, id=donor.id_address_temp.id if donor else None)
+        questionnaires = Questionnaire.objects.filter(id_donor=donor_id)
     else:
         return HttpResponseRedirect('/nopermission/')
     donor_form = DonorForm(request.POST or None, instance=donor)
@@ -53,11 +54,12 @@ def detailview(request, donor_id):
     return render(request, 'donors/detailview.html', {
         'form': donor_form,
         'perm_address': perm_address_form,
-        'temp_address': temp_address_form
+        'temp_address': temp_address_form,
+        'questionnaires': questionnaires
     })
 
 
-def quastionnare(request, donor_id, questionnaire_id):
+def quastionnaire(request, donor_id, questionnaire_id):
     donor = get_or_none(Donor, id=donor_id)
     if not donor:
         return HttpResponseRedirect('/donors/')

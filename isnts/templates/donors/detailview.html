@@ -44,6 +44,14 @@
 <section class="row">
     <div class="col s6">
         <h2>Questionnaires</h2>
+          {% for questionnaire in questionnaires %}
+          <a href="questionnaire/{{ questionnaire.id }}/" class="row">
+              <span>{{ questionnaire.id }}</span>
+              <span>{{ questionnaire.id_donor }}</span>
+              <span>{{ questionnaire.get_state_display }}</span>
+              <span>{{ questionnaire.date }}</span>
+          </a>
+          {% endfor %}
     </div>
     <div class="col s6">
         <h2>Blood samples</h2>
