@@ -12,13 +12,13 @@ def listview(request):
 def detailview(request, employee_id):
     employee = get_or_none(Employee, id=employee_id)
     if request.method == 'POST':
-        form = EmployeeRegister(request.POST, instance=employee)
+        employee_form = EmployeeRegister(request.POST, instance=employee)
         if form.is_valid():
             form.save()
-            return render(request, 'employees/detailview.html', {'form': form})
+            return render(request, 'employees/detailview.html', {'form': employee_form})
     else:
-        form = EmployeeRegister(instance=employee)
-    return render(request, 'employees/detailview.html', {'form': form})
+        employee_form = EmployeeRegister(instance=employee)
+    return render(request, 'employees/detailview.html', {'form': employee_form})
 
 
 def interface(request):
