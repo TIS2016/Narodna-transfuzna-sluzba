@@ -3,7 +3,6 @@ from enum import Enum, unique
 
 @unique
 class Questions(Enum):
-
     _1 = 1
     _2 = 2
     _3 = 3
@@ -73,8 +72,8 @@ QUESTION_CHOICES = (
     (Questions._17.value, "Have you ever suffered or are you currently suffering from metabolism disorders (for ex. diabetes) or endocrine disease (for ex. thyroid gland disease)?"),
     (Questions._18.value, "Have you ever suffered or are you currently suffering from skin diseases (eczema, psoriasis)?"),
     (Questions._19.value, "Have you ever suffered or are you currently suffering from digestive system, liver or pancreas disease?"),
-    (Questions._20.value,
-     "Have you ever suffered or are you currently suffering from tumor disease?"),
+    (Questions._20.value, "Have you ever suffered or are you currently suffering from tumor disease?"),
+    (Questions._21.value, "Have you ever suffered or are you currently suffering from tumor disease?"),
     (Questions._22.value, "Have you ever suffered or are you currently suffering from sexually transmissible disease?"),
     (Questions._23.value, "Have you experienced an inexplicable weight loss, raised temperature, sweating, behavioral changes, enlarged lymphatic nods in the past twelve months?"),
     (Questions._24.value, "Have you been treated for acne by isotretinoine (RoaccutaneR, AccutaneR), for prostate by finasteride or dutasterid (ProscarR, AvodartR, DuodartR), and for baldness (PropeciaR) in the past three months?"),
@@ -103,3 +102,5 @@ QUESTION_CHOICES = (
      "Female Donors: Have you been pregnant or breast feeding in the past six months?"),
     (Questions._45.value, "Female Donors: Have you been treated with hormonal injection for sterility before 1986 ?")
 )
+
+QUESTION_COUNT = len(QUESTION_CHOICES)

@@ -69,6 +69,8 @@ class Region(models.Model):
 class Town(models.Model):
     name = models.CharField(max_length=20)
     id_region = models.ForeignKey(Region, on_delete=models.SET_NULL, null=True)
+    def __str__(self):
+        return self.name
 
 
 class Address(models.Model):
@@ -165,6 +167,7 @@ class DonorCard(Donor):
     can_donate_from = models.DateField(null=True)
 
 
+
 class Questionnaire(models.Model):
     id_donor = models.ForeignKey(Donor, on_delete=models.CASCADE)
     weight = models.DecimalField(max_digits=6, decimal_places=3)
@@ -176,7 +179,6 @@ class Questionnaire(models.Model):
 
 
 class Questions(models.Model):
-    id_question = models.PositiveSmallIntegerField(choices=QUESTION_CHOICES)
 
     @unique
     class Answer(Enum):
@@ -190,11 +192,12 @@ class Questions(models.Model):
         (Answer.not_sure.value, 'not sure')
     )
 
+    question = models.PositiveSmallIntegerField(choices=QUESTION_CHOICES)
     questionnaire = models.ForeignKey(Questionnaire, on_delete=models.CASCADE)
     answer = models.PositiveSmallIntegerField(choices=ANSWER_CHOICES)
 
     class Meta:
-        unique_together = ('questionnaire', 'id_question')
+        unique_together = ('questionnaire', 'question')
 
 
 class Booking(models.Model):
