@@ -2,7 +2,8 @@
 {% load staticfiles %}
 {% block title %}Login{% endblock %}
 {% block content %}
-<a href="/donors/{{ donor_id }}">back</a>
+<a href="/donors/{{ donor.id }}">back</a>
+<h2>{{ donor.first_name }} {{ donor.last_name }} questionnare</h2>
 <form method="post" role="form">
     {{ questions_forms.management_form }}
     {% for questions_form in questions_forms %}

@@ -38,6 +38,7 @@ def detailview(request, donor_id):
         perm_address = get_or_none(Address, id=donor.id_address_perm.id if donor else None)
         temp_address = get_or_none(Address, id=donor.id_address_temp.id if donor else None)
         questionnaires = Questionnaire.objects.filter(id_donor=donor_id)
+        blood_extractions = BloodExtraction.objects.filter(id_donor=donor_id)
     else:
         return HttpResponseRedirect('/nopermission/')
     donor_form = DonorForm(request.POST or None, instance=donor)
@@ -52,10 +53,12 @@ def detailview(request, donor_id):
                 donor_form.instance.id_address_temp = temp_address_form.instance
             donor_form.save()
     return render(request, 'donors/detailview.html', {
-        'form': donor_form,
+        'donor_form': donor_form,
         'perm_address': perm_address_form,
         'temp_address': temp_address_form,
-        'questionnaires': questionnaires
+        'questionnaires': questionnaires,
+        'blood_extractions': blood_extractions,
+        'donor': donor
     })
 
 
@@ -88,15 +91,27 @@ def quastionnaire(request, donor_id, questionnaire_id):
                 for questions_form in questions_forms:
                     questions_form.instance.questionnaire = questionnaire_form.instance
                     questions_form.save()
-    return render(request, 'donors/questionnaire.html', {
-        'donor_id': donor_id,
+    return render(request, 'donors/questionnaire/detailview.html', {
+        'donor': donor,
         'questionnaire_form': questionnaire_form,
         'questions_forms': questions_forms
     })
 
 
-def blood_extraction(request):
-    ...
+def blood_extraction(request, donor_id, blood_extraction_id):
+    donor = get_or_none(Donor, id=donor_id)
+    if not donor:
+        return HttpResponseRedirect('/donors/')
+    blood_extraction = get_or_none(BloodExtraction, id=blood_extraction_id)
+    blood_extraction_form = BloodExtractionForm(request.POST or None, instance=blood_extraction)
+    if request.method == 'POST':
+        if form.is_valid():
+            form.save()
+    return render(request, 'donors/blood_extraction/detailview.html', {
+        'blood_extraction_form': blood_extraction_form,
+        'donor': donor
+    })
+
 
 
 @login_required(login_url='/login/')

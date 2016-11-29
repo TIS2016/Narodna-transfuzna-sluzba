@@ -24,8 +24,8 @@ def listview(request):
 
 def detailview(request, blood_extraction_id):
     blood_extraction = get_or_none(BloodExtraction, id=blood_extraction_id)
-    form = BloodExtractionForm(request.POST or None, instance=blood_extraction)
+    blood_extraction_form = BloodExtractionForm(request.POST or None, instance=blood_extraction)
     if request.method == 'POST':
-        if form.is_valid():
-            form.save()
-    return render(request, 'blood_extraction/detailview.html', {'form': form})
+        if blood_extraction_form.is_valid():
+            blood_extraction_form.save()
+    return render(request, 'blood_extraction/detailview.html', {'blood_extraction_form': blood_extraction_form})
