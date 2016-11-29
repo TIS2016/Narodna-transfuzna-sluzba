@@ -8,7 +8,6 @@ from isnts.questions_enum import QUESTION_COUNT
 from django.forms import formset_factory
 from django.contrib.auth.decorators import login_required, user_passes_test, permission_required
 
-
 def get_or_none(model, *args, **kwargs):
     try:
         return model.objects.get(*args, **kwargs)
@@ -35,14 +34,27 @@ def listview(request):
 
 def detailview(request, donor_id):
     if request.user.id == donor_id or request.user.has_perm('is_employee'):
-        donor = get_or_none(Donor, id=donor_id)
+        donor = get_or_none(DonorCard, id=donor_id)
+        perm_address = get_or_none(Address, id=donor.id_address_perm.id if donor else None)
+        temp_address = get_or_none(Address, id=donor.id_address_temp.id if donor else None)
     else:
         return HttpResponseRedirect('/nopermission/')
-    form = CreateNewUser(request.POST or None, instance=donor)
+    donor_form = DonorForm(request.POST or None, instance=donor)
+    perm_address_form = AddressForm(request.POST or None, instance=perm_address, prefix='perm_address_form')
+    temp_address_form = AddressForm(request.POST or None, instance=temp_address, prefix='temp_address_form')
     if request.method == 'POST':
-        if form.is_valid():
-            form.save()
-    return render(request, 'donors/detailview.html', {'form': form})
+        if donor_form.is_valid() and perm_address_form.is_valid() and temp_address_form.is_valid():
+            perm_address_form.save()
+            temp_address_form.save()
+            if not donor:
+                donor_form.instance.id_address_perm = perm_address_form.instance
+                donor_form.instance.id_address_temp = temp_address_form.instance
+            donor_form.save()
+    return render(request, 'donors/detailview.html', {
+        'form': donor_form,
+        'perm_address': perm_address_form,
+        'temp_address': temp_address_form
+    })
 
 
 def quastionnare(request, donor_id, questionnaire_id):

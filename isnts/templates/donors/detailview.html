@@ -5,17 +5,40 @@
 <section class="row">
     <h2>Donor Card information</h2>
     <form method="post" role="form">
-        {% for field in form.visible_fields %}
-        <div id="div_{{ field.html_name }}" class="form-group{% if field.errors %} has-error{% endif %} input-field">
-            {{ field }} {{ field.label_tag }}
-            <div class="help-block">
-                {{ field.errors }}
+        <div class="col s6">
+            {% for field in form.visible_fields %}
+            <div id="div_{{ field.html_name }}" class="form-group{% if field.errors %} has-error{% endif %} input-field">
+                {{ field }} {{ field.label_tag }}
+                <div class="help-block">
+                    {{ field.errors }}
+                </div>
+            </div>
+            {% endfor %} {% for hidden in form.hidden_fields %} {{ hidden }} {% endfor %}
+            <div class="form-group">
+                <input type="submit" value="Submit" name="save_donor" class="btn btn-primary" />
             </div>
         </div>
-        {% endfor %} {% for hidden in form.hidden_fields %} {{ hidden }} {% endfor %} {% csrf_token %}
-        <div class="form-group">
-            <input type="submit" value="Submit" name="save_donor" class="btn btn-primary" />
+        <div class="col s6">
+            <h3>Permanent address</h3>
+            {% for field in perm_address.visible_fields %}
+            <div id="div_{{ field.html_name }}" class="form-group{% if field.errors %} has-error{% endif %} input-field">
+                {{ field }} {{ field.label_tag }}
+                <div class="help-block">
+                    {{ field.errors }}
+                </div>
+            </div>
+            {% endfor %} {% for hidden in perm_address.hidden_fields %} {{ hidden }} {% endfor %}
+            <h3>Temporary address</h3>
+            {% for field in temp_address.visible_fields %}
+            <div id="div_{{ field.html_name }}" class="form-group{% if field.errors %} has-error{% endif %} input-field">
+                {{ field }} {{ field.label_tag }}
+                <div class="help-block">
+                    {{ field.errors }}
+                </div>
+            </div>
+            {% endfor %} {% for hidden in temp_address.hidden_fields %} {{ hidden }} {% endfor %}
         </div>
+        {% csrf_token %}
     </form>
 </section>
 <section class="row">

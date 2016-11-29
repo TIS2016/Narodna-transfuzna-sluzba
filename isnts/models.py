@@ -69,6 +69,8 @@ class Region(models.Model):
 class Town(models.Model):
     name = models.CharField(max_length=20)
     id_region = models.ForeignKey(Region, on_delete=models.SET_NULL, null=True)
+    def __str__(self):
+        return self.name
 
 
 class Address(models.Model):
