@@ -124,7 +124,7 @@ class Employee(User):
 
     class Meta:
         permissions = (
-                ("is_employee", "is employee"),
+            ("is_employee", "is employee"),
         )
 
 
