@@ -1,0 +1,35 @@
+Dátum stretnutia: 22.11.2016    
+Zoznam prítomných členov týmu: Samuel Mitas, Jakub Trubač, Martin Mašek, Patrik Hudák, Marián Skrip   
+Priebeh stretnutia:  
+    
+1."Stand up meeting":   
+    
+Martin Mašek spravil dekompozíciu.   
+Jakub Trubač pracoval na registrácií a prihlasovaní darcov, opravil sekvenčný diagram a spísal zápisnicu z stretka s cvičiacim.  
+Marián Skrip dokončil implementáciu modelov.  
+Samuel Mitas pracoval na registrácií a prihlasovaní darcov.  
+Patrik Hudák urobil skompletizovaný návrh.    
+  
+2.Správa o celkovom pokračovaní projektu pre cvičiaceho:  
+ 
+Modely pre is sú dokončené. 
+Základné views pre darcov sú dokončené. 
+Views sú pripravené pre frontend programátorov. 
+Odhadli sme že je projekt hotový na 25%. 
+  
+3.Spätná väzba od cvičiaceho o odovzdanej dokumentácii a pokračovaní projektu:  
+  
+Skompletizovaný návrh cvičiaci schválil a nemal k nemu žiadne výhrady. 
+Sekvenčný diagram bol po objasnený úlohy entity dotazník cvičiacim schválený. 
+Dekompozíciu cvičiaci schválil a nemal k nej žiadne výhrady. 
+  
+4.Diskusia:  
+ 
+Samuel Mitas podotkol že treba vyriešiť práva jednotlivých skupín užívateľov. 
+Riešili sme otázku views a ich implementácie a dohodli sme sa že všetky views pre zamestnancov a darcov budú rôzne. 
+Cvičiaci poukázal na to že pri implementácii dizajnu sa majú rôzne efekty a animácie riešiť ako posledné. 
+Cvičiaci položil otázku "kde budete o týždeň?" 
+Podla predbežného odhadu by mali biť dokončené role, agenda darcov, permissions, agenda pre superuserov a registrácia zamestnancov. 
+Samuel Mitas cvičiacemu detailne vysvetlil čo presne si predstavuje pod jednotlivými agendami. 
+Po zhrnutí by malo byť hotové všetko okrem termínov a funkcii s nimi súvisiacimi. 
+Z hľadiska frontendu by malo byť hotové všetko čo bude mať hotové backend.
