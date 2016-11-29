@@ -3,8 +3,8 @@
 {% block title %}Login{% endblock %}
 {% block content %}
 <section>
-    <a href="/blood_extraction">Back</a>
-    <h2>Blood sample</h2>
+    <a href="/donors/{{ donor.id }}">Back</a>
+    <h2>{{ donor.first_name }} {{ donor.last_name }} blood sample</h2>
     <form method="post" role="form">
         {% for field in blood_extraction_form.visible_fields %}
         <div id="div_{{ field.html_name }}" class="form-group{% if field.errors %} has-error{% endif %} input-field">

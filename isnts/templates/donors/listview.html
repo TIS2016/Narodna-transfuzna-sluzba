@@ -2,9 +2,8 @@
 {% load staticfiles %}
 {% block title %}Login{% endblock %}
 {% block content %}
-<a href="0"  class="row">
-    <span>Vytvorit noveho darcu</span>
-</a>
+<h2>All donors</h2>
+<a href="0"  class="row">New donor</a>
 {% for donor in donors %}
     <a href="{{ donor.id }}" class="row">
         <span>{{ donor.id }}</span>
