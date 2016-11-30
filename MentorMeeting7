@@ -1,0 +1,30 @@
+Dátum stretnutia: 29.11.2016     
+Zoznam prítomných členov týmu: Samuel Mitas, Jakub Trubač, Martin Mašek, Patrik Hudák, Marián Skrip    
+Priebeh stretnutia:   
+     
+1."Stand up meeting":    
+     
+Martin Mašek napriek snahe k implementácii nijako neprispel.    
+Jakub Trubač spravil všetky views pre zamestnancov. 
+Marián Skrip vyriešil práva na prístup k views a pridal databázové súbory.   
+Samuel Mitas pracoval na implementácii tokenov a spravil views pre odber krvy.  
+Patrik Hudák nastajloval hotové views.   
+   
+2.Správa o celkovom pokračovaní projektu pre cvičiaceho:   
+  
+Naimplementované boli takmer všetky views pre darcov a zamestnancov. 
+Pre všetky hotové views boli nastavené prístupové práva. 
+Frontend tým spravil dizajn pre hotové časti IS. 
+   
+3.Spätná väzba od cvičiaceho o odovzdanej dokumentácii a pokračovaní projektu:   
+   
+Cvičiaci vyjadril spokojnosť z prácou backend týmu za posledný týždeň. 
+Po prediskutovaní pokroku ohľadom frontend implementácie bol cvičiaci aj s touto časťou spokojný. 
+   
+4.Diskusia:   
+  
+Cvičiaci nás upozornil že zápisnice budú hodnotené. 
+Prediskutovali sme fungovanie tokenou na overovanie mailových adries a priebeh registrácie zamestnancov. 
+Prediskutovali sme chýbajúcu agendu termínov. 
+Prediskutovali sme vzhľad responzívnej verzie aplikácie. 
+Spoločne s cvičiacim sme si pozreli vzhľad aplikácie a následne sme ho prediskutovali.
