@@ -63,6 +63,7 @@ def donor_logout(request):
     logout(request)
     return HttpResponseRedirect('/login')
 
+
 @login_required(login_url='/login/')
 def donor_password_change(request):
     password_change_form = PasswordChangeForm(user=request.user, data=(request.POST or None))
@@ -91,6 +92,7 @@ def employee_login(request):
         else:
             return render_form()
     return HttpResponseRedirect('/employees/interface/')
+
 
 def employee_register(request):
     def render_form():
