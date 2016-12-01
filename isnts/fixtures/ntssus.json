@@ -1,72 +1,79 @@
 [{
     "model": "isnts.employee",
-    "pk": 16,
+    "pk": 1,
     "fields": {
-        "id_nts": null,
-        "phone": null,
+        "username": "NTSsu1",
+        "password": "pbkdf2_sha256$30000$dkv9OebSB4XX$jWsGN2EQWarsZ/7sWco7DNWdbnvuWh8y4MT8Cg0nPSo=",
         "groups": [4],
         "user_permissions": []
     }
 }, {
-    "model": "isnts.employee",
-    "pk": 17,
+  "model": "isnts.employee",
+    "pk": 2,
     "fields": {
-        "id_nts": null,
-        "phone": null,
+        "username": "NTSsu2",
+        "password": "pbkdf2_sha256$30000$dkv9OebSB4XX$jWsGN2EQWarsZ/7sWco7DNWdbnvuWh8y4MT8Cg0nPSo=",
+
         "groups": [4],
         "user_permissions": []
     }
 }, {
-    "model": "isnts.employee",
-    "pk": 18,
+  "model": "isnts.employee",
+    "pk": 3,
     "fields": {
-        "id_nts": null,
-        "phone": null,
+        "username": "NTSsu3",
+        "password": "pbkdf2_sha256$30000$dkv9OebSB4XX$jWsGN2EQWarsZ/7sWco7DNWdbnvuWh8y4MT8Cg0nPSo=",
+
         "groups": [4],
         "user_permissions": []
     }
 }, {
-    "model": "isnts.employee",
-    "pk": 19,
+  "model": "isnts.employee",
+    "pk": 4,
     "fields": {
-        "id_nts": null,
-        "phone": null,
+        "username": "NTSsu4",
+        "password": "pbkdf2_sha256$30000$dkv9OebSB4XX$jWsGN2EQWarsZ/7sWco7DNWdbnvuWh8y4MT8Cg0nPSo=",
+
         "groups": [4],
         "user_permissions": []
     }
 }, {
-    "model": "isnts.employee",
-    "pk": 20,
+  "model": "isnts.employee",
+    "pk": 5,
     "fields": {
-        "id_nts": null,
-        "phone": null,
+        "username": "NTSsu5",
+        "password": "pbkdf2_sha256$30000$dkv9OebSB4XX$jWsGN2EQWarsZ/7sWco7DNWdbnvuWh8y4MT8Cg0nPSo=",
+
         "groups": [4],
         "user_permissions": []
     }
 }, {
-    "model": "isnts.employee",
-    "pk": 21,
+  "model": "isnts.employee",
+    "pk": 6,
     "fields": {
-        "id_nts": null,
-        "phone": null,
+        "username": "NTSsu6",
+        "password": "pbkdf2_sha256$30000$dkv9OebSB4XX$jWsGN2EQWarsZ/7sWco7DNWdbnvuWh8y4MT8Cg0nPSo=",
+
         "groups": [4],
         "user_permissions": []
     }
 }, {
-    "model": "isnts.employee",
-    "pk": 22,
+  "model": "isnts.employee",
+    "pk": 7,
     "fields": {
-        "id_nts": null,
-        "phone": null,
+        "username": "NTSsu7",
+        "password": "pbkdf2_sha256$30000$dkv9OebSB4XX$jWsGN2EQWarsZ/7sWco7DNWdbnvuWh8y4MT8Cg0nPSo=",
+
         "groups": [4],
         "user_permissions": []
     }
 }, {
-    "model": "isnts.employee",
-    "pk": 23,
+  "model": "isnts.employee",
+    "pk": 8,
     "fields": {
-        "id_nts": null,
-        "phone": null,
+        "username": "NTSsu8",
+        "password": "pbkdf2_sha256$30000$dkv9OebSB4XX$jWsGN2EQWarsZ/7sWco7DNWdbnvuWh8y4MT8Cg0nPSo=",
+
         "groups": [4],
         "user_permissions": []
     }
