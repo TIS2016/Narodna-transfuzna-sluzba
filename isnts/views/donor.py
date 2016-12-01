@@ -25,24 +25,40 @@ def home(request):
     return render(request, 'home.html')
 
 
-@login_required(login_url='/login/')
-@permission_required('is_employee', login_url='/nopermission/')
+#@login_required(login_url='/login/')
+#@permission_required('is_employee', login_url='/nopermission/')
 def listview(request):
     donors = Donor.objects.all()
     return render(request, 'donors/listview.html', {'donors': donors})
 
-@login_required(login_url='/login/')
-@permission_required('is_employee', login_url='/nopermission/')
+
+#@login_required(login_url='/login/')
+#@permission_required('is_employee', login_url='/nopermission/')
+def create_new(request):
+    donor_form = CreateDonorForm(request.POST or None)
+    perm_address_form = AddressForm(request.POST or None, prefix='perm_address_form')
+    temp_address_form = AddressForm(request.POST or None, prefix='temp_address_form')
+    if request.method == 'POST':
+        if donor_form.is_valid() and perm_address_form.is_valid() and temp_address_form.is_valid():
+            perm_address_form.save()
+            temp_address_form.save()
+            donor_form.save()
+    return render(request, 'donors/create_new.html', {
+        'donor_form': donor_form,
+        'perm_address': perm_address_form,
+        'temp_address': temp_address_form
+    })
+
+#@login_required(login_url='/login/')
+#@permission_required('is_employee', login_url='/nopermission/')
 def detailview(request, donor_id):
     donor = get_or_none(DonorCard, id=donor_id)
     if not donor:
         return HttpResponseRedirect('/donors/')
-    perm_address = get_or_none(Address, id=donor.id_address_perm.id)
-    temp_address = get_or_none(Address, id=donor.id_address_temp.id)
+    perm_address = get_or_none(Address, id=(donor.id_address_perm.id if donor.id_address_perm else None))
+    temp_address = get_or_none(Address, id=(donor.id_address_temp.id if donor.id_address_temp else None))
     questionnaires = Questionnaire.objects.filter(id_donor=donor_id)
     blood_extractions = BloodExtraction.objects.filter(id_donor=donor_id)
-    else:
-        return HttpResponseRedirect('/nopermission/')
     donor_form = DonorForm(request.POST or None, instance=donor)
     perm_address_form = AddressForm(request.POST or None, instance=perm_address, prefix='perm_address_form')
     temp_address_form = AddressForm(request.POST or None, instance=temp_address, prefix='temp_address_form')

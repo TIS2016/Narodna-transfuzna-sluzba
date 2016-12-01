@@ -3,7 +3,7 @@
 {% block title %}Login{% endblock %}
 {% block content %}
 <h2>All donors</h2>
-<a href="0"  class="row">New donor</a>
+<a href="create_new/"  class="row">New donor</a>
 {% for donor in donors %}
     <a href="{{ donor.id }}" class="row">
         <span>{{ donor.id }}</span>
