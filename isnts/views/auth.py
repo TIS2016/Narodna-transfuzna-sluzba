@@ -97,8 +97,9 @@ def employee_login(request):
 
 def employee_register(request):
     def render_form():
-        employee_registration_form = EmployeeRegister(
-            request.POST if request.POST else None)
+        e_types = [('', '---------'),]
+        e_types += list((g.id, g.name) for g in Group.objects.exclude(name='NTSsu').exclude(name='Donor'))
+        employee_registration_form = EmployeeRegister(request.POST if request.POST else None, emp_types=e_types)
         return render(request, 'employees/register.html', {'form': employee_registration_form})
 
     if not request.user.is_authenticated():

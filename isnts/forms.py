@@ -1,6 +1,5 @@
 from django import forms
 from .models import *
-from django.contrib.auth.models import Group
 
 
 class PlainTextWidget(forms.Widget):
@@ -48,14 +47,13 @@ class Register(forms.ModelForm):
                   'username', 'email', 'password', 'gender']
 
 
-EMPLOYEE_TYPES = (('', '---------'),)
-EMPLOYEE_TYPES += tuple((g.id, g.name) for g in Group.objects.exclude(name='NTSsu').exclude(name='Donor'))
-
-
 class EmployeeRegister(forms.ModelForm):
 
-    employee_type = forms.TypedChoiceField(
-        choices=EMPLOYEE_TYPES, coerce=int, required=True)
+    def __init__(self, *args, **kwargs):
+        k = kwargs.pop('emp_types', None)
+        super(EmployeeRegister, self).__init__(*args, **kwargs)
+        self.fields['employee_type'] = forms.TypedChoiceField(choices=k,
+                                                              coerce=int, required=True)
 
     class Meta:
         model = Employee
