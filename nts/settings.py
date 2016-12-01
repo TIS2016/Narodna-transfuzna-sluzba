@@ -125,3 +125,11 @@ STATIC_URL = '/static/'
 FIXTURE_DIRS = [
     os.path.join(BASE_DIR, '/isnts/fixtures/'),
 ]
+
+PASSWORD_RESET_TIMEOUT_DAYS = 3
+
+EMAIL_USE_TLS = True
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_HOST_USER = 'ntssrdebug@gmail.com'
+EMAIL_HOST_PASSWORD = '4hh-4ea24cc0b2ff4f3d41d1'
