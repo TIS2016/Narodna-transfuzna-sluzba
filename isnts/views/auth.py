@@ -9,6 +9,11 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.core.exceptions import PermissionDenied
 from django.contrib.auth.tokens import default_token_generator
 from django.contrib.auth import get_user_model
+from django.core.mail import send_mail
+from django.template.loader import get_template
+from django.template import Context
+
+from django.core.mail import EmailMultiAlternatives
 
 
 
@@ -51,10 +56,30 @@ def donor_register(request):
             if form.is_valid():
                 user = form.save()
                 user.set_password(user.password)
+                user.is_active = False
                 g = Group.objects.get(name='Donor')
                 g.user_set.add(user)
                 user.save()
                 token = default_token_generator.make_token(user)
+
+                context = Context({
+                    'first_name': user.first_name,
+                    'last_name': user.last_name,
+                    'donor_id': user.id,
+                    'token': token
+                })
+
+                subject = 'Verification'
+
+                text_content = get_template('emails/verification.txt').render(context)
+                html_content = get_template('emails/verification.html').render(context)
+                print("posiel")
+                message = EmailMultiAlternatives(subject, text_content,'isntsdebug@gmail.com', [user.email])
+                message.attach_alternative(html_content, "text/html")
+                try:
+                    message.send()
+                except:
+                    return HttpResponseRedirect("/verification_error")
                 return render(request, 'donors/register.html', {'form': form})
             else:
                 return render_form()
@@ -79,7 +104,9 @@ def donor_activate(request, donor_id, token):
             user_model = get_user_model()
             user = user_model.objects.get(pk=donor_id)
             if default_token_generator.check_token(user, token):
-                return http.HttpResponseRedirect("/success")
+                user.is_active = True
+                user.save()
+                return HttpResponseRedirect("/success")
         except:
             pass
-    return http.HttpResponseRedirect("/verification_error")
+    return HttpResponseRedirect("/verification_error")

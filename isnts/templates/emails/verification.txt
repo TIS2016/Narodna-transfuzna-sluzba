@@ -1,0 +1,7 @@
+Dear {{ first_name }} {{ last_name }}!
+
+Please click to link below to verify your account.
+http://localhost:8000/donors/validate/{{ donor_id}}/{{ token }}
+
+best regards
+NTS SR
