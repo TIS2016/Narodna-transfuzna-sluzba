@@ -31,14 +31,16 @@ def listview(request):
     donors = Donor.objects.all()
     return render(request, 'donors/listview.html', {'donors': donors})
 
-
+@login_required(login_url='/login/')
+@permission_required('is_employee', login_url='/nopermission/')
 def detailview(request, donor_id):
-    if request.user.id == donor_id or request.user.has_perm('is_employee'):
-        donor = get_or_none(DonorCard, id=donor_id)
-        perm_address = get_or_none(Address, id=donor.id_address_perm.id if donor else None)
-        temp_address = get_or_none(Address, id=donor.id_address_temp.id if donor else None)
-        questionnaires = Questionnaire.objects.filter(id_donor=donor_id)
-        blood_extractions = BloodExtraction.objects.filter(id_donor=donor_id)
+    donor = get_or_none(DonorCard, id=donor_id)
+    if not donor:
+        return HttpResponseRedirect('/donors/')
+    perm_address = get_or_none(Address, id=donor.id_address_perm.id)
+    temp_address = get_or_none(Address, id=donor.id_address_temp.id)
+    questionnaires = Questionnaire.objects.filter(id_donor=donor_id)
+    blood_extractions = BloodExtraction.objects.filter(id_donor=donor_id)
     else:
         return HttpResponseRedirect('/nopermission/')
     donor_form = DonorForm(request.POST or None, instance=donor)
@@ -48,9 +50,6 @@ def detailview(request, donor_id):
         if donor_form.is_valid() and perm_address_form.is_valid() and temp_address_form.is_valid():
             perm_address_form.save()
             temp_address_form.save()
-            if not donor:
-                donor_form.instance.id_address_perm = perm_address_form.instance
-                donor_form.instance.id_address_temp = temp_address_form.instance
             donor_form.save()
     return render(request, 'donors/detailview.html', {
         'donor_form': donor_form,
