@@ -3,10 +3,11 @@ from django.shortcuts import render
 from django import forms
 from isnts.models import *
 from isnts.forms import *
-from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth import authenticate, login, logout, update_session_auth_hash
 from django.contrib.auth.models import Group
 from django.http import HttpResponse, HttpResponseRedirect
 from django.core.exceptions import PermissionDenied
+from django.contrib.auth.forms import PasswordChangeForm
 
 
 def error404(request):
@@ -63,9 +64,16 @@ def donor_logout(request):
     return HttpResponseRedirect('/login')
 
 
-def donor_pass_change(request):
-    form = PassChange()
-    return render(request, 'donors/pass_change.html', {'form': form})
+@login_required(login_url='/login/')
+def donor_password_change(request):
+    password_change_form = PasswordChangeForm(user=request.user, data=(request.POST or None))
+    if request.method == 'POST':
+        if password_change_form.is_valid():
+            password_change_form.save()
+            update_session_auth_hash(request, password_change_form.user)
+            return HttpResponseRedirect('/login/')
+    return render(request, 'donors/password_change.html', {'form': password_change_form})
+
 
 def employee_login(request):
     def render_form():
@@ -84,6 +92,7 @@ def employee_login(request):
         else:
             return render_form()
     return HttpResponseRedirect('/employees/interface/')
+
 
 def employee_register(request):
     def render_form():

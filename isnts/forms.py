@@ -77,9 +77,3 @@ class QuestionsForm(forms.ModelForm):
         widgets = {
             'question': PlainTextWidget(),
         }
-
-
-class PassChange(forms.Form):
-    old_password = forms.CharField()
-    new_password = forms.CharField()
-    new_password2 = forms.CharField()
