@@ -7,6 +7,7 @@ handler404 = views.auth.error404
 
 
 urlpatterns = [
+    url(r'^donors/validate/(?P<donor_id>[0-9]+)/(?P<token>[0-9A-Za-z]{1,13}-[0-9A-Za-z]{1,20})/$', views.auth.donor_activate),
     url(r'^donors/(?P<donor_id>[0-9]+)/$', views.donor.detailview),
     url(r'^donors/(?P<donor_id>[0-9]+)/questionnaire/(?P<questionnaire_id>[0-9]+)/$', views.donor.quastionnaire),
     url(r'^donors/(?P<donor_id>[0-9]+)/blood_extraction/(?P<blood_extraction_id>[0-9]+)/$', views.donor.blood_extraction),
