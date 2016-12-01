@@ -4,7 +4,7 @@
 {% block content %}
 <h2>Employee {{ request.user.username }} is loged in</h2>
 <a href="/employees/logout"  class="row">Logout</a>
-<a href="/password_change"  class="row">Zmeniť heslo</a>
+<a href="/password_change"  class="row">Change password</a>
 <section>
     <span>{{ employee.id }}</span>
     <span>{{ employee.first_name }}</span>
