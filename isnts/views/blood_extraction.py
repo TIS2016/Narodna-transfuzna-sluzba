@@ -10,7 +10,8 @@ def get_or_none(model, *args, **kwargs):
     except model.DoesNotExist:
         return None
 
-
+@login_required(login_url='/login/')
+@permission_required('isnts.is_employee',login_url='/nopermission/')
 def listview(request):
     samples_new = BloodExtraction.objects.filter(state=0)
     samples_ready_for_exp = BloodExtraction.objects.filter(state=1)
@@ -21,7 +22,8 @@ def listview(request):
         'samples_shipped': samples_shipped
     })
 
-
+@login_required(login_url='/login/')
+@permission_required('isnts.is_employee',login_url='/nopermission/')
 def detailview(request, blood_extraction_id):
     blood_extraction = get_or_none(BloodExtraction, id=blood_extraction_id)
     blood_extraction_form = BloodExtractionForm(request.POST or None, instance=blood_extraction)
