@@ -72,7 +72,7 @@ def donor_logout(request):
 
 
 @login_required(login_url='/login/')
-def donor_password_change(request):
+def password_change(request):
     password_change_form = PasswordChangeForm(user=request.user, data=(request.POST or None))
     if request.method == 'POST':
         if password_change_form.is_valid():
@@ -131,7 +131,6 @@ def employee_register(request):
         else:
             return render_form()
     return HttpResponseRedirect('/')
-
 
 def employee_logout(request):
     logout(request)
