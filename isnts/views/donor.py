@@ -16,10 +16,6 @@ def get_or_none(model, *args, **kwargs):
         return None
 
 
-def is_not_admin(user):
-    return user.is_superuser == False
-
-
 @login_required(login_url='/login/')
 @permission_required('isnts.is_employee', login_url='/donors/information/')
 def home(request):
@@ -34,7 +30,7 @@ def listview(request):
 
 
 def detailview(request, donor_id):
-    if request.user.id == donor_id or request.user.has_perm('isnts.is_employee'):
+    if request.user.has_perm('isnts.is_employee'):
         donor = get_or_none(DonorCard, id=donor_id)
         perm_address = get_or_none(
             Address, id=donor.id_address_perm.id if donor and donor.id_address_perm else None)
@@ -67,7 +63,10 @@ def detailview(request, donor_id):
     })
 
 
+@login_required(login_url='/login/')
 def quastionnaire(request, donor_id, questionnaire_id):
+    if request.user.has_perm('isnts.is_employee') == False and donor_id != request.user.id:
+        return HttpResponseRedirect('/nopermission/')
     donor = get_or_none(Donor, id=donor_id)
     if not donor:
         return HttpResponseRedirect('/donors/')
@@ -104,6 +103,8 @@ def quastionnaire(request, donor_id, questionnaire_id):
     })
 
 
+@login_required(login_url='/login/')
+@permission_required('isnts.is_employee', login_url='/nopermission/')
 def blood_extraction(request, donor_id, blood_extraction_id):
     donor = get_or_none(Donor, id=donor_id)
     if not donor:
@@ -121,7 +122,8 @@ def blood_extraction(request, donor_id, blood_extraction_id):
 
 
 @login_required(login_url='/login/')
-@user_passes_test(is_not_admin, login_url='/admin/')
 def information(request):
     donor = User.objects.get(id=request.user.id)
+    if donor.has_perm('isnts.is_employee'):
+        return HttpResponseRedirect('/')
     return render(request, 'donors/information.html', {'donor': donor})
