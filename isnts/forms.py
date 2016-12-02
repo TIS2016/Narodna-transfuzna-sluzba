@@ -31,6 +31,7 @@ class BloodExtractionForm(forms.ModelForm):
         model = BloodExtraction
         exclude = ['id_nts']
 
+
 class Login(forms.ModelForm):
 
     class Meta:
@@ -42,10 +43,17 @@ class Register(forms.ModelForm):
 
     class Meta:
         model = DonorCard
-        fields = ['first_name', 'last_name', 'username', 'email', 'password', 'gender']
+        fields = ['first_name', 'last_name',
+                  'username', 'email', 'password', 'gender']
 
 
 class EmployeeRegister(forms.ModelForm):
+
+    def __init__(self, *args, **kwargs):
+        k = kwargs.pop('emp_types', [])
+        super(EmployeeRegister, self).__init__(*args, **kwargs)
+        self.fields['employee_type'] = forms.TypedChoiceField(
+            choices=k, coerce=int, required=True)
 
     class Meta:
         model = Employee

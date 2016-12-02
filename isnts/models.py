@@ -69,6 +69,7 @@ class Region(models.Model):
 class Town(models.Model):
     name = models.CharField(max_length=20)
     id_region = models.ForeignKey(Region, on_delete=models.SET_NULL, null=True)
+
     def __str__(self):
         return self.name
 
@@ -124,7 +125,7 @@ class Employee(User):
 
     class Meta:
         permissions = (
-            ("is_employee", "is employee"),
+            ("is_employee", "Is Employee"),
         )
 
 
@@ -146,7 +147,7 @@ class Donor(User):
 
     class Meta:
         permissions = (
-            ("is_donor", "is donor"),
+            ("is_donor", "Is Donor"),
         )
 
 
@@ -165,7 +166,6 @@ class DonorCard(Donor):
         Employee, on_delete=models.SET_NULL, null=True)
     info = models.CharField(max_length=255, null=True)
     can_donate_from = models.DateField(null=True)
-
 
 
 class Questionnaire(models.Model):

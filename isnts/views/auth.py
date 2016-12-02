@@ -28,13 +28,20 @@ def donor_login(request):
             user = authenticate(username=request.POST.get('username'),
                                 password=request.POST.get('password'))
             if user is not None:
+                if user.has_perm('isnts.is_donor') == False:
+                    return HttpResponseRedirect('/login')
                 login(request, user)
                 return HttpResponseRedirect('/donors/information')
             else:
                 return render_form()
-        else:
-            return render_form()
-    return HttpResponseRedirect('/donors/information/')
+    else:
+        user = User.objects.get(id=request.user.id)
+        if user.has_perm('isnts.is_donor'):
+            return HttpResponseRedirect('/donors/information/')
+        elif user.has_perm('isnts.is_employee'):
+            return HttpResponseRedirect('/')
+        return render_form()
+    return render_form()
 
 
 def donor_register(request):
@@ -75,9 +82,11 @@ def donor_password_change(request):
     return render(request, 'donors/password_change.html', {'form': password_change_form})
 
 
+
 def employee_login(request):
     def render_form():
-        employee_login_form = EmployeeLogin(request.POST if request.POST else None)
+        employee_login_form = EmployeeLogin(
+            request.POST if request.POST else None)
         return render(request, 'employees/login.html', {'form': employee_login_form})
 
     if not request.user.is_authenticated():
@@ -95,16 +104,26 @@ def employee_login(request):
 
 
 def employee_register(request):
+    e_types = [('', '---------')]
+    e_types += list((int(g.id), g.name)
+                    for g in Group.objects.exclude(name='NTSsu').exclude(name='Donor'))
+
     def render_form():
-        employee_registration_form = EmployeeRegister(request.POST if request.POST else None)
+        employee_registration_form = EmployeeRegister(
+            request.POST if request.POST else None,emp_types=e_types)
         return render(request, 'employees/register.html', {'form': employee_registration_form})
 
     if not request.user.is_authenticated():
         if request.method == 'POST':
-            employee_registration_form = EmployeeRegister(request.POST)
+            employee_registration_form = EmployeeRegister(
+                request.POST, emp_types=e_types)
+
             if employee_registration_form.is_valid():
                 user = employee_registration_form.save()
                 user.set_password(user.password)
+                g = Group.objects.get(
+                    id=employee_registration_form.cleaned_data['employee_type'])
+                g.user_set.add(user)
                 user.save()
                 return render(request, 'employees/register_message.html', {'form': employee_registration_form})
             else:
