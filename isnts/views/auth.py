@@ -73,14 +73,14 @@ def donor_logout(request):
 
 @login_required(login_url='/login/')
 def password_change(request):
-    password_change_form = PasswordChangeForm(user=request.user, data=(request.POST or None))
+    password_change_form = PasswordChangeForm(
+        user=request.user, data=(request.POST or None))
     if request.method == 'POST':
         if password_change_form.is_valid():
             password_change_form.save()
             update_session_auth_hash(request, password_change_form.user)
             return HttpResponseRedirect('/login/')
     return render(request, 'donors/password_change.html', {'form': password_change_form})
-
 
 
 def employee_login(request):
@@ -94,6 +94,8 @@ def employee_login(request):
             user = authenticate(username=request.POST.get('username'),
                                 password=request.POST.get('password'))
             if user is not None:
+                if user.has_perm('isnts.is_employee') == False:
+                    return HttpResponseRedirect('/employees/login/')
                 login(request, user)
                 return HttpResponseRedirect('/employees/interface')
             else:
@@ -110,7 +112,7 @@ def employee_register(request):
 
     def render_form():
         employee_registration_form = EmployeeRegister(
-            request.POST if request.POST else None,emp_types=e_types)
+            request.POST if request.POST else None, emp_types=e_types)
         return render(request, 'employees/register.html', {'form': employee_registration_form})
 
     if not request.user.is_authenticated():
@@ -131,6 +133,7 @@ def employee_register(request):
         else:
             return render_form()
     return HttpResponseRedirect('/')
+
 
 def employee_logout(request):
     logout(request)
