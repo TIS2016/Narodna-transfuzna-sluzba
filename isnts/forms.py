@@ -50,10 +50,10 @@ class Register(forms.ModelForm):
 class EmployeeRegister(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
-        k = kwargs.pop('emp_types', None)
+        k = kwargs.pop('emp_types', [])
         super(EmployeeRegister, self).__init__(*args, **kwargs)
-        self.fields['employee_type'] = forms.TypedChoiceField(choices=k,
-                                                              coerce=int, required=True)
+        self.fields['employee_type'] = forms.TypedChoiceField(
+            choices=k, coerce=int, required=True)
 
     class Meta:
         model = Employee

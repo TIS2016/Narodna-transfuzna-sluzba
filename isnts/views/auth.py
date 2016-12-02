@@ -96,21 +96,25 @@ def employee_login(request):
 
 
 def employee_register(request):
+    e_types = [('', '---------')]
+    e_types += list((int(g.id), g.name)
+                    for g in Group.objects.exclude(name='NTSsu').exclude(name='Donor'))
+
     def render_form():
-        e_types = [('', '---------'),]
-        e_types += list((g.id, g.name) for g in Group.objects.exclude(name='NTSsu').exclude(name='Donor'))
-        employee_registration_form = EmployeeRegister(request.POST if request.POST else None, emp_types=e_types)
+        employee_registration_form = EmployeeRegister(
+            request.POST if request.POST else None,emp_types=e_types)
         return render(request, 'employees/register.html', {'form': employee_registration_form})
 
     if not request.user.is_authenticated():
         if request.method == 'POST':
-            employee_registration_form = EmployeeRegister(request.POST)
+            employee_registration_form = EmployeeRegister(
+                request.POST, emp_types=e_types)
+
             if employee_registration_form.is_valid():
                 user = employee_registration_form.save()
                 user.set_password(user.password)
-                eployee_type = dict(employee_registration_form.fields['employee_type'].choices)[
-                    employee_registration_form.cleaned_data['employee_type']]
-                g = Group.objects.get(name=eployee_type)
+                g = Group.objects.get(
+                    id=employee_registration_form.cleaned_data['employee_type'])
                 g.user_set.add(user)
                 user.save()
                 return render(request, 'employees/register_message.html', {'form': employee_registration_form})
