@@ -1,0 +1,17 @@
+[{
+    "model": "auth.permission",
+    "pk": 102,
+    "fields": {
+        "name": "Is Employee",
+        "content_type": 15,
+        "codename": "is_employee"
+    }
+}, {
+    "model": "auth.permission",
+    "pk": 101,
+    "fields": {
+        "name": "Is Donor",
+        "content_type": 19,
+        "codename": "is_donor"
+    }
+}]
