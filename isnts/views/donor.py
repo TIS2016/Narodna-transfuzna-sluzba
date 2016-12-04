@@ -30,7 +30,7 @@ def listview(request):
 
 
 @login_required(login_url='/login/')
-@permission_required('is_employee', login_url='/nopermission/')
+@permission_required('isnts.is_employee', login_url='/nopermission/')
 def create_new(request):
     donor_form = CreateDonorForm(request.POST or None)
     perm_address_form = AddressForm(request.POST or None, prefix='perm_address_form')
@@ -48,7 +48,7 @@ def create_new(request):
 
 
 @login_required(login_url='/login/')
-@permission_required('is_employee', login_url='/nopermission/')
+@permission_required('isnts.is_employee', login_url='/nopermission/')
 def detailview(request, donor_id):
     donor = get_or_none(DonorCard, id=donor_id)
     if not donor:
