@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+{% block title %}Employees{% endblock %}
+{% block content %}
+<a href="register/"  class="row">
+    <span>Vytvorit noveho zamestnanca</span>
+</a>
+{% for employee in employees %}
+    <a href="{{ employee.id }}" class="row">
+        <span>{{ employee.id }}</span>
+        <span>{{ employee.first_name }}</span>
+        <span>{{ employee.last_name }}</span>
+    </a>
+{% endfor %}
+{% endblock %}

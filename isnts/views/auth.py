@@ -3,7 +3,7 @@ from django.shortcuts import render
 from django import forms, http
 from isnts.models import *
 from isnts.forms import *
-from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth import authenticate, login, logout, update_session_auth_hash
 from django.contrib.auth.models import Group
 from django.http import HttpResponse, HttpResponseRedirect
 from django.core.exceptions import PermissionDenied
@@ -13,6 +13,7 @@ from django.core.mail import send_mail
 from django.template.loader import get_template
 from django.template import Context
 from django.contrib.auth.views import password_reset, password_reset_confirm
+from django.contrib.auth.forms import PasswordChangeForm
 from django.core.mail import EmailMultiAlternatives
 
 
@@ -22,7 +23,6 @@ def get_or_none(model, *args, **kwargs):
         return model.objects.get(*args, **kwargs)
     except model.DoesNotExist:
         return None
-
 
 
 def error404(request):
@@ -43,13 +43,20 @@ def donor_login(request):
             user = authenticate(username=request.POST.get('username'),
                                 password=request.POST.get('password'))
             if user is not None:
+                if user.has_perm('isnts.is_donor') == False:
+                    return HttpResponseRedirect('/login')
                 login(request, user)
                 return HttpResponseRedirect('/donors/information')
             else:
                 return render_form()
-        else:
-            return render_form()
-    return HttpResponseRedirect('/donors/information/')
+    else:
+        user = User.objects.get(id=request.user.id)
+        if user.has_perm('isnts.is_donor'):
+            return HttpResponseRedirect('/donors/information/')
+        elif user.has_perm('isnts.is_employee'):
+            return HttpResponseRedirect('/')
+        return render_form()
+    return render_form()
 
 
 def donor_register(request):
@@ -94,12 +101,6 @@ def donor_register(request):
             return render_form()
     return HttpResponseRedirect('/donors/information/')
 
-
-def donor_logout(request):
-    logout(request)
-    return HttpResponseRedirect('/login')
-
-
 def donor_activate(request, donor_id, token):
     if donor_id is not None and token is not None:
         try:
@@ -114,10 +115,6 @@ def donor_activate(request, donor_id, token):
     return HttpResponseRedirect("/verification_error")
 
 # Views below is defined for Donors and Employees
-
-def password_change(request):
-    form = PassChange()
-    return render(request, 'donors/pass_change.html', {'form': form})
 
 
 def _password_reset_confirm(request, uidb64=None, token=None):
@@ -135,3 +132,75 @@ def _password_reset(request):
 
 def password_reset_sent(request):
     return render(request, 'auth/password_reset_sent.html')
+
+@login_required(login_url='/login/')
+def password_change(request):
+    password_change_form = PasswordChangeForm(user=request.user, data=(request.POST or None))
+    if request.method == 'POST':
+        if password_change_form.is_valid():
+            password_change_form.save()
+            update_session_auth_hash(request, password_change_form.user)
+            return HttpResponseRedirect('/login/')
+    return render(request, 'auth/password_change.html', {'form': password_change_form})
+
+
+
+def employee_login(request):
+    def render_form():
+        employee_login_form = EmployeeLogin(
+            request.POST if request.POST else None)
+        return render(request, 'employees/login.html', {'form': employee_login_form})
+
+    if not request.user.is_authenticated():
+        if request.method == 'POST':
+            user = authenticate(username=request.POST.get('username'),
+                                password=request.POST.get('password'))
+            if user is not None:
+                login(request, user)
+                return HttpResponseRedirect('/employees/interface')
+            else:
+                return render_form()
+        else:
+            return render_form()
+    return HttpResponseRedirect('/employees/interface/')
+
+
+def employee_register(request):
+    e_types = [('', '---------')]
+    e_types += list((int(g.id), g.name)
+                    for g in Group.objects.exclude(name='NTSsu').exclude(name='Donor'))
+
+    def render_form():
+        employee_registration_form = EmployeeRegister(
+            request.POST if request.POST else None,emp_types=e_types)
+        return render(request, 'employees/register.html', {'form': employee_registration_form})
+
+    if not request.user.is_authenticated():
+        if request.method == 'POST':
+            employee_registration_form = EmployeeRegister(
+                request.POST, emp_types=e_types)
+
+            if employee_registration_form.is_valid():
+                user = employee_registration_form.save()
+                user.set_password(user.password)
+                g = Group.objects.get(
+                    id=employee_registration_form.cleaned_data['employee_type'])
+                g.user_set.add(user)
+                user.save()
+                return render(request, 'employees/register_message.html', {'form': employee_registration_form})
+            else:
+                return render_form()
+        else:
+            return render_form()
+    return HttpResponseRedirect('/')
+
+
+def employee_logout(request):
+    logout(request)
+    return HttpResponseRedirect('/employees/login')
+
+
+
+def _logout(request):
+    logout(request)
+    return HttpResponseRedirect('/login')

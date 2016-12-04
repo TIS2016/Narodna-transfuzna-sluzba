@@ -8,6 +8,7 @@ from isnts.questions_enum import QUESTION_COUNT
 from django.forms import formset_factory
 from django.contrib.auth.decorators import login_required, user_passes_test, permission_required
 
+
 def get_or_none(model, *args, **kwargs):
     try:
         return model.objects.get(*args, **kwargs)
@@ -20,13 +21,14 @@ def is_not_admin(user):
 
 
 @login_required(login_url='/login/')
-@permission_required('is_employee', login_url='/donors/information/')
+@permission_required('isnts.is_employee', login_url='/donors/information/')
 def home(request):
     return render(request, 'home.html')
 
 
-#@login_required(login_url='/login/')
-#@permission_required('is_employee', login_url='/nopermission/')
+
+@login_required(login_url='/login/')
+@permission_required('isnts.is_employee', login_url='/nopermission/')
 def listview(request):
     donors = Donor.objects.all()
     return render(request, 'donors/listview.html', {'donors': donors})
@@ -49,8 +51,8 @@ def create_new(request):
         'temp_address': temp_address_form
     })
 
-#@login_required(login_url='/login/')
-#@permission_required('is_employee', login_url='/nopermission/')
+@login_required(login_url='/login/')
+@permission_required('is_employee', login_url='/nopermission/')
 def detailview(request, donor_id):
     donor = get_or_none(DonorCard, id=donor_id)
     if not donor:
@@ -60,8 +62,10 @@ def detailview(request, donor_id):
     questionnaires = Questionnaire.objects.filter(id_donor=donor_id)
     blood_extractions = BloodExtraction.objects.filter(id_donor=donor_id)
     donor_form = DonorForm(request.POST or None, instance=donor)
-    perm_address_form = AddressForm(request.POST or None, instance=perm_address, prefix='perm_address_form')
-    temp_address_form = AddressForm(request.POST or None, instance=temp_address, prefix='temp_address_form')
+    perm_address_form = AddressForm(
+        request.POST or None, instance=perm_address, prefix='perm_address_form')
+    temp_address_form = AddressForm(
+        request.POST or None, instance=temp_address, prefix='temp_address_form')
     if request.method == 'POST':
         if donor_form.is_valid() and perm_address_form.is_valid() and temp_address_form.is_valid():
             perm_address_form.save()
@@ -88,7 +92,8 @@ def quastionnaire(request, donor_id, questionnaire_id):
     else:
         questions = list({'question': x} for x in range(1, QUESTION_COUNT + 1))
     QuestionsFormSet = formset_factory(QuestionsForm, extra=0)
-    questionnaire_form = QuestionnaireForm(request.POST or None, instance=questionnaire)
+    questionnaire_form = QuestionnaireForm(
+        request.POST or None, instance=questionnaire)
     questions_forms = QuestionsFormSet(request.POST or None, initial=questions)
     if request.method == 'POST':
         if questions_forms.is_valid() and questionnaire_form.is_valid():
@@ -118,7 +123,8 @@ def blood_extraction(request, donor_id, blood_extraction_id):
     if not donor:
         return HttpResponseRedirect('/donors/')
     blood_extraction = get_or_none(BloodExtraction, id=blood_extraction_id)
-    blood_extraction_form = BloodExtractionForm(request.POST or None, instance=blood_extraction)
+    blood_extraction_form = BloodExtractionForm(
+        request.POST or None, instance=blood_extraction)
     if request.method == 'POST':
         if form.is_valid():
             form.save()
@@ -126,7 +132,6 @@ def blood_extraction(request, donor_id, blood_extraction_id):
         'blood_extraction_form': blood_extraction_form,
         'donor': donor
     })
-
 
 
 @login_required(login_url='/login/')

@@ -54,7 +54,28 @@ class Register(forms.ModelForm):
 
     class Meta:
         model = DonorCard
-        fields = ['first_name', 'last_name', 'username', 'email', 'password', 'gender']
+        fields = ['first_name', 'last_name',
+                  'username', 'email', 'password', 'gender']
+
+
+class EmployeeRegister(forms.ModelForm):
+
+    def __init__(self, *args, **kwargs):
+        k = kwargs.pop('emp_types', [])
+        super(EmployeeRegister, self).__init__(*args, **kwargs)
+        self.fields['employee_type'] = forms.TypedChoiceField(
+            choices=k, coerce=int, required=True)
+
+    class Meta:
+        model = Employee
+        fields = ['first_name', 'last_name', 'username', 'email', 'password']
+
+
+class EmployeeLogin(forms.ModelForm):
+
+    class Meta:
+        model = Employee
+        fields = ['username', 'password']
 
 
 class QuestionnaireForm(forms.ModelForm):
@@ -75,9 +96,3 @@ class QuestionsForm(forms.ModelForm):
         widgets = {
             'question': PlainTextWidget(),
         }
-
-
-class PassChange(forms.Form):
-    old_password = forms.CharField()
-    new_password = forms.CharField()
-    new_password2 = forms.CharField()
