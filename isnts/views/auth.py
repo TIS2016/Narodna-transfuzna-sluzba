@@ -59,60 +59,54 @@ def donor_login(request):
     return render_form()
 
 
-def donor_register(request):
-    def render_form():
-        registration_form = Register(request.POST if request.POST else None)
-        return render(request, 'donors/register.html', {'registration_form': registration_form})
+def donor_registration(request):
+    if request.user.is_authenticated():
+        return HttpResponseRedirect('/donors/information/')
+    registration_form = Register(request.POST or None)
+    if request.method == 'POST':
+        if registration_form.is_valid():
+            user = registration_form.save()
+            user.set_password(user.password)
+            user.is_active = False
+            g = Group.objects.get(name='Donor')
+            g.user_set.add(user)
+            user.save()
 
-    if not request.user.is_authenticated():
-        if request.method == 'POST':
-            form = Register(request.POST)
-            if form.is_valid():
-                user = form.save()
-                user.set_password(user.password)
-                user.is_active = False
-                g = Group.objects.get(name='Donor')
-                g.user_set.add(user)
-                user.save()
+            token = default_token_generator.make_token(user)
+            context = Context({
+                'first_name': user.first_name,
+                'last_name': user.last_name,
+                'protocol': request.scheme,
+                'domain': request.get_host,
+                'donor_id': user.id,
+                'token': token
+            })
+            subject = 'Verification'
+            text_content = get_template('emails/verification.txt').render(context)
+            html_content = get_template('emails/verification.html').render(context)
+            message = EmailMultiAlternatives(subject, text_content,'isntsdebug@gmail.com', [user.email])
+            message.attach_alternative(html_content, "text/html")
 
-                token = default_token_generator.make_token(user)
-                context = Context({
-                    'first_name': user.first_name,
-                    'last_name': user.last_name,
-                    'donor_id': user.id,
-                    'token': token
-                })
-                subject = 'Verification'
+            try:
+                message.send()
+            except:
+                return HttpResponseRedirect("/registration/send_email_error")
+            return HttpResponseRedirect("/registration/success")
+    return render(request, 'donors/registration.html', {'registration_form': registration_form})
 
-                text_content = get_template('emails/verification.txt').render(context)
-                html_content = get_template('emails/verification.html').render(context)
-
-                message = EmailMultiAlternatives(subject, text_content,'isntsdebug@gmail.com', [user.email])
-                message.attach_alternative(html_content, "text/html")
-
-                try:
-                    message.send()
-                except:
-                    return HttpResponseRedirect("/verification_error")
-                return render(request, 'donors/register.html', {'form': form})
-            else:
-                return render_form()
-        else:
-            return render_form()
-    return HttpResponseRedirect('/donors/information/')
-
-def donor_activate(request, donor_id, token):
+def donor_registration_confirm(request, donor_id, token):
     if donor_id is not None and token is not None:
+        validlink = False
         try:
             user_model = get_user_model()
             user = user_model.objects.get(pk=donor_id)
             if default_token_generator.check_token(user, token) and (not user.is_active):
+                validlink = True
                 user.is_active = True
                 user.save()
-                return HttpResponseRedirect("/success")
         except:
             pass
-    return HttpResponseRedirect("/verification_error")
+    return render(request, "donors/registration_confirm.html", {'validlink': validlink})
 
 # Views below is defined for Donors and Employees
 

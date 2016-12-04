@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+{% block title %}Registration{% endblock %}
+{% block content %}
+<section class="row">
+    <div class="col s6">
+        <h2>Donor registration cofirm</h2>
+        {% if validlink %}
+            <p>Thank you for registration! You can now <a href="/login">sign in</a>.</p>
+        {% else %}
+            <p>This confirmation link is no longer valid!</p>
+        {% endif %}
+    </div>
+</section>
+{% endblock %}

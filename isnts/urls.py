@@ -9,7 +9,6 @@ handler404 = views.auth.error404
 
 
 urlpatterns = [
-    url(r'^donors/validate/(?P<donor_id>[0-9]+)/(?P<token>[0-9A-Za-z]{1,13}-[0-9A-Za-z]{1,20})/$', views.auth.donor_activate),
     url(r'^donors/create_new/$', views.donor.create_new),
     url(r'^donors/(?P<donor_id>[0-9]+)/$', views.donor.detailview),
     url(r'^donors/(?P<donor_id>[0-9]+)/questionnaire/(?P<questionnaire_id>[0-9]+)/$', views.donor.quastionnaire),
@@ -26,7 +25,8 @@ urlpatterns = [
     url(r'^blood_extraction/$', views.blood_extraction.listview),
     url(r'^login/$', views.auth.donor_login),
     url(r'^logout/$', views.auth._logout),
-    url(r'^register/$', views.auth.donor_register),
+    url(r'^registration/confirm/(?P<donor_id>[0-9]+)/(?P<token>[0-9A-Za-z]{1,13}-[0-9A-Za-z]{1,20})/$', views.auth.donor_registration_confirm),
+    url(r'^registration/$', views.auth.donor_registration),
     url(r'^password_change/$', views.auth.password_change),
     url(r'^password_reset/confirm/(?P<uidb64>[0-9A-Za-z]+)-(?P<token>.+)/$', views.auth._password_reset_confirm),
     url(r'^password_reset/$', views.auth._password_reset),
