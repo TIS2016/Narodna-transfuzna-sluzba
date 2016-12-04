@@ -12,9 +12,16 @@ from django.contrib.auth import get_user_model
 from django.core.mail import send_mail
 from django.template.loader import get_template
 from django.template import Context
-
+from django.contrib.auth.views import password_reset, password_reset_confirm
 from django.core.mail import EmailMultiAlternatives
 
+
+
+def get_or_none(model, *args, **kwargs):
+    try:
+        return model.objects.get(*args, **kwargs)
+    except model.DoesNotExist:
+        return None
 
 
 
@@ -60,22 +67,22 @@ def donor_register(request):
                 g = Group.objects.get(name='Donor')
                 g.user_set.add(user)
                 user.save()
-                token = default_token_generator.make_token(user)
 
+                token = default_token_generator.make_token(user)
                 context = Context({
                     'first_name': user.first_name,
                     'last_name': user.last_name,
                     'donor_id': user.id,
                     'token': token
                 })
-
                 subject = 'Verification'
 
                 text_content = get_template('emails/verification.txt').render(context)
                 html_content = get_template('emails/verification.html').render(context)
-                print("posiel")
+
                 message = EmailMultiAlternatives(subject, text_content,'isntsdebug@gmail.com', [user.email])
                 message.attach_alternative(html_content, "text/html")
+
                 try:
                     message.send()
                 except:
@@ -93,20 +100,38 @@ def donor_logout(request):
     return HttpResponseRedirect('/login')
 
 
-def donor_pass_change(request):
-    form = PassChange()
-    return render(request, 'donors/pass_change.html', {'form': form})
-
-
 def donor_activate(request, donor_id, token):
     if donor_id is not None and token is not None:
         try:
             user_model = get_user_model()
             user = user_model.objects.get(pk=donor_id)
-            if default_token_generator.check_token(user, token):
+            if default_token_generator.check_token(user, token) and (not user.is_active):
                 user.is_active = True
                 user.save()
                 return HttpResponseRedirect("/success")
         except:
             pass
     return HttpResponseRedirect("/verification_error")
+
+# Views below is defined for Donors and Employees
+
+def password_change(request):
+    form = PassChange()
+    return render(request, 'donors/pass_change.html', {'form': form})
+
+
+def _password_reset_confirm(request, uidb64=None, token=None):
+    return password_reset_confirm(request, template_name='auth/password_reset_confirm.html',
+        uidb64=uidb64, token=token, post_reset_redirect='/login')
+
+
+def _password_reset(request):
+    return password_reset(request, template_name='auth/password_reset_form.html',
+        email_template_name='emails/password_reset.txt',
+        html_email_template_name='emails/password_reset.html',
+        subject_template_name='emails/password_reset_subject.txt',
+        post_reset_redirect='/password_reset_sent')
+
+
+def password_reset_sent(request):
+    return render(request, 'auth/password_reset_sent.html')
