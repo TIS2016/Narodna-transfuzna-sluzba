@@ -108,6 +108,9 @@ def donor_registration_confirm(request, donor_id, token):
             pass
     return render(request, "donors/registration_confirm.html", {'validlink': validlink})
 
+def donor_registration_success(request):
+    return render(request, 'donors/registration_success.html')
+
 # Views below is defined for Donors and Employees
 
 
