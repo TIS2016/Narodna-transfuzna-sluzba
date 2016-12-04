@@ -121,6 +121,7 @@ def employee_register(request):
             if employee_registration_form.is_valid():
                 user = employee_registration_form.save()
                 user.set_password(user.password)
+                user.is_active = False
                 g = Group.objects.get(
                     id=employee_registration_form.cleaned_data['employee_type'])
                 g.user_set.add(user)

@@ -57,7 +57,7 @@ class EmployeeRegister(forms.ModelForm):
 
     class Meta:
         model = Employee
-        fields = ['first_name', 'last_name', 'username', 'email', 'password']
+        fields = ['first_name', 'last_name', 'username', 'email', 'password', 'secret_key']
 
 
 class EmployeeLogin(forms.ModelForm):
@@ -85,3 +85,10 @@ class QuestionsForm(forms.ModelForm):
         widgets = {
             'question': PlainTextWidget(),
         }
+
+
+class SecretKeyChange(forms.Form):
+
+        secret_key_old = forms.CharField(label='Old secret key', max_length=30)
+        secret_key_new = forms.CharField(label='New secret key', max_length=30)
+        secret_key_new2 = forms.CharField(label='New secret key', max_length=30)
