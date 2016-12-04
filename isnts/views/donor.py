@@ -16,15 +16,10 @@ def get_or_none(model, *args, **kwargs):
         return None
 
 
-def is_not_admin(user):
-    return user.is_superuser == False
-
-
 @login_required(login_url='/login/')
 @permission_required('isnts.is_employee', login_url='/donors/information/')
 def home(request):
     return render(request, 'home.html')
-
 
 
 @login_required(login_url='/login/')
@@ -51,14 +46,17 @@ def create_new(request):
         'temp_address': temp_address_form
     })
 
+
 @login_required(login_url='/login/')
 @permission_required('is_employee', login_url='/nopermission/')
 def detailview(request, donor_id):
     donor = get_or_none(DonorCard, id=donor_id)
     if not donor:
         return HttpResponseRedirect('/donors/')
-    perm_address = get_or_none(Address, id=(donor.id_address_perm.id if donor.id_address_perm else None))
-    temp_address = get_or_none(Address, id=(donor.id_address_temp.id if donor.id_address_temp else None))
+    perm_address = get_or_none(
+        Address, id=(donor.id_address_perm.id if donor.id_address_perm else None))
+    temp_address = get_or_none(
+        Address, id=(donor.id_address_temp.id if donor.id_address_temp else None))
     questionnaires = Questionnaire.objects.filter(id_donor=donor_id)
     blood_extractions = BloodExtraction.objects.filter(id_donor=donor_id)
     donor_form = DonorForm(request.POST or None, instance=donor)
@@ -81,7 +79,10 @@ def detailview(request, donor_id):
     })
 
 
+@login_required(login_url='/login/')
 def quastionnaire(request, donor_id, questionnaire_id):
+    if request.user.has_perm('isnts.is_employee') == False and donor_id != request.user.id:
+        return HttpResponseRedirect('/nopermission/')
     donor = get_or_none(Donor, id=donor_id)
     if not donor:
         return HttpResponseRedirect('/donors/')
@@ -118,16 +119,20 @@ def quastionnaire(request, donor_id, questionnaire_id):
     })
 
 
+@login_required(login_url='/login/')
+@permission_required('isnts.is_employee', login_url='/nopermission/')
 def blood_extraction(request, donor_id, blood_extraction_id):
     donor = get_or_none(Donor, id=donor_id)
+    employee = get_or_none(Employee, id=request.user.id)
     if not donor:
         return HttpResponseRedirect('/donors/')
     blood_extraction = get_or_none(BloodExtraction, id=blood_extraction_id)
     blood_extraction_form = BloodExtractionForm(
         request.POST or None, instance=blood_extraction)
     if request.method == 'POST':
-        if form.is_valid():
-            form.save()
+        if blood_extraction_form.is_valid():
+            blood_extraction_form.save()
+            blood_extraction.id_nts = employee.id_nts
     return render(request, 'donors/blood_extraction/detailview.html', {
         'blood_extraction_form': blood_extraction_form,
         'donor': donor
@@ -135,7 +140,7 @@ def blood_extraction(request, donor_id, blood_extraction_id):
 
 
 @login_required(login_url='/login/')
-@user_passes_test(is_not_admin, login_url='/admin/')
+@permission_required('isnts.is_donor', login_url='/employees/interface/')
 def information(request):
     donor = User.objects.get(id=request.user.id)
     return render(request, 'donors/information.html', {'donor': donor})
