@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 {% load staticfiles %}
-{% block title %}Login{% endblock %}
+{% block title %}{{ donor.first_name }} {{ donor.last_name }}{% endblock %}
 {% block content %}
 <section class="row">
     <h2>{{ donor.first_name }} {{ donor.last_name }} information</h2>

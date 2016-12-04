@@ -1,10 +1,10 @@
 {% extends "base.html" %}
 {% load staticfiles %}
-{% block title %}Registrácia{% endblock %}
+{% block title %}Registration{% endblock %}
 {% block content %}
 <section class="row">
     <div class="col s6">
-        <h2>Registrácia</h2>
+        <h2>Donor registration</h2>
         <form method="post" role="form">
             {% for field in registration_form.visible_fields %}
             <div id="div_{{ field.html_name }}" class="form-group{% if field.errors %} has-error{% endif %} input-field">
@@ -15,7 +15,7 @@
             </div>
             {% endfor %} {% for hidden in form.hidden_fields %} {{ hidden }} {% endfor %} {% csrf_token %}
             <div class="form-group">
-                <input type="submit" value="Registrovať" name="register_btn" class="btn btn-primary" />
+                <input type="submit" value="Register" name="register_btn" class="btn btn-primary" />
             </div>
         </form>
     </div>

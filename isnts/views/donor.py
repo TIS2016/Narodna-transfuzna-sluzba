@@ -34,8 +34,8 @@ def listview(request):
     return render(request, 'donors/listview.html', {'donors': donors})
 
 
-#@login_required(login_url='/login/')
-#@permission_required('is_employee', login_url='/nopermission/')
+@login_required(login_url='/login/')
+@permission_required('is_employee', login_url='/nopermission/')
 def create_new(request):
     donor_form = CreateDonorForm(request.POST or None)
     perm_address_form = AddressForm(request.POST or None, prefix='perm_address_form')
