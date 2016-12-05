@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 {% load staticfiles %}
-{% block title %}Login{% endblock %}
+{% block title %}{{ donor.first_name }} {{ donor.last_name }} questionnare{% endblock %}
 {% block content %}
 <a href="/donors/{{ donor.id }}">back</a>
 <h2>{{ donor.first_name }} {{ donor.last_name }} questionnare</h2>

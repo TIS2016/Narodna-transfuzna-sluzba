@@ -1,0 +1,7 @@
+Dear {{ first_name }} {{ last_name }}!
+
+Please click to link below to verify your account.
+{{ request.scheme }}://{{ request.get_host }}/registration/confirm/{{ donor_id}}/{{ token }}
+
+best regards
+NTS SR

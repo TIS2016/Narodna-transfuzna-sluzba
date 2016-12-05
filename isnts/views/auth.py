@@ -1,13 +1,28 @@
 from django.contrib.auth.decorators import login_required, user_passes_test, permission_required
 from django.shortcuts import render
-from django import forms
+from django import forms, http
 from isnts.models import *
 from isnts.forms import *
 from django.contrib.auth import authenticate, login, logout, update_session_auth_hash
 from django.contrib.auth.models import Group
 from django.http import HttpResponse, HttpResponseRedirect
 from django.core.exceptions import PermissionDenied
+from django.contrib.auth.tokens import default_token_generator
+from django.contrib.auth import get_user_model
+from django.core.mail import send_mail
+from django.template.loader import get_template
+from django.template import Context
+from django.contrib.auth.views import password_reset, password_reset_confirm
 from django.contrib.auth.forms import PasswordChangeForm
+from django.core.mail import EmailMultiAlternatives
+
+
+
+def get_or_none(model, *args, **kwargs):
+    try:
+        return model.objects.get(*args, **kwargs)
+    except model.DoesNotExist:
+        return None
 
 
 def error404(request):
@@ -44,32 +59,76 @@ def donor_login(request):
     return render_form()
 
 
-def donor_register(request):
-    def render_form():
-        registration_form = Register(request.POST if request.POST else None)
-        return render(request, 'donors/register.html', {'registration_form': registration_form})
+def donor_registration(request):
+    if request.user.is_authenticated():
+        return HttpResponseRedirect('/donors/information/')
+    registration_form = Register(request.POST or None)
+    if request.method == 'POST':
+        if registration_form.is_valid():
+            user = registration_form.save()
+            user.set_password(user.password)
+            user.is_active = False
+            g = Group.objects.get(name='Donor')
+            g.user_set.add(user)
+            user.save()
 
-    if not request.user.is_authenticated():
-        if request.method == 'POST':
-            form = Register(request.POST)
-            if form.is_valid():
-                user = form.save()
-                user.set_password(user.password)
-                g = Group.objects.get(name='Donor')
-                g.user_set.add(user)
+            token = default_token_generator.make_token(user)
+            context = Context({
+                'first_name': user.first_name,
+                'last_name': user.last_name,
+                'protocol': request.scheme,
+                'domain': request.get_host,
+                'donor_id': user.id,
+                'token': token
+            })
+            subject = 'Verification'
+            text_content = get_template('emails/verification.txt').render(context)
+            html_content = get_template('emails/verification.html').render(context)
+            message = EmailMultiAlternatives(subject, text_content,'ntssrdebug@gmail.com', [user.email])
+            message.attach_alternative(html_content, "text/html")
+
+            try:
+                message.send()
+            except:
+                return HttpResponseRedirect("/registration/send_email_error")
+            return HttpResponseRedirect("/registration/success")
+    return render(request, 'donors/registration.html', {'registration_form': registration_form})
+
+def donor_registration_confirm(request, donor_id, token):
+    if donor_id is not None and token is not None:
+        validlink = False
+        try:
+            user_model = get_user_model()
+            user = user_model.objects.get(pk=donor_id)
+            if default_token_generator.check_token(user, token) and (not user.is_active):
+                validlink = True
+                user.is_active = True
                 user.save()
-                return render(request, 'donors/register.html', {'form': form})
-            else:
-                return render_form()
-        else:
-            return render_form()
-    return HttpResponseRedirect('/donors/information/')
+        except:
+            pass
+    return render(request, "donors/registration_confirm.html", {'validlink': validlink})
+
+def donor_registration_success(request):
+    return render(request, 'donors/registration_success.html')
+
+# Views below is defined for Donors and Employees
 
 
-def donor_logout(request):
-    logout(request)
-    return HttpResponseRedirect('/login')
+def _password_reset_confirm(request, uidb64=None, token=None):
+    return password_reset_confirm(request, template_name='auth/password_reset_confirm.html',
+        uidb64=uidb64, token=token, post_reset_redirect='/login')
 
+
+def _password_reset(request):
+    return password_reset(request, template_name='auth/password_reset_form.html',
+        email_template_name='emails/password_reset.txt',
+        html_email_template_name='emails/password_reset.html',
+        subject_template_name='emails/password_reset_subject.txt',
+        post_reset_redirect='/password_reset_sent')
+
+
+def password_reset_sent(request):
+    return render(request, 'auth/password_reset_sent.html')
 
 @login_required(login_url='/login/')
 def password_change(request):
@@ -80,7 +139,7 @@ def password_change(request):
             password_change_form.save()
             update_session_auth_hash(request, password_change_form.user)
             return HttpResponseRedirect('/login/')
-    return render(request, 'donors/password_change.html', {'form': password_change_form})
+    return render(request, 'auth/password_change.html', {'form': password_change_form})
 
 
 def employee_login(request):
@@ -138,3 +197,9 @@ def employee_register(request):
 def employee_logout(request):
     logout(request)
     return HttpResponseRedirect('/employees/login')
+
+
+
+def _logout(request):
+    logout(request)
+    return HttpResponseRedirect('/login')
