@@ -84,7 +84,7 @@ def donor_registration(request):
             subject = 'Verification'
             text_content = get_template('emails/verification.txt').render(context)
             html_content = get_template('emails/verification.html').render(context)
-            message = EmailMultiAlternatives(subject, text_content,'isntsdebug@gmail.com', [user.email])
+            message = EmailMultiAlternatives(subject, text_content,'ntssrdebug@gmail.com', [user.email])
             message.attach_alternative(html_content, "text/html")
 
             try:
