@@ -4,6 +4,7 @@ all: install test
 
 install:
 	pip install -r requirements/development.txt
+	gem install sass
 
 test:
 	python manage.py test
