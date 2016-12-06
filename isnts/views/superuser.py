@@ -1,6 +1,8 @@
 from isnts.models import *
 from isnts.forms import *
 from django.shortcuts import render
+from django.http import HttpResponse, HttpResponseRedirect
+
 
 
 def get_or_none(model, *args, **kwargs):
@@ -15,7 +17,7 @@ def secret_key_change(request):
     if request.method == 'POST':
         if secret_key_change_form.is_valid():
             secret_key_change_form.save()
-            update_session_auth_hash(request, password_change_form.user)
+            #update_session_auth_hash(request, password_change_form.user)
             return HttpResponseRedirect('/login/')
     return render(request, 'superuser/secret_key_change.html', {'form': secret_key_change_form})
 
