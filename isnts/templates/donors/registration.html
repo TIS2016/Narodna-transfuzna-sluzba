@@ -1,12 +1,12 @@
 {% extends "public/base.html" %}
 {% load staticfiles %}
-{% block title %}Login{% endblock %}
+{% block title %}Registration{% endblock %}
 {% block content %}
 <section class="row">
     <div class="col s6">
-    <h2>Login</h2>
+        <h2>Donor registration</h2>
         <form method="post" role="form">
-            {% for field in login_form.visible_fields %}
+            {% for field in registration_form.visible_fields %}
             <div id="div_{{ field.html_name }}" class="form-group{% if field.errors %} has-error{% endif %} input-field">
                 {{ field }} {{ field.label_tag }}
                 <div class="help-block">
@@ -15,11 +15,9 @@
             </div>
             {% endfor %} {% for hidden in form.hidden_fields %} {{ hidden }} {% endfor %} {% csrf_token %}
             <div class="form-group">
-                <input type="submit" value="Sign in" name="login_btn" class="btn btn-primary" />
+                <input type="submit" value="Register" name="register_btn" class="btn btn-primary" />
             </div>
         </form>
-        <a href="/registration">Sign up</a>
-        <a href="/password_reset">Forgot your password?</a>
-  </div>
+    </div>
 </section>
 {% endblock %}

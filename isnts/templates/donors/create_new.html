@@ -1,9 +1,9 @@
 {% extends "base.html" %}
 {% load staticfiles %}
-{% block title %}{{ donor.first_name }} {{ donor.last_name }}{% endblock %}
+{% block title %}Create new donor{% endblock %}
 {% block content %}
 <section class="row">
-    <h2>{{ donor.first_name }} {{ donor.last_name }} information</h2>
+    <h2>Create new donor</h2>
     <a href="/donors" class="row">Back</a>
     <form method="post" role="form">
         <div class="col s6">
@@ -41,29 +41,5 @@
         </div>
         {% csrf_token %}
     </form>
-</section>
-<section class="row">
-    <div class="col s6">
-        <h2>Questionnaires</h2>
-        <a href="questionnaire/0" class="row">New questionnaire</a>
-          {% for questionnaire in questionnaires %}
-          <a href="questionnaire/{{ questionnaire.id }}/" class="row">
-              <span>{{ questionnaire.id }}</span>
-              <span>{{ questionnaire.id_donor }}</span>
-          </a>
-          {% endfor %}
-    </div>
-    <div class="col s6">
-        <h2>Blood samples</h2>
-        <a href="blood_extraction/0" class="row">New blood extraction</a>
-        {% for blood_extraction in blood_extractions %}
-        <a href="blood_extraction/{{ blood_extraction.id }}/" class="row">
-            <span>{{ blood_extraction.id }}</span>
-            <span>{{ blood_extraction.id_donor }}</span>
-            <span>{{ blood_extraction.get_state_display }}</span>
-            <span>{{ blood_extraction.date }}</span>
-        </a>
-        {% endfor %}
-    </div>
 </section>
 {% endblock %}

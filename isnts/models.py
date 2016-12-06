@@ -125,11 +125,6 @@ class Employee(User):
     phone = models.CharField(max_length=30, null=True)
     secret_key = models.CharField(max_length=30, default='0000000')
 
-    class Meta:
-        permissions = (
-            ("is_employee", "Is Employee"),
-        )
-
 
 class Donor(User):
     active_acount = models.SmallIntegerField(default=0)
@@ -146,11 +141,6 @@ class Donor(User):
     )
 
     gender = models.PositiveSmallIntegerField(choices=GENDER_CHOICES)
-
-    class Meta:
-        permissions = (
-            ("is_donor", "Is Donor"),
-        )
 
 
 class DonorCard(Donor):

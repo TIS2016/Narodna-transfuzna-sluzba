@@ -11,6 +11,8 @@ def get_or_none(model, *args, **kwargs):
         return None
 
 
+@login_required(login_url='/login/')
+@permission_required('isnts.is_employee', login_url='/nopermission/')
 def listview(request):
     samples_new = BloodExtraction.objects.filter(state=0)
     samples_ready_for_exp = BloodExtraction.objects.filter(state=1)
@@ -22,9 +24,12 @@ def listview(request):
     })
 
 
+@login_required(login_url='/login/')
+@permission_required('isnts.is_employee', login_url='/nopermission/')
 def detailview(request, blood_extraction_id):
     blood_extraction = get_or_none(BloodExtraction, id=blood_extraction_id)
-    blood_extraction_form = BloodExtractionForm(request.POST or None, instance=blood_extraction)
+    blood_extraction_form = BloodExtractionForm(
+        request.POST or None, instance=blood_extraction)
     if request.method == 'POST':
         if blood_extraction_form.is_valid():
             blood_extraction_form.save()
