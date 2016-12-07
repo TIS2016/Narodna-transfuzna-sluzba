@@ -9,6 +9,7 @@ handler404 = views.auth.error404
 
 
 urlpatterns = [
+    url(r'^donors/terms$', views.donor.terms),
     url(r'^donors/create_new/$', views.donor.create_new),
     url(r'^donors/(?P<donor_id>[0-9]+)/$', views.donor.detailview),
     url(r'^donors/(?P<donor_id>[0-9]+)/questionnaire/(?P<questionnaire_id>[0-9]+)/$', views.donor.quastionnaire),

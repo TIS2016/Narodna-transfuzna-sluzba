@@ -33,8 +33,10 @@ def listview(request):
 @permission_required('isnts.is_employee', login_url='/nopermission/')
 def create_new(request):
     donor_form = CreateDonorForm(request.POST or None)
-    perm_address_form = AddressForm(request.POST or None, prefix='perm_address_form')
-    temp_address_form = AddressForm(request.POST or None, prefix='temp_address_form')
+    perm_address_form = AddressForm(
+        request.POST or None, prefix='perm_address_form')
+    temp_address_form = AddressForm(
+        request.POST or None, prefix='temp_address_form')
     if request.method == 'POST':
         if donor_form.is_valid() and perm_address_form.is_valid() and temp_address_form.is_valid():
             perm_address_form.save()
@@ -144,3 +146,22 @@ def blood_extraction(request, donor_id, blood_extraction_id):
 def information(request):
     donor = User.objects.get(id=request.user.id)
     return render(request, 'donors/information.html', {'donor': donor})
+
+
+def terms(request):
+    choose_nts_form = ChooseNTSForm(request.POST or request.GET, ntss=NTS.objects.all())
+    if request.method == 'GET':
+        return render(request, 'donors/terms/choose_nts.html', {'choose_nts_form': choose_nts_form})
+    elif request.method == 'POST':
+        nts = NTS.objects.get(id=request.POST['nts'])
+        office_hours = OfficeHours.objects.filter(id_nts=nts)
+        avail_days = set()
+        for oh in office_hours:
+            avail_days.add(int(oh.day))
+        all_days = set([1,2,3,4,5,6,7])
+        not_avail_days = list(all_days-avail_days)
+        choose_daytime_form = ChooseDayTimeForm(request.POST or None)
+        if 'day' not in request.POST.keys():
+            return render(request, 'donors/terms/choose_day.html', {'choose_daytime_form': choose_daytime_form, 'not_avail_days':not_avail_days})
+        else:
+            return render(request, 'donors/terms/choose_day.html', {'choose_daytime_form': choose_daytime_form, 'not_avail_days':not_avail_days})

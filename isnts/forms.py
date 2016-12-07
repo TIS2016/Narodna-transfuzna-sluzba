@@ -27,8 +27,6 @@ class CreateDonorForm(forms.ModelForm):
                    'groups', 'user_permissions', 'is_active', 'active_acount']
 
 
-
-
 class AddressForm(forms.ModelForm):
 
     class Meta:
@@ -96,3 +94,29 @@ class QuestionsForm(forms.ModelForm):
         widgets = {
             'question': PlainTextWidget(),
         }
+
+
+class NTSModelChoiceField(forms.ModelChoiceField):
+    def label_from_instance(self, obj):
+        return obj.name
+
+
+class ChooseNTSForm(forms.ModelForm):
+
+    def __init__(self, *args, **kwargs):
+        ntss = kwargs.pop('ntss', [])
+        super(ChooseNTSForm, self).__init__(*args, **kwargs)
+        self.fields['nts'] = NTSModelChoiceField(queryset=ntss, empty_label="--------", required=True)
+
+    class Meta:
+        model = NTS
+        fields = []
+
+
+class ChooseDayTimeForm(forms.ModelForm):
+
+    day = forms.DateField(widget=forms.DateInput(attrs={'class':'datepicker', 'type':'date'}))
+
+    class Meta:
+        model = OfficeHours
+        fields = []
