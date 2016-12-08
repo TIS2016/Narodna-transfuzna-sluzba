@@ -13,18 +13,23 @@ def get_or_none(model, *args, **kwargs):
 
 
 def secret_key_change(request):
+    if request.user.is_authenticated():
+        id_nts = request.employee.id_nts
+        nts = get_or_none(NTS, id=id_nts)
+
+
     secret_key_change_form = SecretKeyChange()
     if request.method == 'POST':
         if secret_key_change_form.is_valid():
             secret_key_change_form.save()
-            #update_session_auth_hash(request, password_change_form.user)
             return HttpResponseRedirect('/login/')
     return render(request, 'superuser/secret_key_change.html', {'form': secret_key_change_form})
 
 
 def employee_administration(request):
     employees = Employee.objects.all()
-    return render(request, 'superuser/employee_administration.html', {'employees': employees})
+    nts = NTS.objects.all()
+    return render(request, 'superuser/employee_administration.html', {'employees': employees, 'nts': nts})
 
 
 def employee_activation(request, employee_id):

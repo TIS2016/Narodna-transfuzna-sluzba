@@ -10,4 +10,10 @@
         <span>{{ employee.is_active }}</span>
     </a>
 {% endfor %}
+{% for x in nts %}
+    <a href="{{ x.id }}" class="row">
+        <span>{{ x.id }}</span>
+        <span>{{ x.secret_key }}</span>
+    </a>
+{% endfor %}
 {% endblock %}

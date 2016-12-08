@@ -1,0 +1,17 @@
+[{
+    "model": "isnts.NTS",
+    "pk": 1,
+    "fields": {
+        "name": "NTS1",
+        "id_address": null,
+        "location_info": null,
+        "gps_lon": null,
+        "gps_lat": null,
+        "phone": "",
+        "email": "",
+        "other_contact": "",
+        "info": "",
+        "id_boss": 8,
+        "secret_key": "12345"
+    }
+}]

@@ -15,18 +15,7 @@ class DonorForm(forms.ModelForm):
         model = DonorCard
         exclude = ['password', 'card_created_by', 'id_address_perm', 'id_address_temp',
                    'last_login', 'is_superuser', 'email_verification_token', 'name', 'is_staff',
-                   'groups', 'user_permissions', 'is_active', 'active_acount', 'email']
-
-
-class CreateDonorForm(forms.ModelForm):
-
-    class Meta:
-        model = DonorCard
-        exclude = ['password', 'card_created_by', 'id_address_perm', 'id_address_temp',
-                   'last_login', 'is_superuser', 'email_verification_token', 'name', 'is_staff',
-                   'groups', 'user_permissions', 'is_active', 'active_acount']
-
-
+                   'groups', 'user_permissions', 'active', 'active_acount']
 
 
 class AddressForm(forms.ModelForm):
@@ -100,6 +89,6 @@ class QuestionsForm(forms.ModelForm):
 
 class SecretKeyChange(forms.Form):
 
-        secret_key_old = forms.CharField(label='Old secret key', max_length=30)
-        secret_key_new = forms.CharField(label='New secret key', max_length=30)
-        secret_key_new2 = forms.CharField(label='New secret key', max_length=30)
+    secret_key_old = forms.CharField(label='Old secret key', max_length=30)
+    secret_key_new = forms.CharField(label='New secret key', max_length=30)
+    secret_key_new2 = forms.CharField(label='New secret key', max_length=30)

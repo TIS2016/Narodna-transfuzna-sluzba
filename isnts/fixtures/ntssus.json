@@ -19,7 +19,7 @@
     "model": "isnts.employee",
     "pk": 1,
     "fields": {
-        "id_nts": null,
+        "id_nts": 1,
         "phone": null,
         "groups": [4],
         "user_permissions": []
@@ -201,7 +201,7 @@
     "model": "isnts.employee",
     "pk": 8,
     "fields": {
-        "id_nts": null,
+        "id_nts": 1,
         "phone": null,
         "groups": [4],
         "user_permissions": []

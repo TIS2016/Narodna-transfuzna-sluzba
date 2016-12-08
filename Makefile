@@ -11,5 +11,5 @@ test:
 run:
 	python manage.py makemigrations
 	python manage.py migrate
-	python manage.py loaddata auth.permission.json auth.group.json bloodtypes.json regions.json towns.json ntssus.json
+	python manage.py loaddata auth.permission.json auth.group.json bloodtypes.json regions.json towns.json ntssus.json nts.json
 	python manage.py runserver
