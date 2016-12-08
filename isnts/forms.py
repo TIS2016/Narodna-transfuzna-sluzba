@@ -55,9 +55,11 @@ class EmployeeRegister(forms.ModelForm):
         self.fields['employee_type'] = forms.TypedChoiceField(
             choices=k, coerce=int, required=True)
 
+    secret_key = forms.CharField(required=True)
     class Meta:
         model = Employee
-        fields = ['first_name', 'last_name', 'username', 'email', 'password', 'secret_key']
+        fields = ['first_name', 'last_name', 'username', 'email', 'password']
+
 
 
 class EmployeeLogin(forms.ModelForm):

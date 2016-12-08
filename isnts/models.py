@@ -93,7 +93,7 @@ class NTS(models.Model):
     other_contact = models.CharField(max_length=255)
     info = models.CharField(max_length=255)
     id_boss = models.IntegerField()
-    secret_key = models.CharField(max_length=30,  default='0000000')
+    secret_key = models.CharField(max_length=30,  default='0000000', null=True)
 
 
 class OfficeHours(models.Model):
@@ -123,7 +123,6 @@ class Announcement(models.Model):
 class Employee(User):
     id_nts = models.ForeignKey(NTS, on_delete=models.CASCADE, null=True)
     phone = models.CharField(max_length=30, null=True)
-    secret_key = models.CharField(max_length=30, default='0000000')
 
 
 class Donor(User):

@@ -180,6 +180,8 @@ def employee_register(request):
                 request.POST, emp_types=e_types)
 
             if employee_registration_form.is_valid():
+                data = employee_registration_form.cleaned_data
+                employee_secret_key = data['secret_key']
                 user = employee_registration_form.save()
                 user.set_password(user.password)
                 user.is_active = False
@@ -187,6 +189,13 @@ def employee_register(request):
                     id=employee_registration_form.cleaned_data['employee_type'])
                 g.user_set.add(user)
                 user.save()
+                nts_list = NTS.objects.all()
+                employee = Employee.objects.get(id=user.id)
+                for nts in nts_list:
+                    if employee_secret_key == nts.secret_key:
+                        employee.id_nts = nts
+                if employee.id_nts is None:
+                    return render(request, 'employees/registration_decline_message.html')
                 return render(request, 'employees/register_message.html', {'form': employee_registration_form})
             else:
                 return render_form()
