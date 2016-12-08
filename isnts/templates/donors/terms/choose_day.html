@@ -21,19 +21,17 @@
 
 <script type="text/javascript">
 $('.datepicker').pickadate({
-  disable: {{not_avail_days}}
-  ,
-
+  disable: {{not_avail_days}},
   labelMonthNext: 'Go to the next month',
   labelMonthPrev: 'Go to the previous month',
   labelMonthSelect: 'Pick a month from the dropdown',
   labelYearSelect: 'Pick a year from the dropdown',
-  selectMonths: true, // Creates a dropdown to control month
+  selectMonths: true,
   selectYears: true,
   firstDay: 1 ,
-  min: new Date()
-
-
+  min: new Date(),
+  format: 'dd.mm.yyyy',
+  formatSubmit: 'dd.mm.yyyy',
 });
 </script>
 {% endblock %}
