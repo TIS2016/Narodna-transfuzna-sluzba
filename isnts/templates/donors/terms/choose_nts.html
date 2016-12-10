@@ -5,7 +5,6 @@
 <section>
     <a href="/donors/{{ donor.id }}">Back</a>
     <form method="post" role="form">
-
         {% for field in choose_nts_form.visible_fields %}
         <div id="div_{{ field.html_name }}" class="form-group{% if field.errors %} has-error{% endif %} input-field">
             {{ field }} {{ field.label_tag }}
@@ -14,8 +13,6 @@
             </div>
         </div>
         {% endfor %} {% for hidden in choose_nts_form.hidden_fields %} {{ hidden }} {% endfor %} {% csrf_token %}
-        
-
         <div class="form-group">
             <input type="submit" value="Submit" class="btn btn-primary" />
         </div>

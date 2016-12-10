@@ -8,6 +8,7 @@ from isnts.questions_enum import QUESTION_COUNT
 from django.forms import formset_factory
 from django.contrib.auth.decorators import login_required, user_passes_test, permission_required
 from datetime import datetime, timedelta
+from django.utils import timezone
 
 
 def get_or_none(model, *args, **kwargs):
@@ -198,15 +199,18 @@ def terms_choose_day(request, nts_id=None):
             donor = Donor.objects.get(id=request.user.id)
             day = chosen_day.split('.')
             time = request.POST['time']
-            time.split(':')
-            dt = datetime(int(day[2]),int(day[1]),int(day[0]),int(time[0]),int(time[1]))
-            booking = Booking(id_nts=nts,id_donor=donor,booking_time=dt)
+            time = time.split(':')
+            dt = datetime(int(day[2]), int(day[1]), int(
+                day[0]), int(time[0]), int(time[1]))
+            booking = Booking(id_nts=nts, id_donor=donor, booking_time=dt)
             booking.save()
 
     return HttpResponseRedirect('/donors/terms/list')
 
+
 def terms_listview(request):
     donor = Donor.objects.get(id=request.user.id)
-    now = datetime.now()
-    future_bookings = Booking.objects.all().filter(id_donor=donor).filter(booking_time__gte=now)
-    return render(request, 'donors/terms/listview.html',{'bookings':future_bookings})
+    now = timezone.now()
+    future_bookings = Booking.objects.all().filter(
+        id_donor=donor).filter(booking_time__gte=now)
+    return render(request, 'donors/terms/listview.html', {'bookings': future_bookings})

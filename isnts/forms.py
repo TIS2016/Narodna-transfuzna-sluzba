@@ -140,7 +140,7 @@ class CreateBookingForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         times = kwargs.pop('times', [])
         super(CreateBookingForm, self).__init__(*args, **kwargs)
-        self.fields['time'] = TimeModelChoiceField(choices=times,coerce=time,
+        self.fields['time'] = TimeModelChoiceField(choices=times, coerce=time,
                                                    required=True)
 
     class Meta:
