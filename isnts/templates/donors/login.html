@@ -2,24 +2,202 @@
 {% load staticfiles %}
 {% block title %}Login{% endblock %}
 {% block content %}
-<section class="row">
-    <div class="col s6">
-    <h2>Login</h2>
-        <form method="post" role="form">
-            {% for field in login_form.visible_fields %}
-            <div id="div_{{ field.html_name }}" class="form-group{% if field.errors %} has-error{% endif %} input-field">
-                {{ field }} {{ field.label_tag }}
-                <div class="help-block">
-                    {{ field.errors }}
+
+<script>
+$(document).ready(function(){
+    $('.parallax').parallax();
+});
+
+jQuery(document).ready(function($){
+ // Defining a function to set size for #hero
+    function fullscreen(){
+        jQuery('#main_para').css({
+
+
+            height: jQuery(window).height()
+        });
+    }
+
+    fullscreen();
+
+  // Run the function in case of window resize
+  jQuery(window).resize(function() {
+       fullscreen();
+    });
+
+});
+</script>
+
+  <div class="parallax-container" id="main_para">
+    <div class="parallax">
+        <img src="../../static\isnts\images\mainpage\header.jpg">
+    </div>
+    <section class="row">
+        <div class="col m2 s12"><center><img src="../../static/isnts/images/mainpage/logo.png" style="height: 100px;margin-top: 10px;"></center></div>
+    </section>
+    <section class="row">
+        <div class="col m12 s12"></div>
+    </section>
+    <section class="row">
+        <div class="col m3 offset-m8 col s12">
+            <a href="/password_reset">Zabudli ste heslo?</a>
+            <form method="post" role="form">
+                {% for field in login_form.visible_fields %}
+                <div id="div_{{ field.html_name }}" class="form-group{% if field.errors %} has-error{% endif %} input-field">
+                    {{ field }} {{ field.label_tag }}
+                    <div class="help-block">
+                        {{ field.errors }}
+                    </div>
                 </div>
-            </div>
-            {% endfor %} {% for hidden in form.hidden_fields %} {{ hidden }} {% endfor %} {% csrf_token %}
-            <div class="form-group">
-                <input type="submit" value="Sign in" name="login_btn" class="btn btn-primary" />
-            </div>
-        </form>
-        <a href="/registration">Sign up</a>
-        <a href="/password_reset">Forgot your password?</a>
+                {% endfor %} {% for hidden in form.hidden_fields %} {{ hidden }} {% endfor %} {% csrf_token %}
+
+                <div class="form-group">
+                    <input type="submit" value="Prihlásiť" id="main_btn1" name="login_btn" class="btn btn-primary" style="float:left;"/>
+                    <button type="button" class="btn btn-primary" id="main_btn2" style="float:right;" onclick="location.href='/registration'">Registrovať</button>
+                </div>
+            </form>
+    </div>
+    </section>
+    <section class="row" style="margin-top: 50px;">
+        <div class="col m6 offset-m5 s12">
+            <span class="citation">&bdquo; NA MALIČKOSTIACH ČASTO ZÁVISIA<br>PRÍČINY VEĽKÝCH VECÍ &rdquo;<br></span>
+
+        </div>
+        <div class="col m5 offset-m5 s12" style="text-align:right;">
+            <span class="citation_author">Titus Lucretius Carus ( rímsky filozof )</span>
+        </div>
+    </section>
   </div>
-</section>
+
+    <div class="container popis">
+    <!-- Page Content goes here -->
+        <section class="row">
+            <div class="col m12 col s12" style="margin: 100px 0;">
+                <h1>Prečo sa registrovať?</h1>
+            </div>
+        </section>
+        <section class="row">
+            <div class="col m3 col s12">
+                <img src="../../static/isnts/images/mainpage/icon1.png">
+                <h3>Zachraňujte životy</h3>
+                <p>
+                    Darovanie krvi je skutočným
+                    „darom života“,
+                    ktorým môže zdravý človek
+                    pomôcť ľuďom v núdzi.
+                </p>
+            </div>
+            <div class="col m3 col s12">
+                <img src="../../static/isnts/images/mainpage/icon2.png">
+                <h3>spolu dokážeme viac</h3>
+                <p>
+                    Pripojte sa k našej komunite
+                    a pomáhajte spolu s nami ľuďom,
+                    ktorí to potrebujú.
+                </p>
+            </div>
+            <div class="col m3 col s12">
+                <img src="../../static/isnts/images/mainpage/icon3.png">
+                <h3>Majte o sebe prehľad</h3>
+                <p>
+                    vŠetky údaje o vás a vašom zdraví
+                    si poctivo strážime a ukážeme
+                    ich iba vám prehľadne usporiadané.
+                </p>
+            </div>
+            <div class="col m3 col s12">
+                <img src="../../static/isnts/images/mainpage/icon4.png">
+                <h3>buďte informovaní</h3>
+                <p>
+                    u nás nájdete všetky informácie
+                    na jednom mieste. Novinky,
+                    kontakty a polohy našich staníc
+                    vám budu vždy k dispozícii
+                </p>
+            </div>
+        </section>
+    </div>
+
+    <div class="parallax-container" style="margin: 100px 0;">
+      <div class="parallax"><img src="../../static/isnts/images/mainpage/parallax1.png"></div>
+      <div class="main_frame">
+      <h1>šetríme váš čas?</h1>
+        <p>
+            S nami na darovanie krvi nemusíte čakať v radoch.
+        Objednajte sa z pohodlia vášho domova na presný čas a dátum
+        do ktorejkoľvek transfúznej stanice. Naviac si sami
+        môžete zvoliť lekára ktorý je vám sympatický.
+        </p>
+      </div>
+    </div>
+
+    <div class="container contact">
+    <!-- Page Content goes here -->
+        <section class="row">
+            <div class="col m12 col s12">
+                <h1>Potrebujete viac informácií?</h1>
+            </div>
+            <div class="col m7 col s12" style="margin-top: 100px;">
+                <iframe src="https://www.google.com/maps/embed?pb=!1m16!1m12!1m3!1d1348042.160007883!2d19.3025835535722!3d48.70749083060534!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!2m1!1snarodna+transfuzna+sluzba+sr!5e0!3m2!1ssk!2ssk!4v1480331198990" frameborder="0" style="border: 4px solid #3b62a9; width: 100%; height: 400px;" allowfullscreen>
+                </iframe>
+            </div>
+            <div class="col m4 col s12" style="margin-top: 100px;">
+                <form class="contact-us">
+                    <input type="text" placeholder="meno a priezvisko" required>
+                    <input type="text" placeholder="vaša emailová adresa" required>
+                    <input type="text" placeholder="predmet správy" required>
+                    <textarea placeholder="Text správy píšete sem ..."></textarea>
+                    <input type="submit" value="ODOSLAŤ" class="btn btn-primary" style="width:100%;">
+                </form>
+            </div>
+        </section>
+    </div>
+
+    <footer class="page-footer">
+    <div class="container">
+        <div class="row">
+        <div class="col l6 s12">
+            <h5 class="white-text">Aktuality</h5>
+            <div class="col l6 s12">
+            <ul>
+            <li><a class="grey-text text-lighten-3" href="http://www.ntssr.sk/478/odberove-hodiny-dna-18112016-budu-na-pracovisku-nts-sr-nove-zamky-skratene-t-j-do-1330-hod"><i class="material-icons"style="margin-right: 20px;">new_releases</i>
+Odberové hodiny dňa 18.11.2016 budú na pracovisku NTS SR Nové Zámky skrátené, t. j. do 13:30 hod.
+            </a></li>
+            <li><a class="grey-text text-lighten-3" href="http://www.ntssr.sk/477/odberove-hodiny-dna-4112016-budu-na-pracovisku-nts-sr-bratislava-ruzinov-skratene-t-j-do-1300-hod"><i class="material-icons"style="margin-right: 20px;">new_releases</i>
+Odberové hodiny dňa 4.11.2016 budú na pracovisku NTS SR Bratislava Ružinov skrátené, t. j. do 13:00 hod.
+            </a></li>
+            </ul>
+        </div>
+        <div class="col l6 s12">
+            <ul>
+            <li><a class="grey-text text-lighten-3" href="http://www.ntssr.sk/475/univerzitna-kvapka-krvi-v-trencine"><i class="material-icons"style="margin-right: 20px;">info_outline</i>
+Univerzitná kvapka krvi v Trenčíne
+            </a></li>
+            <li><a class="grey-text text-lighten-3" href="https://www.ropk.sk/"><i class="material-icons"style="margin-right: 20px;">info_outline</i>
+Register ponúk nehnuteľného a hnuteľného majetku štátu
+určeného na prevod správy medzi správcami majetku štátu
+            </a></li>
+            </ul>
+        </div>
+        </div>
+        <div class="col l4 offset-l2 s12">
+            <h5 class="white-text">Kontaktné informácie</h5>
+            <ul>
+            <li><a class="grey-text text-lighten-3" href="mailto:info@nts.sk"><i class="material-icons"style="margin-right: 20px;">email</i>info@nts.sk</a></li>
+            <li><a class="grey-text text-lighten-3" href="tel:+421111222"><i class="material-icons"style="margin-right: 20px;">contact_phone</i>+421 111 222</a></li>
+            <li><a class="grey-text text-lighten-3" href="https://www.facebook.com/pages/Narodna-Transfuzna-Sluzba-Sr/337432112968542?fref=ts"><img src="../../static/isnts/images/mainpage/facebook.png" style="margin-right: 20px; width: 25px;height:25px;">Narodna Transfuzna Sluzba Sr</a></li>
+            </ul>
+        </div>
+        </div>
+    </div>
+    <div class="footer-copyright">
+        <div class="container">
+        © Národná transfúzna služba SR. Všetky práva vyhradené!
+        <a class="grey-text text-lighten-4 right" href="http://www.ntssr.sk/" target="_blank">Viac o transfúznej stanici</a>
+        </div>
+    </div>
+    </footer>
+
+
+
 {% endblock %}

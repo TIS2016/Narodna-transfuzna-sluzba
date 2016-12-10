@@ -2,3 +2,92 @@
     margin: 0;
     padding: 0;
 }
+
+.citation {
+    font-size: 40px;
+    color: #3b62a9;
+}
+.citation_author {
+    font-size: 30px;
+    font-style: italic;
+    text-align:right;
+    color: #3b62a9;
+}
+
+.popis h1 {
+    color: #3b62a9;
+    text-align:center !important;
+    font-size: 2.5em !important;
+    text-transform: uppercase;
+}
+
+.popis h3 {
+    color: #3b62a9;
+    text-align:center !important;
+    font-size: 1.3em !important;
+    font-weight: bold;
+    text-transform: uppercase;
+    padding: 5px;
+}
+
+.popis p {
+    color: #3b62a9;
+    text-align:center !important;
+    font-size: 1em !important;
+    text-transform: uppercase;
+    padding: 5px;
+}
+
+.popis img {
+    width: 50%;
+    margin:auto !important;
+    display: block;
+}
+
+.main_frame {
+    width: 50%;
+    margin: auto;
+    display: block;
+    border: 2px solid #99b8e2;
+    background-color: rgba(219,240,250,0.45);
+    margin-top: 50px;
+    padding: 20px 50px;
+    border-radius: 20px;
+}
+
+.main_frame p {
+    color: #3b62a9;
+    text-transform: uppercase;
+    text-align:center;
+    line-height: 2em;
+    font-size: 1em !important;
+}
+
+.main_frame h1 {
+    color: #3b62a9;
+    text-align:center !important;
+    font-size: 2.5em !important;
+    text-transform: uppercase;
+}
+
+@media screen and (max-width: 700px) {
+    .main_frame {
+        width: 90%;
+    }
+}
+
+.contact h1 {
+    color: #3b62a9;
+    text-align:center !important;
+    font-size: 2.5em !important;
+    text-transform: uppercase;
+}
+
+.contact-us textarea {
+    resize:none;
+    height: 150px;
+    border: 0;
+    border-top: 2px solid #99b8e2;
+    border-bottom: 2px solid #99b8e2;
+    padding: 5px;
+}
