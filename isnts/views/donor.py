@@ -7,6 +7,7 @@ from django.http import HttpResponse, HttpResponseRedirect
 from isnts.questions_enum import QUESTION_COUNT
 from django.forms import formset_factory
 from django.contrib.auth.decorators import login_required, user_passes_test, permission_required
+from datetime import datetime, timedelta
 
 
 def get_or_none(model, *args, **kwargs):
@@ -157,19 +158,49 @@ def terms_choose_nts(request):
         return HttpResponseRedirect('/donors/terms/' + request.POST['nts'])
 
 
+def generate_times(open_time, close_time):
+    res = []
+    fifteen_minutes = timedelta(minutes=15)
+    time = datetime(2000, 1, 1, open_time.hour, open_time.minute)
+    end_time = datetime(2000, 1, 1, close_time.hour, close_time.minute)
+    while time <= end_time:
+        res.append((time.time(), time.time().strftime("%H:%M")))
+        time += fifteen_minutes
+    return res
+
+
 def terms_choose_day(request, nts_id=None):
     if nts_id is not None:
+        nts = NTS.objects.get(id=nts_id)
         if request.method == 'GET':
-            nts = NTS.objects.get(id=nts_id)
             office_hours = OfficeHours.objects.filter(id_nts=nts)
             avail_days = set()
             for oh in office_hours:
                 avail_days.add(int(oh.day))
             all_days = set([1, 2, 3, 4, 5, 6, 7])
             not_avail_days = list(all_days - avail_days)
-            choose_daytime_form = ChooseDayTimeForm(request.POST or None)
-            return render(request, 'donors/terms/choose_day.html', {'choose_daytime_form': choose_daytime_form, 'not_avail_days': not_avail_days})
+            create_booking_form = CreateBookingForm(request.POST or None)
+            if request.GET.get('datepicked'):
+                picked_date = request.GET.get('datepicked')
+                date = picked_date.split('.')
+                date = datetime(int(date[2]), int(date[1]), int(date[0]))
+                day = date.isoweekday()
+                times = []
+                for d in office_hours:
+                    if d.day == day:
+                        times = generate_times(d.open_time, d.close_time)
+                create_booking_form = CreateBookingForm(
+                    request.POST or None, times=times)
+                create_booking_form.fields['day'].initial = picked_date
+            return render(request, 'donors/terms/create_booking.html', {'create_booking_form': create_booking_form, 'not_avail_days': not_avail_days})
         else:
             chosen_day = request.POST['day']
-            print(chosen_day)
+            donor = Donor.objects.get(id=request.user.id)
+            day = chosen_day.split('.')
+            time = request.POST['time']
+            time.split(':')
+            dt = datetime(int(day[2]),int(day[1]),int(day[0]),int(time[0]),int(time[1]))
+            booking = Booking(id_nts=nts,id_donor=donor,booking_time=dt)
+            booking.save()
+
     return HttpResponseRedirect('/')

@@ -106,7 +106,7 @@ class OfficeHours(models.Model):
         (6, 'Saturday'),
         (7, 'Sunday')
     )
-    day = models.CharField(max_length=1, choices=DAYS_OF_WEEK)
+    day = models.SmallIntegerField(choices=DAYS_OF_WEEK)
     open_time = models.TimeField()
     close_time = models.TimeField()
 

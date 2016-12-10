@@ -1,5 +1,6 @@
 from django import forms
 from .models import *
+from datetime import time
 
 
 class PlainTextWidget(forms.Widget):
@@ -97,6 +98,7 @@ class QuestionsForm(forms.ModelForm):
 
 
 class NTSModelChoiceField(forms.ModelChoiceField):
+
     def label_from_instance(self, obj):
         return obj.name
 
@@ -106,7 +108,8 @@ class ChooseNTSForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         ntss = kwargs.pop('ntss', [])
         super(ChooseNTSForm, self).__init__(*args, **kwargs)
-        self.fields['nts'] = NTSModelChoiceField(queryset=ntss, empty_label="--------", required=True)
+        self.fields['nts'] = NTSModelChoiceField(
+            queryset=ntss, empty_label="--------", required=True)
 
     class Meta:
         model = NTS
@@ -115,8 +118,31 @@ class ChooseNTSForm(forms.ModelForm):
 
 class ChooseDayTimeForm(forms.ModelForm):
 
-    day = forms.DateField(widget=forms.DateInput(attrs={'class':'datepicker', 'type':'date'}))
+    day = forms.DateField(widget=forms.DateInput(
+        attrs={'class': 'datepicker', 'type': 'date', 'id': 'datepicker'}))
 
     class Meta:
         model = OfficeHours
+        fields = []
+
+
+class TimeModelChoiceField(forms.TypedChoiceField):
+
+    def label_from_instance(self, obj):
+        return obj.isoformat()
+
+
+class CreateBookingForm(forms.ModelForm):
+
+    day = forms.DateField(widget=forms.DateInput(
+        attrs={'class': 'datepicker', 'type': 'date'}))
+
+    def __init__(self, *args, **kwargs):
+        times = kwargs.pop('times', [])
+        super(CreateBookingForm, self).__init__(*args, **kwargs)
+        self.fields['time'] = TimeModelChoiceField(choices=times,coerce=time,
+                                                   required=True)
+
+    class Meta:
+        model = Booking
         fields = []
