@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+{% block title %}Employee Detail{% endblock %}
+{% block content %}
+<section>
+    <h2>Zakldane info</h2>
+    <section>
+        <span>{{ employee.id }}</span>
+        <span>{{ employee.first_name }}</span>
+        <span>{{ employee.last_name }}</span>
+    </section>
+    <form method="post" role="form">
+        {% for field in form.visible_fields %}
+        <div id="div_{{ field.html_name }}" class="form-group{% if field.errors %} has-error{% endif %} input-field">
+            {{ field }} {{ field.label_tag }}
+            <div class="help-block">
+                {{ field.errors }}
+            </div>
+        </div>
+        {% endfor %} {% for hidden in form.hidden_fields %} {{ hidden }} {% endfor %} {% csrf_token %}
+        <div class="form-group">
+            <br><input type="submit" value="Submit" class="btn btn-primary" />
+        </div>
+    </form>
+</section>
+{% endblock %}

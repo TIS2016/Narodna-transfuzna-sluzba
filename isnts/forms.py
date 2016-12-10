@@ -91,6 +91,10 @@ class QuestionsForm(forms.ModelForm):
 
 class SecretKeyChange(forms.Form):
 
-    secret_key_old = forms.CharField(label='Old secret key', max_length=30)
-    secret_key_new = forms.CharField(label='New secret key', max_length=30)
-    secret_key_new2 = forms.CharField(label='New secret key', max_length=30)
+    secret_key_new = forms.CharField(label='New secret key', max_length=30, required=True)
+    secret_key_new2 = forms.CharField(label='New secret key', max_length=30, required=True)
+
+
+class EmployeeActivationForm(forms.Form):
+
+    activate = forms.BooleanField()
