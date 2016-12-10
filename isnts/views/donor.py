@@ -203,4 +203,10 @@ def terms_choose_day(request, nts_id=None):
             booking = Booking(id_nts=nts,id_donor=donor,booking_time=dt)
             booking.save()
 
-    return HttpResponseRedirect('/')
+    return HttpResponseRedirect('/donors/terms/list')
+
+def terms_listview(request):
+    donor = Donor.objects.get(id=request.user.id)
+    now = datetime.now()
+    future_bookings = Booking.objects.all().filter(id_donor=donor).filter(booking_time__gte=now)
+    return render(request, 'donors/terms/listview.html',{'bookings':future_bookings})

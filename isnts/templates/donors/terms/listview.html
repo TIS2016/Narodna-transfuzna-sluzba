@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+{% block title %}Donors{% endblock %}
+{% block content %}
+<h2>My bookings</h2>
+<a href="/donors/terms"  class="row">New booking</a>
+{% for booking in bookings %}
+    <a href="{{ donor.id }}" class="row">
+        <span>{{ booking.id_nts.name }}</span>
+        <span>{{ booking.booking_time }}</span>
+    </a>
+{% endfor %}
+{% endblock %}
