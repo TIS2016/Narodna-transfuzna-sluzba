@@ -195,6 +195,7 @@ def employee_register(request):
                 for nts in nts_list:
                     if check_password(data['secret_key'], nts.secret_key):
                         employee.id_nts = nts
+                        break
                 if employee.id_nts == None:
                     return render(request, 'employees/registration_decline_message.html')
                 return render(request, 'employees/register_message.html', {'form': employee_registration_form})
