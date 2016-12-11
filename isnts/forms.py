@@ -15,18 +15,7 @@ class DonorForm(forms.ModelForm):
         model = DonorCard
         exclude = ['password', 'card_created_by', 'id_address_perm', 'id_address_temp',
                    'last_login', 'is_superuser', 'email_verification_token', 'name', 'is_staff',
-                   'groups', 'user_permissions', 'is_active', 'active_acount', 'email']
-
-
-class CreateDonorForm(forms.ModelForm):
-
-    class Meta:
-        model = DonorCard
-        exclude = ['password', 'card_created_by', 'id_address_perm', 'id_address_temp',
-                   'last_login', 'is_superuser', 'email_verification_token', 'name', 'is_staff',
-                   'groups', 'user_permissions', 'is_active', 'active_acount']
-
-
+                   'groups', 'user_permissions', 'active', 'active_acount']
 
 
 class AddressForm(forms.ModelForm):
@@ -66,9 +55,11 @@ class EmployeeRegister(forms.ModelForm):
         self.fields['employee_type'] = forms.TypedChoiceField(
             choices=k, coerce=int, required=True)
 
+    secret_key = forms.CharField(required=True)
     class Meta:
         model = Employee
         fields = ['first_name', 'last_name', 'username', 'email', 'password']
+
 
 
 class EmployeeLogin(forms.ModelForm):
@@ -96,3 +87,14 @@ class QuestionsForm(forms.ModelForm):
         widgets = {
             'question': PlainTextWidget(),
         }
+
+
+class SecretKeyChange(forms.Form):
+
+    secret_key_new = forms.CharField(label='New secret key', max_length=30, required=True)
+    secret_key_new2 = forms.CharField(label='New secret key', max_length=30, required=True)
+
+
+class EmployeeActivationForm(forms.Form):
+
+    activate = forms.BooleanField()
