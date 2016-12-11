@@ -12,6 +12,6 @@
         "other_contact": "",
         "info": "",
         "id_boss": 8,
-        "secret_key": "12345"
+        "secret_key": "pbkdf2_sha256$30000$tF1fjlt2Z2oG$EQI6kcXjNffWAZiyxeqw6PngAkjduzreNKBVgkvviuI="
     }
 }]

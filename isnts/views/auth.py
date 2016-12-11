@@ -15,6 +15,7 @@ from django.template import Context
 from django.contrib.auth.views import password_reset, password_reset_confirm
 from django.contrib.auth.forms import PasswordChangeForm
 from django.core.mail import EmailMultiAlternatives
+from django.contrib.auth.hashers import make_password, check_password
 
 
 
@@ -181,7 +182,7 @@ def employee_register(request):
 
             if employee_registration_form.is_valid():
                 data = employee_registration_form.cleaned_data
-                employee_secret_key = data['secret_key']
+                employee_secret_key = make_password(data['secret_key'])
                 user = employee_registration_form.save()
                 user.set_password(user.password)
                 user.is_active = False
@@ -192,9 +193,9 @@ def employee_register(request):
                 nts_list = NTS.objects.all()
                 employee = Employee.objects.get(id=user.id)
                 for nts in nts_list:
-                    if employee_secret_key == nts.secret_key:
+                    if check_password(data['secret_key'], nts.secret_key):
                         employee.id_nts = nts
-                if employee.id_nts is None:
+                if employee.id_nts == None:
                     return render(request, 'employees/registration_decline_message.html')
                 return render(request, 'employees/register_message.html', {'form': employee_registration_form})
             else:
