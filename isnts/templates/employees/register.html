@@ -4,7 +4,7 @@
 {% block content %}
 <section class="row">
     <div class="col s6">
-        <h2>Registrácia zamestnanca</h2>
+        <h2>Employee registration</h2>
         <form method="post" role="form">
             {% for field in form.visible_fields %}
             <div id="div_{{ field.html_name }}" class="form-group{% if field.errors %} has-error{% endif %} input-field">
