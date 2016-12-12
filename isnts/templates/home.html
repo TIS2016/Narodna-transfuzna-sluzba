@@ -2,7 +2,23 @@
 {% load staticfiles %}
 {% block title %}Login{% endblock %}
 {% block content %}
-    <h1>IS NTS</h1>
-    <a href="donors/">Donors</a><br>
-    <a href="employees/">Employees</a>
+
+     {% include "employees/navigator.html" %}
+
+    <style>
+    #dash {
+        background-color: #2196F3;
+        color:white;
+    }
+    </style>
+  <div class="fixed-action-btn">
+    <a href="create_new/" class="btn-floating btn-large waves-effect waves-light blue"><i class="material-icons">add</i></a>
+  </div>
+
+<main>
+<h2 id="napisL">Dashboard</h2>
+          <hr>
+</main>
+
+    {% include "footer.html" %}
 {% endblock %}

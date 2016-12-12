@@ -2,10 +2,29 @@
 {% load staticfiles %}
 {% block title %}Registration{% endblock %}
 {% block content %}
+
+
+    {% include "employees/navigator.html" %}
+    <style>
+    #donor {
+        background-color: #2196F3;
+        color:white;
+    }
+    </style>
+  <div class="fixed-action-btn">
+    <a href="/donors" class="btn-floating btn-large waves-effect waves-light blue"><i class="material-icons">undo</i></a>
+  </div>
+
+<main>
+<h2 id="napisL">Almost done...</h2>
+          <hr>
+
 <section class="row">
-    <div class="col s6">
-        <h2>Almost done...</h2>
+
         <p>We sent you verification link to your email address.</p>
-    </div>
+
 </section>
+           </main>
+
+    {% include "footer.html" %}
 {% endblock %}

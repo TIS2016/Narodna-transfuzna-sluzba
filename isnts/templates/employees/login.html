@@ -2,9 +2,15 @@
 {% load staticfiles %}
 {% block title %}Employee Login{% endblock %}
 {% block content %}
+    <style>
+        body {
+            background-color: #3b62a9;
+        }
+    </style>
 <section class="row">
-    <div class="col s6">
-    <h2>Prihlásenie zamestnanca</h2>
+    <div class="col m4 s12 offset-m4 employee_login_box">
+    <h2 style="font-size: 2em;text-align: center;font-weight: bold;color: #3b62a9;">Employees zone</h2>
+
         <form method="post" role="form">
             {% for field in form.visible_fields %}
             <div id="div_{{ field.html_name }}" class="form-group{% if field.errors %} has-error{% endif %} input-field">
@@ -15,7 +21,13 @@
             </div>
             {% endfor %} {% for hidden in form.hidden_fields %} {{ hidden }} {% endfor %} {% csrf_token %}
             <div class="form-group">
-                <input type="submit" value="Prihlásiť" name="login_btn" class="btn btn-primary" />
+                <div class="row">
+                    <div class="col m12 l6">
+                <input type="submit" value="Login" name="login_btn" class="btn btn-primary" style="width:100%;"/>
+                    </div>
+                <div class="col m12 l6">
+                    <button onclick="window.location.href='/employees/register/'" class="btn btn-primary" style="width:100%;margin-bottom:30px;">Registration</button>
+                </div>
             </div>
         </form>
   </div>

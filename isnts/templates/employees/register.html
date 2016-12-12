@@ -2,12 +2,25 @@
 {% load staticfiles %}
 {% block title %}Employee Registration{% endblock %}
 {% block content %}
+
+      <nav>
+    <div class="nav-wrapper">
+      <a href="/" class="brand-logo"><img src="../../static\isnts\images\logo_white.png" style="padding: 5px 20px;height: 70px;"></a>
+      <a href="#" data-activates="mobile-demo" class="button-collapse"><i class="material-icons">menu</i></a>
+      <ul class="right hide-on-med-and-down">
+          <li><a href="/employees/login/"><i class="material-icons">home</i></a></li>
+      </ul>
+      <ul class="side-nav" id="mobile-demo">
+          <li><a href="/employees/login/">HOME</a></li>
+      </ul>
+    </div>
+  </nav>
 <section class="row">
-    <div class="col s6">
-        <h2>Registrácia zamestnanca</h2>
+    <div class="col m4 s12 offset-m4 employee_login_box">
+        <h2 id="napis">Register employee</h2>
         <form method="post" role="form">
             {% for field in form.visible_fields %}
-            <div id="div_{{ field.html_name }}" class="form-group{% if field.errors %} has-error{% endif %} input-field">
+            <div id="div_{{ field.html_name }}" class="form-group{% if field.errors %} has-error{% endif %} input-field validate">
                 {{ field }} {{ field.label_tag }}
                 <div class="help-block">
                     {{ field.errors }}
@@ -15,7 +28,7 @@
             </div>
             {% endfor %} {% for hidden in form.hidden_fields %} {{ hidden }} {% endfor %} {% csrf_token %}
             <div class="form-group">
-                <input type="submit" value="Registrovať" name="register_btn" class="btn btn-primary" />
+                <input type="submit" value="Register" name="register_btn" class="btn btn-primary" />
             </div>
         </form>
     </div>

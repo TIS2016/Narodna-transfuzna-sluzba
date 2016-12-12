@@ -2,14 +2,33 @@
 {% load staticfiles %}
 {% block title %}Registration{% endblock %}
 {% block content %}
+
+
+    {% include "employees/navigator.html" %}
+    <style>
+    #donor {
+        background-color: #2196F3;
+        color:white;
+    }
+    </style>
+  <div class="fixed-action-btn">
+    <a href="/donors" class="btn-floating btn-large waves-effect waves-light blue"><i class="material-icons">undo</i></a>
+  </div>
+
+<main>
+<h2 id="napisL">Donor registration cofirm</h2>
+          <hr>
+
 <section class="row">
-    <div class="col s6">
-        <h2>Donor registration cofirm</h2>
+
         {% if validlink %}
             <p>Thank you for registration! You can now <a href="/login">sign in</a>.</p>
         {% else %}
             <p>This confirmation link is no longer valid!</p>
         {% endif %}
-    </div>
+
 </section>
+       </main>
+
+    {% include "footer.html" %}
 {% endblock %}
