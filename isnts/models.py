@@ -93,6 +93,7 @@ class NTS(models.Model):
     other_contact = models.CharField(max_length=255)
     info = models.CharField(max_length=255)
     id_boss = models.IntegerField()
+    secret_key = models.CharField(max_length=30, null=True)
 
 
 class OfficeHours(models.Model):
