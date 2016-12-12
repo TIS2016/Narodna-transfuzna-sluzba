@@ -12,6 +12,7 @@ urlpatterns = [
     url(r'^donors/terms/(?P<nts_id>[0-9]+)/$', views.donor.terms_choose_day),
     url(r'^donors/terms/$', views.donor.terms_choose_nts),
     url(r'^donors/terms/list/$', views.donor.terms_listview),
+    url(r'^donors/terms/remove/(?P<booking_id>[0-9]+)/$', views.donor.terms_remove),
     url(r'^donors/create_new/$', views.donor.create_new),
     url(r'^donors/(?P<donor_id>[0-9]+)/$', views.donor.detailview),
     url(r'^donors/(?P<donor_id>[0-9]+)/questionnaire/(?P<questionnaire_id>[0-9]+)/$', views.donor.quastionnaire),

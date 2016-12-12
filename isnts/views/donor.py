@@ -1,15 +1,19 @@
-from django.shortcuts import render
-from django import forms
-from isnts.models import *
-from isnts.forms import *
-from django.core.exceptions import ObjectDoesNotExist, PermissionDenied
-from django.http import HttpResponse, HttpResponseRedirect
-from isnts.questions_enum import QUESTION_COUNT
-from django.forms import formset_factory
-from django.contrib.auth.decorators import login_required, user_passes_test, permission_required
 from datetime import datetime, timedelta
+
+from django import forms
+from django.contrib.auth.decorators import (login_required,
+                                            permission_required,
+                                            user_passes_test)
+from django.core.exceptions import ObjectDoesNotExist, PermissionDenied
+from django.forms import formset_factory
+from django.http import HttpResponse, HttpResponseRedirect
+from django.shortcuts import render
 from django.utils import timezone
 
+from isnts.forms import *
+from isnts.models import *
+from isnts.questions_enum import QUESTION_COUNT
+from django.core import serializers
 
 def get_or_none(model, *args, **kwargs):
     try:
@@ -213,4 +217,30 @@ def terms_listview(request):
     now = timezone.now()
     future_bookings = Booking.objects.all().filter(
         id_donor=donor).filter(booking_time__gte=now)
+    for e in future_bookings:
+        e.booking_time = e.booking_time.strftime("%d.%m.%Y %H:%M")
     return render(request, 'donors/terms/listview.html', {'bookings': future_bookings})
+
+
+class JSONResponse(HttpResponse):
+
+    def __init__(self, data, **kwargs):
+        content = data
+        kwargs["content_type"] = "application/json"
+        super(JSONResponse, self).__init__(content, **kwargs)
+
+
+def terms_remove(request, booking_id):
+    donor = Donor.objects.get(id=request.user.id)
+    booking = Booking.objects.get(id=booking_id)
+    now = timezone.now()
+    if now <= booking.booking_time:
+        booking.delete()
+    deleted_booking = Booking.objects.filter(id=booking_id).values("id","booking_time","id_nts__name")
+    data = []
+    for d in deleted_booking:
+        d["booking_time"] = d["booking_time"].strftime("%d.%m.%Y %H:%M")
+        data.append(d)
+    data = str(data)
+    data = data.replace("\'",'\"')
+    return JSONResponse(data)

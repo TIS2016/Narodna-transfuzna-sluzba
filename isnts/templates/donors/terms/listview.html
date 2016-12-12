@@ -2,12 +2,31 @@
 {% load staticfiles %}
 {% block title %}Donors{% endblock %}
 {% block content %}
+<script type="text/javascript">
+
+remove = function(booking){
+        $.ajax({
+            type: "get",
+            url: "/donors/terms/remove/"+booking,
+            contentType: "application/json",
+            success: function(data){
+                Materialize.toast("Booking at "+data[0]["id_nts__name"]+ ", " + data[0]["booking_time"] + ' was deleted', 10000);
+            },
+            error: function(xhr, status, error){
+                var err = eval("(" + xhr.responseText + ")");
+                alert(err.Message);
+            }
+        });
+    };          
+</script>
 <h2>My bookings</h2>
 <a href="/donors/terms"  class="row">New booking</a>
+<div class="bookings" id="bookings">
 {% for booking in bookings %}
-    <a href="{{ donor.id }}" class="row">
         <span>{{ booking.id_nts.name }}</span>
         <span>{{ booking.booking_time }}</span>
-    </a>
+        <span><a href="#" onclick="remove( {{ booking.id }} );" >Remove</a></span> 
+        <br>
 {% endfor %}
+</div>
 {% endblock %}
