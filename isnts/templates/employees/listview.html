@@ -1,71 +1,55 @@
-{% extends "base.html" %}
-{% load staticfiles %}
-{% block title %}Employees{% endblock %}
-{% block content %}
-
-{% include "employees/navigator.html" %}
-    <style>
-    #employee {
-        background-color: #2196F3;
-        color:white;
-    }
-    </style>
-  <div class="fixed-action-btn">
+{% extends "base.html" %} {% load staticfiles %} {% block title %}Employees{% endblock %} {% block content %}
+<div class="fixed-action-btn">
     <a href="register/" class="btn-floating btn-large waves-effect waves-light blue"><i class="material-icons">add</i></a>
-  </div>
+</div>
 
 <main>
 
-
-<h2 id="napisL">Employees</h2>
-          <hr>
+    <h2 id="napisL">Employees</h2>
+    <hr>
     <div class="row" style="margin: 5% 0;">
-    <form class="col s12 m12 l12">
-        <div class="input-field col s12 m10 l10">
-          <i class="material-icons prefix">search</i>
-          <input id="icon_prefix" type="text" class="validate">
-          <label for="icon_prefix">Zadajte kľúčové slovo</label>
-        </div>
-        <div class="input-field col s12 m2 l2">
-          <input type="submit" value="Search" id="main_btn1" name="login_btn" class="btn btn-primary" style="width:100%;float:left;"/>
-        </div>
+        <form class="col s12 m12 l12">
+            <div class="input-field col s12 m10 l10">
+                <i class="material-icons prefix">search</i>
+                <input id="icon_prefix" type="text" class="validate">
+                <label for="icon_prefix">Zadajte kľúčové slovo</label>
+            </div>
+            <div class="input-field col s12 m2 l2">
+                <input type="submit" value="Search" id="main_btn1" name="login_btn" class="btn btn-primary" style="width:100%;float:left;" />
+            </div>
 
 
-    </form>
+        </form>
     </div>
 
-<table class="responsive-table">
-<thead>
-<tr>
-  <th data-field="id">ID</th>
-  <th data-field="name">First name</th>
-  <th data-field="price">Last name</th>
-    <th data-field="price">Active</th>
-</tr>
-</thead>
+    <table class="responsive-table">
+        <thead>
+            <tr>
+                <th data-field="id">ID</th>
+                <th data-field="name">First name</th>
+                <th data-field="price">Last name</th>
+                <th data-field="price">Active</th>
+            </tr>
+        </thead>
 
-<tbody>
-{% for employee in employees %}
-         <tr class="picker__list-item--highlighted" onclick="location.href='{{ employee.id }}'">
+        <tbody>
+            {% for employee in employees %}
+            <tr class="picker__list-item--highlighted" onclick="location.href='{{ employee.id }}'">
 
-        <td>{{ employee.id }}</td>
-        <td>{{ employee.first_name }}</td>
-        <td>{{ employee.last_name }}</td>
+                <td>{{ employee.id }}</td>
+                <td>{{ employee.first_name }}</td>
+                <td>{{ employee.last_name }}</td>
 
-        <td>
-        {% if employee.is_active %}
-            <i class="material-icons green-text">done</i>
-        {% else %}
-            <i class="material-icons red-text">clear</i>
-        {% endif %}
-    </td>
-        </td>
-        </tr>
-{% endfor %}
+                <td>
+                    {% if employee.is_active %}
+                    <i class="material-icons green-text">done</i> {% else %}
+                    <i class="material-icons red-text">clear</i> {% endif %}
+                </td>
+                </td>
+            </tr>
+            {% endfor %}
         </tbody>
-      </table>
+    </table>
 
 </main>
-
-    {% include "footer.html" %}
 {% endblock %}

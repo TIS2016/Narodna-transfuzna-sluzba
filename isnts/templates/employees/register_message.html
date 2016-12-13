@@ -1,24 +1,6 @@
-{% extends "base.html" %}
-{% load staticfiles %}
-{% block title %}Registration complete{% endblock %}
-{% block content %}
-
-
-
-      <nav>
-    <div class="nav-wrapper">
-      <a href="/" class="brand-logo"><img src="../../static\isnts\images\logo_white.png" style="padding: 5px 20px;height: 70px;"></a>
-      <a href="#" data-activates="mobile-demo" class="button-collapse"><i class="material-icons">menu</i></a>
-      <ul class="right hide-on-med-and-down">
-          <li><a href="/employees/login/"><i class="material-icons">home</i></a></li>
-      </ul>
-      <ul class="side-nav" id="mobile-demo">
-          <li><a href="/employees/login/">HOME</a></li>
-      </ul>
-    </div>
-  </nav>
+{% extends "public/base.html" %} {% load staticfiles %} {% block title %}Registration complete{% endblock %} {% block content %}
+{% include "public/nav.html" %}
 <section class="row">
-        <h2 id="napis">Registration succesfull wait for account activation</h2>
-
+    <h2 id="napis">Registration succesfull wait for account activation</h2>
 </section>
 {% endblock %}
