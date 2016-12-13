@@ -99,6 +99,7 @@ class QuestionsForm(forms.ModelForm):
         fields = ['question', 'answer']
         widgets = {
             'question': PlainTextWidget(),
+        }
      
 class NTSModelChoiceField(forms.ModelChoiceField):
 
