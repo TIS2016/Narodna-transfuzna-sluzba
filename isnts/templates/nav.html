@@ -28,9 +28,11 @@
     <li class="divider"></li>
     {% if perms.isnts.is_employee %}
     <li class="{% if request.resolver_match.url_name == 'donors' %}active{% endif %}"><a id="donor" href="/donors/">Donors</a></li>
-    <li><a href="#!">Orders</a></li>
     <li class="{% if request.resolver_match.url_name == 'blood_extraction' %}active{% endif %}"><a id="blood" href="/blood_extraction/">Blood extractions</a></li>
     {% endif %} {% if user.is_superuser %}
     <li class="{% if request.resolver_match.url_name == 'employees' %}active{% endif %}"><a id="employee" href="/employees/">Employees</a></li>
+    {% endif %}
+    {% if perms.isnts.is_donor %}
+    <li class="{% if request.resolver_match.url_name == 'terms' %}active{% endif %}"><a href="/donors/terms">Terms</a></li>
     {% endif %}
 </ul>
