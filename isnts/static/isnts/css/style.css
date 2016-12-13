@@ -6,6 +6,7 @@
 main {
     padding-left: 300px;
     margin: 0 48px;
+    display: none;
 }
 
 @media only screen and (max-width: 992px) {
@@ -13,22 +14,44 @@ main {
         padding-left: 0;
     }
 }
+
+body {
+    background-color: #fafafa;
+}
+
+.progress-wrapper {
+    position: absolute;
+    width: 100px;
+    height: 100px;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin: auto;
+    overflow: hidden;
+}
+
 .side-nav li.active {
     background-color: #2196F3;
 }
+
 .side-nav li.active a {
     color: #fff;
 }
+
 .logo {
     height: 64px;
 }
+
 .logo a {
     height: 64px;
 }
+
 .logo a img {
     height: 48px;
     margin: 8px 0;
 }
+
 .auth_section {
     margin: 100px 0 0;
 }

@@ -16,6 +16,21 @@
 
 <body>
     {% include "nav.html" %}
+    <div class="progress-wrapper">
+        <div class="preloader-wrapper big active">
+            <div class="spinner-layer spinner-blue-only">
+                <div class="circle-clipper left">
+                    <div class="circle"></div>
+                </div>
+                <div class="gap-patch">
+                    <div class="circle"></div>
+                </div>
+                <div class="circle-clipper right">
+                    <div class="circle"></div>
+                </div>
+            </div>
+        </div>
+    </div>
     <main>
         {% block content %}{% endblock %}
     </main>
@@ -25,6 +40,8 @@
             $(".button-collapse").sideNav();
             $(".dropdown-button").dropdown();
             $('.parallax').parallax();
+            $(".progress-wrapper").fadeOut();
+            $("main").fadeIn();
         });
     </script>
 </body>
