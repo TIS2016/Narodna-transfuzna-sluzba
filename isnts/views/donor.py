@@ -181,7 +181,7 @@ def terms_choose_day(request, nts_id=None):
         nts = NTS.objects.get(id=nts_id)
         if request.method == 'GET':
             office_hours = OfficeHours.objects.filter(id_nts=nts)
-            if office_hours is None:
+            if office_hours.exists() is False:
                 return HttpResponseRedirect("/")
             avail_days = set()
             for oh in office_hours:
