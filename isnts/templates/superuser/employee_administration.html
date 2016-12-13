@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+{% block title %}Employees{% endblock %}
+{% block content %}
+{% for employee in employees %}
+    <a href="{{ employee.id }}" class="row">
+        <span>{{ employee.id }}</span>
+        <span>{{ employee.first_name }}</span>
+        <span>{{ employee.last_name }}</span>
+        <span>{{ employee.is_active }}</span>
+    </a>
+{% endfor %}
+{% endblock %}
