@@ -10,13 +10,23 @@ class PlainTextWidget(forms.Widget):
                 + str(value) + '. ' + self.choices[int(value)][1])
 
 
+
 class DonorForm(forms.ModelForm):
+    
+    class Meta:
+        model = DonorCard
+        exclude = ['password', 'card_created_by', 'id_address_perm', 'id_address_temp',
+                   'last_login', 'is_superuser', 'email_verification_token', 'name', 'is_staff',
+                   'groups', 'user_permissions', 'is_active', 'active_acount', 'email']
+
+
+class CreateDonorForm(forms.ModelForm):
 
     class Meta:
         model = DonorCard
         exclude = ['password', 'card_created_by', 'id_address_perm', 'id_address_temp',
                    'last_login', 'is_superuser', 'email_verification_token', 'name', 'is_staff',
-                   'groups', 'user_permissions', 'active', 'active_acount']
+                   'groups', 'user_permissions', 'is_active', 'active_acount']
 
 
 class AddressForm(forms.ModelForm):
