@@ -1,13 +1,19 @@
-from django.shortcuts import render
-from django import forms
-from isnts.models import *
-from isnts.forms import *
-from django.core.exceptions import ObjectDoesNotExist, PermissionDenied
-from django.http import HttpResponse, HttpResponseRedirect
-from isnts.questions_enum import QUESTION_COUNT
-from django.forms import formset_factory
-from django.contrib.auth.decorators import login_required, user_passes_test, permission_required
+from datetime import datetime, timedelta
 
+from django import forms
+from django.contrib.auth.decorators import (login_required,
+                                            permission_required,
+                                            user_passes_test)
+from django.core.exceptions import ObjectDoesNotExist, PermissionDenied
+from django.forms import formset_factory
+from django.http import HttpResponse, HttpResponseRedirect
+from django.shortcuts import render
+from django.utils import timezone
+
+from isnts.forms import *
+from isnts.models import *
+from isnts.questions_enum import QUESTION_COUNT
+from django.core import serializers
 
 def get_or_none(model, *args, **kwargs):
     try:
@@ -33,8 +39,10 @@ def listview(request):
 @permission_required('isnts.is_employee', login_url='/nopermission/')
 def create_new(request):
     donor_form = CreateDonorForm(request.POST or None)
-    perm_address_form = AddressForm(request.POST or None, prefix='perm_address_form')
-    temp_address_form = AddressForm(request.POST or None, prefix='temp_address_form')
+    perm_address_form = AddressForm(
+        request.POST or None, prefix='perm_address_form')
+    temp_address_form = AddressForm(
+        request.POST or None, prefix='temp_address_form')
     if request.method == 'POST':
         if donor_form.is_valid() and perm_address_form.is_valid() and temp_address_form.is_valid():
             perm_address_form.save()
@@ -144,3 +152,101 @@ def blood_extraction(request, donor_id, blood_extraction_id):
 def information(request):
     donor = User.objects.get(id=request.user.id)
     return render(request, 'donors/information.html', {'donor': donor})
+
+@login_required(login_url="/login/")
+@permission_required("isnts.is_donor", login_url="/employees/interface/")
+def terms_choose_nts(request):
+    choose_nts_form = ChooseNTSForm(
+        request.POST or request.GET, ntss=NTS.objects.all())
+    if request.method == 'GET':
+        return render(request, 'donors/terms/choose_nts.html', {'choose_nts_form': choose_nts_form})
+    elif request.method == 'POST':
+        return HttpResponseRedirect('/donors/terms/' + request.POST['nts'])
+
+
+def generate_times(open_time, close_time):
+    res = []
+    fifteen_minutes = timedelta(minutes=15)
+    time = datetime(2000, 1, 1, open_time.hour, open_time.minute)
+    end_time = datetime(2000, 1, 1, close_time.hour, close_time.minute)
+    while time <= end_time:
+        res.append((time.time(), time.time().strftime("%H:%M")))
+        time += fifteen_minutes
+    return res
+
+@login_required(login_url="/login/")
+@permission_required("isnts.is_donor", login_url="/employees/interface/")
+def terms_choose_day(request, nts_id=None):
+    if nts_id is not None:
+        nts = NTS.objects.get(id=nts_id)
+        if request.method == 'GET':
+            office_hours = OfficeHours.objects.filter(id_nts=nts)
+            if office_hours.exists() is False:
+                return HttpResponseRedirect("/")
+            avail_days = set()
+            for oh in office_hours:
+                avail_days.add(int(oh.day))
+            all_days = set([1, 2, 3, 4, 5, 6, 7])
+            not_avail_days = list(all_days - avail_days)
+            create_booking_form = CreateBookingForm(request.POST or None)
+            if request.GET.get('datepicked'):
+                picked_date = request.GET.get('datepicked')
+                date = picked_date.split('.')
+                date = datetime(int(date[2]), int(date[1]), int(date[0]))
+                day = date.isoweekday()
+                times = []
+                for d in office_hours:
+                    if d.day == day:
+                        times = generate_times(d.open_time, d.close_time)
+                create_booking_form = CreateBookingForm(
+                    request.POST or None, times=times)
+                create_booking_form.fields['day'].initial = picked_date
+            return render(request, 'donors/terms/create_booking.html', {'create_booking_form': create_booking_form, 'not_avail_days': not_avail_days})
+        else:
+            chosen_day = request.POST['day']
+            donor = Donor.objects.get(id=request.user.id)
+            day = chosen_day.split('.')
+            time = request.POST['time']
+            time = time.split(':')
+            dt = datetime(int(day[2]), int(day[1]), int(
+                day[0]), int(time[0]), int(time[1]))
+            booking = Booking(id_nts=nts, id_donor=donor, booking_time=dt)
+            booking.save()
+
+    return HttpResponseRedirect('/donors/terms/list')
+
+@login_required(login_url="/login/")
+@permission_required("isnts.is_donor", login_url="/employees/interface/")
+def terms_listview(request):
+    donor = Donor.objects.get(id=request.user.id)
+    now = timezone.now()
+    future_bookings = Booking.objects.all().filter(
+        id_donor=donor).filter(booking_time__gte=now)
+    for e in future_bookings:
+        e.booking_time = e.booking_time.strftime("%d.%m.%Y %H:%M")
+    return render(request, 'donors/terms/listview.html', {'bookings': future_bookings})
+
+
+class JSONResponse(HttpResponse):
+
+    def __init__(self, data, **kwargs):
+        content = data
+        kwargs["content_type"] = "application/json"
+        super(JSONResponse, self).__init__(content, **kwargs)
+
+@login_required(login_url="/login/")
+@permission_required("isnts.is_donor", login_url="/employees/interface/")
+def terms_remove(request, booking_id):
+    donor = Donor.objects.get(id=request.user.id)
+    booking = Booking.objects.get(id=booking_id)
+    now = timezone.now()
+    deleted_booking = Booking.objects.filter(id=booking_id).values("id","booking_time","id_nts__name")
+    data = []
+    for d in deleted_booking:
+        d["booking_time"] = d["booking_time"].strftime("%d.%m.%Y %H:%M")
+        data.append(d)
+    data = str(data)
+    data = data.replace("\'",'\"')
+    if now <= booking.booking_time:
+        booking.delete()
+    return JSONResponse(data)

@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+{% block title %}Choose NTS{% endblock %}
+{% block content %}
+<section>
+    <a href="/donors/{{ donor.id }}">Back</a>
+
+    <form method="post" role="form">
+
+        {% for field in create_booking_form.visible_fields %}
+        <div id="div_{{ field.html_name }}" class="form-group{% if field.errors %} has-error{% endif %} input-field">
+            {{ field }} {{ field.label_tag }}
+            {{ create_booking_form.token }}
+            <div class="help-block">
+                {{ field.errors }}
+            </div>
+        </div>
+        {% endfor %} {% for hidden in create_booking_form.hidden_fields %} {{ hidden }} {% endfor %} {% csrf_token %}
+
+        <div class="form-group">
+            <input type="submit" value="Submit" class="btn btn-primary" />
+        </div>
+    </form>
+    <form action="#" method="get">
+      <button type="submit" class="btn" name="datepicked" id="datepicked" >Confirm date</button>
+    </form>
+</section>
+
+<script type="text/javascript">
+$('.datepicker').pickadate({
+  disable: {{not_avail_days}},
+  labelMonthNext: 'Go to the next month',
+  labelMonthPrev: 'Go to the previous month',
+  labelMonthSelect: 'Pick a month from the dropdown',
+  labelYearSelect: 'Pick a year from the dropdown',
+  selectMonths: true,
+  selectYears: true,
+  firstDay: 1 ,
+  min: new Date(),
+  format: 'dd.mm.yyyy',
+  formatSubmit: 'dd.mm.yyyy',
+});
+document.getElementById('datepicked').onclick=function(){
+  this.value = document.getElementById('id_day').value;
+}
+</script>
+{% endblock %}
