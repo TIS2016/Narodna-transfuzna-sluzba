@@ -153,7 +153,7 @@ def information(request):
     donor = User.objects.get(id=request.user.id)
     return render(request, 'donors/information.html', {'donor': donor})
 
-@login_require(login_url="/login/")
+@login_required(login_url="/login/")
 @permission_required("isnts.is_donor", login_url="/employees/interface/")
 def terms_choose_nts(request):
     choose_nts_form = ChooseNTSForm(
@@ -174,7 +174,7 @@ def generate_times(open_time, close_time):
         time += fifteen_minutes
     return res
 
-@login_require(login_url="/login/")
+@login_required(login_url="/login/")
 @permission_required("isnts.is_donor", login_url="/employees/interface/")
 def terms_choose_day(request, nts_id=None):
     if nts_id is not None:
@@ -213,7 +213,7 @@ def terms_choose_day(request, nts_id=None):
 
     return HttpResponseRedirect('/donors/terms/list')
 
-@login_require(login_url="/login/")
+@login_required(login_url="/login/")
 @permission_required("isnts.is_donor", login_url="/employees/interface/")
 def terms_listview(request):
     donor = Donor.objects.get(id=request.user.id)
@@ -232,14 +232,12 @@ class JSONResponse(HttpResponse):
         kwargs["content_type"] = "application/json"
         super(JSONResponse, self).__init__(content, **kwargs)
 
-@login_require(login_url="/login/")
+@login_required(login_url="/login/")
 @permission_required("isnts.is_donor", login_url="/employees/interface/")
 def terms_remove(request, booking_id):
     donor = Donor.objects.get(id=request.user.id)
     booking = Booking.objects.get(id=booking_id)
     now = timezone.now()
-    if now <= booking.booking_time:
-        booking.delete()
     deleted_booking = Booking.objects.filter(id=booking_id).values("id","booking_time","id_nts__name")
     data = []
     for d in deleted_booking:
@@ -247,4 +245,6 @@ def terms_remove(request, booking_id):
         data.append(d)
     data = str(data)
     data = data.replace("\'",'\"')
+    if now <= booking.booking_time:
+        booking.delete()
     return JSONResponse(data)

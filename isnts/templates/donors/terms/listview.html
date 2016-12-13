@@ -10,6 +10,8 @@ remove = function(booking){
             url: "/donors/terms/remove/"+booking,
             contentType: "application/json",
             success: function(data){
+                var deleted_booking = document.getElementById("booking_"+booking);
+                deleted_booking.parentNode.removeChild(deleted_booking);
                 Materialize.toast("Booking at "+data[0]["id_nts__name"]+ ", " + data[0]["booking_time"] + ' was deleted', 10000);
             },
             error: function(xhr, status, error){
@@ -23,10 +25,12 @@ remove = function(booking){
 <a href="/donors/terms"  class="row">New booking</a>
 <div class="bookings" id="bookings">
 {% for booking in bookings %}
+    <div id="booking_{{booking.id}}">
         <span>{{ booking.id_nts.name }}</span>
         <span>{{ booking.booking_time }}</span>
         <span><a href="#" onclick="remove( {{ booking.id }} );" >Remove</a></span> 
         <br>
+    </div>
 {% endfor %}
 </div>
 {% endblock %}
