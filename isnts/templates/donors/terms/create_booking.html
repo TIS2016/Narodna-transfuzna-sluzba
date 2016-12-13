@@ -27,6 +27,9 @@
 </section>
 
 <script type="text/javascript">
+{% if no_office_hours %}
+Materialize.toast('Chosen NTS does not have any office hours set.', 4000);
+{% endif %}
 $('.datepicker').pickadate({
   disable: {{not_avail_days}},
   labelMonthNext: 'Go to the next month',

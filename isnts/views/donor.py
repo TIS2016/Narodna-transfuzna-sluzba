@@ -181,14 +181,15 @@ def terms_choose_day(request, nts_id=None):
         nts = NTS.objects.get(id=nts_id)
         if request.method == 'GET':
             office_hours = OfficeHours.objects.filter(id_nts=nts)
+            create_booking_form = CreateBookingForm(None)
             if office_hours.exists() is False:
-                return HttpResponseRedirect("/")
+                return render(request, 'donors/terms/create_booking.html', {'create_booking_form': create_booking_form, 'no_office_hours':True, 'not_avail_days': "[true,]"})
             avail_days = set()
             for oh in office_hours:
                 avail_days.add(int(oh.day))
             all_days = set([1, 2, 3, 4, 5, 6, 7])
             not_avail_days = list(all_days - avail_days)
-            create_booking_form = CreateBookingForm(request.POST or None)
+            
             if request.GET.get('datepicked'):
                 picked_date = request.GET.get('datepicked')
                 date = picked_date.split('.')

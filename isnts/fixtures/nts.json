@@ -14,4 +14,21 @@
         "id_boss": 8,
         "secret_key": "pbkdf2_sha256$30000$tF1fjlt2Z2oG$EQI6kcXjNffWAZiyxeqw6PngAkjduzreNKBVgkvviuI="
     }
+},
+{
+    "model": "isnts.NTS",
+    "pk": 2,
+    "fields": {
+        "name": "No office hours",
+        "id_address": null,
+        "location_info": null,
+        "gps_lon": null,
+        "gps_lat": null,
+        "phone": "",
+        "email": "",
+        "other_contact": "",
+        "info": "",
+        "id_boss": 7,
+        "secret_key": "pbkdf2_sha256$30000$tF1fjlt2Z2oG$EQI6kcXjNffWAZiyxeqw6PngAkjduzreNKBVgkvviuI="
+    }
 }]
