@@ -1,11 +1,15 @@
-{% extends "public/base.html" %}
-{% load staticfiles %}
-{% block title %}Registration{% endblock %}
-{% block content %}
-<section class="row">
-    <div class="col s6">
-        <h2>Almost done...</h2>
+{% extends "public/base.html" %} {% load staticfiles %} {% block title %}Registration{% endblock %} {% block content %} {% include "public/nav.html" %}
+
+
+<main>
+    <h2 id="napisL">Almost done...</h2>
+    <hr>
+
+    <section class="row">
+
         <p>We sent you verification link to your email address.</p>
-    </div>
-</section>
-{% endblock %}
+
+    </section>
+</main>
+
+{% include "footer.html" %} {% endblock %}

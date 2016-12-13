@@ -1,14 +1,40 @@
-{% extends "base.html" %}
-{% load staticfiles %}
-{% block title %}Donors{% endblock %}
-{% block content %}
-<h2>All donors</h2>
-<a href="create_new/"  class="row">New donor</a>
-{% for donor in donors %}
-    <a href="{{ donor.id }}" class="row">
-        <span>{{ donor.id }}</span>
-        <span>{{ donor.first_name }}</span>
-        <span>{{ donor.last_name }}</span>
-    </a>
-{% endfor %}
+{% extends "base.html" %} {% load staticfiles %} {% block title %}Donors{% endblock %} {% block content %}
+<div class="fixed-action-btn">
+    <a href="create_new/" class="btn-floating btn-large waves-effect waves-light blue"><i class="material-icons">add</i></a>
+</div>
+    <h2 id="napisL">Donors</h2>
+    <hr>
+    <div class="row" style="margin: 5% 0;">
+        <form class="col s12 m12 l12">
+            <div class="input-field col s12 m10 l10">
+                <i class="material-icons prefix">search</i>
+                <input id="icon_prefix" type="text" class="validate">
+                <label for="icon_prefix">Zadajte kľúčové slovo</label>
+            </div>
+            <div class="input-field col s12 m2 l2">
+                <input type="submit" value="Search" id="main_btn1" name="login_btn" class="btn btn-primary" style="width:100%;float:left;" />
+            </div>
+        </form>
+    </div>
+
+    <table class="responsive-table">
+        <thead>
+            <tr>
+                <th data-field="id">ID</th>
+                <th data-field="name">First name</th>
+                <th data-field="price">Last name</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            {% for donor in donors %}
+            <tr class="picker__list-item--highlighted" onclick="location.href='{{ donor.id }}'">
+                <td>{{ donor.id }}</td>
+                <td>{{ donor.first_name }}</td>
+                <td>{{ donor.last_name }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
 {% endblock %}

@@ -1,14 +1,10 @@
-{% extends "base.html" %}
-{% load staticfiles %}
-{% block title %}Blood samples{% endblock %}
-{% block content %}
+{% extends "base.html" %} {% load staticfiles %} {% block title %}Blood samples{% endblock %} {% block content %}
 <a href="0" class="row">
     <span>New blood sample</span>
 </a>
 <section class="row">
     <div class="col s6">
-        <h2>New samples</h2>
-        {% for blood in samples_new %}
+        <h2>New samples</h2> {% for blood in samples_new %}
         <a href="{{ blood.id }}" class="row">
             <span>{{ blood.id }}</span>
             <span>{{ blood.id_donor }}</span>
@@ -18,8 +14,7 @@
         {% endfor %}
     </div>
     <div class="col s6">
-        <h2>Ready for expedition</h2>
-        {% for blood in samples_ready_for_exp %}
+        <h2>Ready for expedition</h2> {% for blood in samples_ready_for_exp %}
         <a href="{{ blood.id }}" class="row">
             <span>{{ blood.id }}</span>
             <span>{{ blood.id_donor }}</span>
@@ -38,6 +33,6 @@
         <span>{{ blood.get_state_display }}</span>
         <span>{{ blood.date }}</span>
     </a>
-    </div>
-{% endfor %}
+    {% endfor %}
+</section>
 {% endblock %}

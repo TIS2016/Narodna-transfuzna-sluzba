@@ -157,12 +157,12 @@ def employee_login(request):
                 if user.has_perm('isnts.is_employee') == False:
                     return HttpResponseRedirect('/employees/login/')
                 login(request, user)
-                return HttpResponseRedirect('/employees/interface')
+                return HttpResponseRedirect('/')
             else:
                 return render_form()
         else:
             return render_form()
-    return HttpResponseRedirect('/employees/interface/')
+    return HttpResponseRedirect('/')
 
 
 def employee_register(request):
