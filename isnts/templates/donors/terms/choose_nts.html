@@ -2,6 +2,12 @@
 {% load staticfiles %}
 {% block title %}Choose NTS{% endblock %}
 {% block content %}
+<script type="text/javascript">
+{% if no_office_hours %}
+Materialize.toast('NTS {{ no_office_hours.name }} does not have any office hours set.', 4000);
+{% endif %}
+</script>
+
 <section>
     <a href="/donors/{{ donor.id }}">Back</a>
     <form method="post" role="form">
@@ -19,3 +25,4 @@
     </form>
 </section>
 {% endblock %}
+
