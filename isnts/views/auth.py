@@ -206,12 +206,10 @@ def employee_register(request):
     return HttpResponseRedirect('/')
 
 
-def employee_logout(request):
-    logout(request)
-    return HttpResponseRedirect('/employees/login')
-
-
-
 def _logout(request):
-    logout(request)
-    return HttpResponseRedirect('/login')
+    if request.user.has_perm("isnts.is_donor"):
+        logout(request)
+        return HttpResponseRedirect('/login')
+    elif request.user.has_perm("isnts.is_employee"):
+        logout(request)
+        return HttpResponseRedirect("/employees/login")
