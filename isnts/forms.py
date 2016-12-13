@@ -37,6 +37,9 @@ class Login(forms.ModelForm):
     class Meta:
         model = User
         fields = ['username', 'password']
+        widgets = {
+            'password': forms.PasswordInput()
+        }
 
 
 class Register(forms.ModelForm):
@@ -45,6 +48,9 @@ class Register(forms.ModelForm):
         model = DonorCard
         fields = ['first_name', 'last_name',
                   'username', 'email', 'password', 'gender']
+        widgets = {
+            'password': forms.PasswordInput()
+        }
 
 
 class EmployeeRegister(forms.ModelForm):
@@ -59,6 +65,9 @@ class EmployeeRegister(forms.ModelForm):
     class Meta:
         model = Employee
         fields = ['first_name', 'last_name', 'username', 'email', 'password']
+        widgets = {
+            'password': forms.PasswordInput()
+        }
 
 
 
@@ -67,6 +76,9 @@ class EmployeeLogin(forms.ModelForm):
     class Meta:
         model = Employee
         fields = ['username', 'password']
+        widgets = {
+            'password': forms.PasswordInput()
+        }
 
 
 class QuestionnaireForm(forms.ModelForm):

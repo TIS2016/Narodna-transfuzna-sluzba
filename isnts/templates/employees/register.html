@@ -1,13 +1,10 @@
-{% extends "base.html" %}
-{% load staticfiles %}
-{% block title %}Employee Registration{% endblock %}
-{% block content %}
+{% extends "public/base.html" %} {% load staticfiles %} {% block title %}Employee Registration{% endblock %} {% block content %} {% include "public/nav.html" %}
 <section class="row">
-    <div class="col s6">
-        <h2>Employee registration</h2>
+    <div class="col m4 s12 offset-m4 employee_login_box">
+        <h2 id="napis">Employee registration</h2>
         <form method="post" role="form">
             {% for field in form.visible_fields %}
-            <div id="div_{{ field.html_name }}" class="form-group{% if field.errors %} has-error{% endif %} input-field">
+            <div id="div_{{ field.html_name }}" class="form-group{% if field.errors %} has-error{% endif %} input-field validate">
                 {{ field }} {{ field.label_tag }}
                 <div class="help-block">
                     {{ field.errors }}
@@ -15,7 +12,7 @@
             </div>
             {% endfor %} {% for hidden in form.hidden_fields %} {{ hidden }} {% endfor %} {% csrf_token %}
             <div class="form-group">
-                <input type="submit" value="Registrovať" name="register_btn" class="btn btn-primary" />
+                <input type="submit" value="Register" name="register_btn" class="btn btn-primary" />
             </div>
         </form>
     </div>

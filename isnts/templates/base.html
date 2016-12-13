@@ -9,21 +9,40 @@
     {% load staticfiles %}
     <script src="{% static 'js/jquery.js' %}"></script>
     <link rel="stylesheet" href="{% static 'isnts/css/materialize.css' %}">
+    <link rel="stylesheet" href="{% static 'isnts/css/style.css' %}">
     <script src="{% static 'isnts/js/materialize.min.js' %}"></script>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 </head>
 
 <body>
-    <menu>
-        <a href="/">Home</a>
-        <a href="/donors/">Donors</a>
-        <a href="/blood_extraction/">Blood extraction</a>
-        <a href="/logout/">Logout</a>
-    </menu>
-    {% block content %}{% endblock %}
+    {% include "nav.html" %}
+    <div class="progress-wrapper">
+        <div class="preloader-wrapper big active">
+            <div class="spinner-layer spinner-blue-only">
+                <div class="circle-clipper left">
+                    <div class="circle"></div>
+                </div>
+                <div class="gap-patch">
+                    <div class="circle"></div>
+                </div>
+                <div class="circle-clipper right">
+                    <div class="circle"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <main>
+        {% block content %}{% endblock %}
+    </main>
     <script>
-    $(document).ready(function() {
-        $('select').material_select();
-      });
+        $(document).ready(function() {
+            $('select').material_select();
+            $(".button-collapse").sideNav();
+            $(".dropdown-button").dropdown();
+            $('.parallax').parallax();
+            $(".progress-wrapper").fadeOut();
+            $("main").fadeIn();
+        });
     </script>
 </body>
 
