@@ -108,8 +108,8 @@ class OfficeHours(models.Model):
         (7, 'Sunday')
     )
     day = models.SmallIntegerField(choices=DAYS_OF_WEEK)
-    open_time = models.TimeField()
-    close_time = models.TimeField()
+    open_time = models.TimeField(blank=True)
+    close_time = models.TimeField(blank=True)
 
 
 class Announcement(models.Model):

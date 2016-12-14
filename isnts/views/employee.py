@@ -79,39 +79,59 @@ def office_hours(request):
     employee = Employee.objects.get(id=request.user.id)
     oh = OfficeHours.objects.filter(id_nts=employee.id_nts)
     noon = time(12, 0)
-    days_in_week = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']
+    days_in_week = ['Monday', 'Tuesday', 'Wednesday',
+                    'Thursday', 'Friday', 'Saturday', 'Sunday']
     forms = {}
     office_hours = []
-    for day in range(1,8):
-        oh = get_or_none(OfficeHours, id_nts=employee.id_nts, day=day, close_time__lte=noon)
+    for day in range(1, 8):
+        oh = get_or_none(OfficeHours, id_nts=employee.id_nts,
+                         day=day, close_time__lte=noon)
         if oh is None:
             oh = OfficeHours(day=day, id_nts=employee.id_nts)
-            print(oh.open_time)
         office_hours.append(oh)
-        oh = get_or_none(OfficeHours, id_nts=employee.id_nts, day=day, close_time__gt=noon)
+        oh = get_or_none(OfficeHours, id_nts=employee.id_nts,
+                         day=day, close_time__gt=noon)
         if oh is None:
             oh = OfficeHours(day=day, id_nts=employee.id_nts)
-        print(oh.open_time)
         office_hours.append(oh)
     for i in range(len(office_hours)):
-        p = forms.get(i//2, [])
-        p.append(OfficeHoursForm(instance=office_hours[i]))
-        forms[i//2] = p
-    print(forms)
+        p = forms.get(i // 2, [])
+        form = OfficeHoursForm(request.POST or None, instance=office_hours[i])
+        form.fields['open_time'].initial = office_hours[i].open_time
+        form.fields['close_time'].initial = office_hours[i].close_time
+        form.fields['open_time' + str(i)] = form.fields['open_time']
+        del form.fields['open_time']
+        form.fields['close_time' + str(i)] = form.fields['close_time']
+        del form.fields['close_time']
+        p.append(form)
+        forms[i // 2] = p
     if request.method == 'GET':
-        return render(request, 'employees/officehours.html', {'forms': forms, 'days_in_week': days_in_week })
-    print(request.POST)
-    for i in range(len(office_hours)):
-        for form in forms[i]:
-            if form.is_valid() and request.POST['open_time']!='' and request.POST['close_time']!='':
-                ot = request.POST['open_time'].split(":")
-                ct = request.POST['close_time'].split(":")
-                office_hours[i].open_time = time(int(ot[0]),int(ot[1]))
-                office_hours[i].close_time = time(int(ct[0]),int(ct[1]))
-                office_hours.save()
-            else:
-                print(forms[i])
-                if office_hours[i].id is not None:
-                    office_hours[i].delete()
-        
-    return render(request, 'employees/officehours.html', {'forms': forms})
+        return render(request, 'employees/officehours.html', {'forms': forms, 'days_in_week': days_in_week})
+    j = 0
+    i = 0
+    for oh in office_hours:
+        form = forms[i][j]
+        k = (i * 2) + j
+        if j % 2 == 1:
+            i += 1
+        j += 1
+        j = j % 2
+
+        if form.is_valid():
+            cleaned_data = form.clean()
+            if cleaned_data['open_time' + str(k)] is None or cleaned_data['close_time' + str(k)] is None:
+                if office_hours[k].id is not None:
+                    office_hours[k].delete()
+                continue
+            ot = [cleaned_data['open_time' +
+                               str(k)].hour, cleaned_data['open_time' + str(k)].minute]
+            ct = [cleaned_data['close_time' +
+                               str(k)].hour, cleaned_data['close_time' + str(k)].minute]
+            office_hours[k].open_time = time(int(ot[0]), int(ot[1]))
+            office_hours[k].close_time = time(int(ct[0]), int(ct[1]))
+            office_hours[k].save()
+        else:
+            print(form.errors)
+            return render(request, 'employees/officehours.html', {'forms': forms, 'days_in_week': days_in_week, 'bad_time_input': form.errors})
+
+    return render(request, 'employees/officehours.html', {'forms': forms, 'days_in_week': days_in_week})

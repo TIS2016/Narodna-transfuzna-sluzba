@@ -183,6 +183,21 @@ class OfficeHoursForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super(OfficeHoursForm, self).__init__(*args, **kwargs)
-
         self.fields['open_time'].required = False
         self.fields['close_time'].required = False
+        self.fields['open_time'].input_format = "%H:%M"
+        self.fields['close_time'].input_format = "%H:%M"
+        self.fields['open_time'].widget = forms.TimeInput(format="%H:%M")
+        self.fields['close_time'].widget = forms.TimeInput(format="%H:%M")
+
+    def is_valid(self):
+        for field in self.fields:
+            if 'open_time' in field:
+                ot = field
+            elif 'close_time' in field:
+                ct = field
+        is_good = self.data[ot] < self.data[ct]
+        if is_good == False:
+            self.errors[' open time: '] = self.data[ot]
+            self.errors[' close time: '] = self.data[ct]
+        return is_good and super(OfficeHoursForm, self).is_valid()
