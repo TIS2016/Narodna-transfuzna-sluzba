@@ -24,6 +24,7 @@ urlpatterns = [
     url(r'^employees/login/$', views.auth.employee_login, name="employees"),
     url(r'^employees/register/$', views.auth.employee_register, name="employees"),
     url(r'^employees/interface/$', views.employee.interface, name="employees"),
+    url(r'^employees/terms', views.employee.terms_list, name="terms"),
     url(r'^logout/$', views.auth._logout, name="employees"),
     url(r'^superuser/secret_key_change/$', views.superuser.secret_key_change, name="superuser"),
     url(r'^superuser/employee_administration/$', views.superuser.employee_administration, name="superuser"),

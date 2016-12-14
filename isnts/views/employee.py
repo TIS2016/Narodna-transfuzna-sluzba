@@ -60,3 +60,12 @@ def detailview(request, employee_id):
 def interface(request):
     employee = Employee.objects.get(id=request.user.id)
     return render(request, 'employees/interface.html', {'employee': employee})
+
+@login_required(login_url='/employees/login/')
+@permission_required('isnts.is_employee', login_url='/donors/information/')
+def terms_list(request):
+    employee = Employee.objects.get(id=request.user.id)
+    bookings = Booking.objects.filter(id_nts=employee.id_nts)
+    for b in bookings:
+        b.booking_time = b.booking_time.strftime("%d.%m.%Y %H:%M")
+    return render(request, 'employees/terms/listview.html', {'bookings':bookings})
