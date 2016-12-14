@@ -4,6 +4,7 @@ from django.shortcuts import render
 from django.contrib.auth.models import Group
 from django.contrib.auth.decorators import login_required, user_passes_test, permission_required
 from django.core.exceptions import ObjectDoesNotExist
+from datetime import time
 
 
 def get_or_none(model, *args, **kwargs):
@@ -16,7 +17,7 @@ def get_or_none(model, *args, **kwargs):
 @login_required(login_url='/employees/login/')
 @permission_required('isnts.is_employee', login_url='/nopermission/')
 def listview(request):
-    employees = Employee.objects.filter(groups__name__in=['Doctor','Nurse'])
+    employees = Employee.objects.filter(groups__name__in=['Doctor', 'Nurse'])
     return render(request, 'employees/listview.html', {'employees': employees})
 
 
@@ -61,6 +62,7 @@ def interface(request):
     employee = Employee.objects.get(id=request.user.id)
     return render(request, 'employees/interface.html', {'employee': employee})
 
+
 @login_required(login_url='/employees/login/')
 @permission_required('isnts.is_employee', login_url='/donors/information/')
 def terms_list(request):
@@ -68,4 +70,48 @@ def terms_list(request):
     bookings = Booking.objects.filter(id_nts=employee.id_nts)
     for b in bookings:
         b.booking_time = b.booking_time.strftime("%d.%m.%Y %H:%M")
-    return render(request, 'employees/terms/listview.html', {'bookings':bookings})
+    return render(request, 'employees/terms/listview.html', {'bookings': bookings})
+
+
+@login_required(login_url='/employees/login/')
+@permission_required('isnts.is_employee', login_url='/donors/information/')
+def office_hours(request):
+    employee = Employee.objects.get(id=request.user.id)
+    oh = OfficeHours.objects.filter(id_nts=employee.id_nts)
+    noon = time(12, 0)
+    days_in_week = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']
+    forms = {}
+    office_hours = []
+    for day in range(1,8):
+        oh = get_or_none(OfficeHours, id_nts=employee.id_nts, day=day, close_time__lte=noon)
+        if oh is None:
+            oh = OfficeHours(day=day, id_nts=employee.id_nts)
+            print(oh.open_time)
+        office_hours.append(oh)
+        oh = get_or_none(OfficeHours, id_nts=employee.id_nts, day=day, close_time__gt=noon)
+        if oh is None:
+            oh = OfficeHours(day=day, id_nts=employee.id_nts)
+        print(oh.open_time)
+        office_hours.append(oh)
+    for i in range(len(office_hours)):
+        p = forms.get(i//2, [])
+        p.append(OfficeHoursForm(instance=office_hours[i]))
+        forms[i//2] = p
+    print(forms)
+    if request.method == 'GET':
+        return render(request, 'employees/officehours.html', {'forms': forms, 'days_in_week': days_in_week })
+    print(request.POST)
+    for i in range(len(office_hours)):
+        for form in forms[i]:
+            if form.is_valid() and request.POST['open_time']!='' and request.POST['close_time']!='':
+                ot = request.POST['open_time'].split(":")
+                ct = request.POST['close_time'].split(":")
+                office_hours[i].open_time = time(int(ot[0]),int(ot[1]))
+                office_hours[i].close_time = time(int(ct[0]),int(ct[1]))
+                office_hours.save()
+            else:
+                print(forms[i])
+                if office_hours[i].id is not None:
+                    office_hours[i].delete()
+        
+    return render(request, 'employees/officehours.html', {'forms': forms})

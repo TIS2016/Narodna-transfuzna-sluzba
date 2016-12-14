@@ -10,9 +10,8 @@ class PlainTextWidget(forms.Widget):
                 + str(value) + '. ' + self.choices[int(value)][1])
 
 
-
 class DonorForm(forms.ModelForm):
-    
+
     class Meta:
         model = DonorCard
         exclude = ['password', 'card_created_by', 'id_address_perm', 'id_address_temp',
@@ -73,13 +72,13 @@ class EmployeeRegister(forms.ModelForm):
             choices=k, coerce=int, required=True)
 
     secret_key = forms.CharField(required=True)
+
     class Meta:
         model = Employee
         fields = ['first_name', 'last_name', 'username', 'email', 'password']
         widgets = {
             'password': forms.PasswordInput()
         }
-
 
 
 class EmployeeLogin(forms.ModelForm):
@@ -110,7 +109,8 @@ class QuestionsForm(forms.ModelForm):
         widgets = {
             'question': PlainTextWidget(),
         }
-     
+
+
 class NTSModelChoiceField(forms.ModelChoiceField):
 
     def label_from_instance(self, obj):
@@ -161,13 +161,28 @@ class CreateBookingForm(forms.ModelForm):
         model = Booking
         fields = []
 
+
 class SecretKeyChange(forms.Form):
 
-    secret_key_new = forms.CharField(label='New secret key', max_length=30, required=True)
-    secret_key_new2 = forms.CharField(label='New secret key', max_length=30, required=True)
+    secret_key_new = forms.CharField(
+        label='New secret key', max_length=30, required=True)
+    secret_key_new2 = forms.CharField(
+        label='New secret key', max_length=30, required=True)
 
 
 class EmployeeActivationForm(forms.Form):
 
     activate = forms.BooleanField()
 
+
+class OfficeHoursForm(forms.ModelForm):
+
+    class Meta:
+        model = OfficeHours
+        fields = ['open_time', 'close_time']
+
+    def __init__(self, *args, **kwargs):
+        super(OfficeHoursForm, self).__init__(*args, **kwargs)
+
+        self.fields['open_time'].required = False
+        self.fields['close_time'].required = False

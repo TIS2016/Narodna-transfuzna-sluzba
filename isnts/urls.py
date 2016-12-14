@@ -22,6 +22,7 @@ urlpatterns = [
     url(r'^employees/(?P<employee_id>[0-9]+)/$', views.employee.detailview, name="employees"),
     url(r'^employees/$', views.employee.listview, name="employees"),
     url(r'^employees/login/$', views.auth.employee_login, name="employees"),
+    url(r'^employees/officehours/$', views.employee.office_hours, name="office_hours"),
     url(r'^employees/register/$', views.auth.employee_register, name="employees"),
     url(r'^employees/interface/$', views.employee.interface, name="employees"),
     url(r'^employees/terms', views.employee.terms_list, name="terms"),
