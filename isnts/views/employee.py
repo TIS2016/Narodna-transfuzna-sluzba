@@ -73,6 +73,69 @@ def terms_list(request):
     return render(request, 'employees/terms/listview.html', {'bookings': bookings})
 
 
+def check_office_hours(office_hours=[], oh_bn=None, oh_an=None, day=None, id_nts=None):
+    if oh_bn.exists() == False:
+        if oh_an.exists() == False:
+            oh = OfficeHours(day=day, id_nts=id_nts)
+            office_hours.append(oh)
+            oh = OfficeHours(day=day, id_nts=id_nts)
+            office_hours.append(oh)
+        elif len(oh_an) == 1:
+            oh = OfficeHours(day=day, id_nts=id_nts)
+            office_hours.append(oh)
+            oh = list(oh_an)[0]
+            office_hours.append(oh)
+        else:
+            oh = list(oh_an)[0]
+            office_hours.append(oh)
+            oh = list(oh_an)[1]
+            office_hours.append(oh)
+            for i in range(2, len(oh_an)):
+                list(oh_an)[i].delete()
+    elif len(oh_bn) == 1:
+        if oh_an.exists() == False:
+            oh = list(oh_bn)[0]
+            office_hours.append(oh)
+            oh = OfficeHours(day=day, id_nts=id_nts)
+            office_hours.append(oh)
+        elif len(oh_an) == 1:
+            oh = list(oh_bn)[0]
+            office_hours.append(oh)
+            oh = list(oh_an)[0]
+            office_hours.append(oh)
+        else:
+            oh = list(oh_bn)[0]
+            office_hours.append(oh)
+            oh = list(oh_an)[0]
+            office_hours.append(oh)
+            for i in range(1, len(oh_an)):
+                list(oh_an)[i].delete()
+    else:
+        if oh_an.exists() == False:
+            oh = list(oh_bn)[0]
+            office_hours.append(oh)
+            oh = list(oh_bn)[1]
+            office_hours.append(oh)
+            for i in range(2, len(oh_bn)):
+                list(oh_bn)[i].delete()
+        elif len(oh_an) == 1:
+            oh = list(oh_bn)[0]
+            office_hours.append(oh)
+            oh = list(oh_bn)[0]
+            office_hours.append(oh)
+            for i in range(1, len(oh_an)):
+                list(oh_an)[i].delete()
+        else:
+            oh = list(oh_bn)[0]
+            office_hours.append(oh)
+            oh = list(oh_an)[0]
+            office_hours.append(oh)
+            for i in range(1, len(oh_an)):
+                list(oh_an)[i].delete()
+            for i in range(1, len(oh_bn)):
+                list(oh_bn)[i].delete()
+    return office_hours
+
 @login_required(login_url='/employees/login/')
 @permission_required('isnts.is_employee', login_url='/donors/information/')
 def office_hours(request):
@@ -84,16 +147,10 @@ def office_hours(request):
     forms = {}
     office_hours = []
     for day in range(1, 8):
-        oh = get_or_none(OfficeHours, id_nts=employee.id_nts,
-                         day=day, close_time__lte=noon)
-        if oh is None:
-            oh = OfficeHours(day=day, id_nts=employee.id_nts)
-        office_hours.append(oh)
-        oh = get_or_none(OfficeHours, id_nts=employee.id_nts,
-                         day=day, close_time__gt=noon)
-        if oh is None:
-            oh = OfficeHours(day=day, id_nts=employee.id_nts)
-        office_hours.append(oh)
+        oh_bn = OfficeHours.objects.filter(id_nts=employee.id_nts, day=day, close_time__lte=noon)
+        oh_an = OfficeHours.objects.filter(id_nts=employee.id_nts, day=day, close_time__gt=noon)
+        office_hours = check_office_hours(office_hours=office_hours, oh_bn=oh_bn, oh_an=oh_an, day=day, id_nts=employee.id_nts)
+        
     for i in range(len(office_hours)):
         p = forms.get(i // 2, [])
         form = OfficeHoursForm(request.POST or None, instance=office_hours[i])

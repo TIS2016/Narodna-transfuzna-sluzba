@@ -196,8 +196,10 @@ class OfficeHoursForm(forms.ModelForm):
                 ot = field
             elif 'close_time' in field:
                 ct = field
-        is_good = self.data[ot] < self.data[ct]
-        if is_good == False:
-            self.errors[' open time: '] = self.data[ot]
-            self.errors[' close time: '] = self.data[ct]
+        is_good = True
+        if self.data[ot]!='' and self.data[ct]!='':
+            is_good = self.data[ot] < self.data[ct]
+            if is_good == False:
+                self.errors[' open time: '] = self.data[ot]
+                self.errors[' close time: '] = self.data[ct]
         return is_good and super(OfficeHoursForm, self).is_valid()
