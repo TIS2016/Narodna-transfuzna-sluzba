@@ -197,8 +197,13 @@ class OfficeHoursForm(forms.ModelForm):
             elif 'close_time' in field:
                 ct = field
         is_good = True
-        if self.data[ot]!='' and self.data[ct]!='':
-            is_good = self.data[ot] < self.data[ct]
+       
+        if self.data[ot] != '' and self.data[ct] != '':
+            k = self.data[ot].split(':')
+            open_time = time(int(k[0]), int(k[1]))
+            k = self.data[ct].split(':')
+            close_time = time(int(k[0]), int(k[1]))
+            is_good = open_time < close_time
             if is_good == False:
                 self.errors[' open time: '] = self.data[ot]
                 self.errors[' close time: '] = self.data[ct]

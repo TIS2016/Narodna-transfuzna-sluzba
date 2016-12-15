@@ -5,6 +5,7 @@ from django.contrib.auth.models import Group
 from django.contrib.auth.decorators import login_required, user_passes_test, permission_required
 from django.core.exceptions import ObjectDoesNotExist
 from datetime import time
+from django.http import HttpResponseRedirect
 
 
 def get_or_none(model, *args, **kwargs):
