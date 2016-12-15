@@ -14,6 +14,7 @@ from isnts.forms import *
 from isnts.models import *
 from isnts.questions_enum import QUESTION_COUNT
 from django.core import serializers
+from django.db.models import Max
 
 
 def get_or_none(model, *args, **kwargs):
@@ -136,6 +137,8 @@ def blood_extraction(request, donor_id, blood_extraction_id):
     if not donor:
         return HttpResponseRedirect('/donors/')
     blood_extraction = get_or_none(BloodExtraction, id=blood_extraction_id)
+    if blood_extraction is None:
+        blood_extraction = BloodExtraction()
     blood_extraction_form = BloodExtractionForm(
         request.POST or None, instance=blood_extraction)
     if request.method == 'POST':
@@ -183,6 +186,7 @@ def generate_times(open_time, close_time):
 @login_required(login_url="/login/")
 @permission_required("isnts.is_donor", login_url="/employees/interface/")
 def terms_choose_day(request, nts_id=None):
+    donor = Donor.objects.get(id=request.user.id)
     if nts_id is not None:
         nts = NTS.objects.get(id=nts_id)
         if request.method == 'GET':
@@ -201,24 +205,32 @@ def terms_choose_day(request, nts_id=None):
                 date = picked_date.split('.')
                 date = datetime(int(date[2]), int(date[1]), int(date[0]))
                 day = date.isoweekday()
-                times = []
+                times = set()
                 for d in office_hours:
                     if d.day == day:
-                        times = generate_times(d.open_time, d.close_time)
+                        t = generate_times(d.open_time, d.close_time)
+                        for x in t:
+                            times.add(x)
+                times = sorted(list(times))
                 create_booking_form = CreateBookingForm(
-                    request.POST or None, times=times)
+                    request.POST or None, times=list(times))
                 create_booking_form.fields['day'].initial = picked_date
-            return render(request, 'donors/terms/create_booking.html', {'create_booking_form': create_booking_form, 'not_avail_days': not_avail_days})
+            most_recent_date = BloodExtraction.objects.filter(id_donor=donor).aggregate(Max('date'))['date__max']
+            most_recent_blood_extraction = get_or_none(BloodExtraction, date=most_recent_date)
+            if most_recent_blood_extraction is not None:
+                postpone = most_recent_blood_extraction.postpone
+            else:
+                postpone = None
+            return render(request, 'donors/terms/create_booking.html', {'create_booking_form': create_booking_form, 'not_avail_days': not_avail_days, 'postpone': postpone})
         else:
             if 'day' not in request.POST.keys():
                 return terms_choose_nts(request, no_office_hours=nts)
             chosen_day = request.POST['day']
-            donor = Donor.objects.get(id=request.user.id)
             day = chosen_day.split('.')
             time = request.POST['time']
             time = time.split(':')
             dt = datetime(int(day[2]), int(day[1]), int(
-                day[0]), int(time[0]), int(time[1]))
+                day[0]), int(time[0])+1, int(time[1]))
             booking = Booking(id_nts=nts, id_donor=donor, booking_time=dt)
             booking.save()
 

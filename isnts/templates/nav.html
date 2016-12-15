@@ -35,6 +35,7 @@
     <li class="{% if request.resolver_match.url_name == 'employees' %}active{% endif %}"><a id="employee" href="/employees/">Employees</a></li>
     {% endif %}
     {% if perms.isnts.is_donor and not perms.isnts.is_employee %}
-    <li class="{% if request.resolver_match.url_name == 'terms' %}active{% endif %}"><a href="/donors/terms">Terms</a></li>
+    <li class="{% if request.resolver_match.url_name == 'terms' %}active{% endif %}"><a href="/donors/terms">New Term</a></li>
+    <li class="{% if request.resolver_match.url_name == 'my_terms' %}active{% endif %}"><a href="/donors/terms/list">My Terms</a></li>
     {% endif %}
 </ul>
