@@ -24,8 +24,8 @@
                 </div>
                 {% endfor %} {% for hidden in form.hidden_fields %} {{ hidden }} {% endfor %}
             </td>
-            {% cycle '' '</tr>
-        <tr>' %} {% endfor %} {% endfor %} {% csrf_token %}
+            {% cycle '' '</tr><tr>' %}
+        {% endfor %} {% endfor %} {% csrf_token %}
     </table>
     <div class="form-group">
         <input type="submit" value="Submit" name="submit_btn" class="btn btn-primary" />
