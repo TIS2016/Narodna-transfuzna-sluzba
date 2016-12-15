@@ -10,9 +10,8 @@ class PlainTextWidget(forms.Widget):
                 + str(value) + '. ' + self.choices[int(value)][1])
 
 
-
 class DonorForm(forms.ModelForm):
-    
+
     class Meta:
         model = DonorCard
         exclude = ['password', 'card_created_by', 'id_address_perm', 'id_address_temp',
@@ -40,7 +39,7 @@ class BloodExtractionForm(forms.ModelForm):
 
     class Meta:
         model = BloodExtraction
-        exclude = ['id_nts']
+        exclude = ['id_nts', 'date']
 
 
 class Login(forms.ModelForm):
@@ -73,13 +72,13 @@ class EmployeeRegister(forms.ModelForm):
             choices=k, coerce=int, required=True)
 
     secret_key = forms.CharField(required=True)
+
     class Meta:
         model = Employee
         fields = ['first_name', 'last_name', 'username', 'email', 'password']
         widgets = {
             'password': forms.PasswordInput()
         }
-
 
 
 class EmployeeLogin(forms.ModelForm):
@@ -110,7 +109,8 @@ class QuestionsForm(forms.ModelForm):
         widgets = {
             'question': PlainTextWidget(),
         }
-     
+
+
 class NTSModelChoiceField(forms.ModelChoiceField):
 
     def label_from_instance(self, obj):
@@ -161,13 +161,50 @@ class CreateBookingForm(forms.ModelForm):
         model = Booking
         fields = []
 
+
 class SecretKeyChange(forms.Form):
 
-    secret_key_new = forms.CharField(label='New secret key', max_length=30, required=True)
-    secret_key_new2 = forms.CharField(label='New secret key', max_length=30, required=True)
+    secret_key_new = forms.CharField(
+        label='New secret key', max_length=30, required=True)
+    secret_key_new2 = forms.CharField(
+        label='New secret key', max_length=30, required=True)
 
 
 class EmployeeActivationForm(forms.Form):
 
     activate = forms.BooleanField()
 
+
+class OfficeHoursForm(forms.ModelForm):
+
+    class Meta:
+        model = OfficeHours
+        fields = ['open_time', 'close_time']
+
+    def __init__(self, *args, **kwargs):
+        super(OfficeHoursForm, self).__init__(*args, **kwargs)
+        self.fields['open_time'].required = False
+        self.fields['close_time'].required = False
+        self.fields['open_time'].input_format = "%H:%M"
+        self.fields['close_time'].input_format = "%H:%M"
+        self.fields['open_time'].widget = forms.TimeInput(format="%H:%M")
+        self.fields['close_time'].widget = forms.TimeInput(format="%H:%M")
+
+    def is_valid(self):
+        for field in self.fields:
+            if 'open_time' in field:
+                ot = field
+            elif 'close_time' in field:
+                ct = field
+        is_good = True
+       
+        if self.data[ot] != '' and self.data[ct] != '':
+            k = self.data[ot].split(':')
+            open_time = time(int(k[0]), int(k[1]))
+            k = self.data[ct].split(':')
+            close_time = time(int(k[0]), int(k[1]))
+            is_good = open_time < close_time
+            if is_good == False:
+                self.errors[' open time: '] = self.data[ot]
+                self.errors[' close time: '] = self.data[ct]
+        return is_good and super(OfficeHoursForm, self).is_valid()

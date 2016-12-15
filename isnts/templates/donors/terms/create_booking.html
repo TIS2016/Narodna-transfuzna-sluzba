@@ -36,7 +36,11 @@ $('.datepicker').pickadate({
   selectMonths: true,
   selectYears: true,
   firstDay: 1 ,
-  min: new Date(),
+  {% if postpone %}
+     min: new Date('{{postpone|safe}}'),
+  {% else %}
+     min: new Date(),
+  {% endif %}
   format: 'dd.mm.yyyy',
   formatSubmit: 'dd.mm.yyyy',
 });

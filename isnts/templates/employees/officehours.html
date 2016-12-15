@@ -1,0 +1,45 @@
+{% extends "base.html" %} {% load staticfiles %} {% block title %}Employees{% endblock %} {% block content %}
+<h2 id="napisL">Office Hours</h2>
+<hr>
+<form method="post" role="form">
+    <table>
+        <tr>
+            <th class="office_hours_day">Day</th>
+            <th class="office_hours_day_segment">Before noon</th>
+            <th class="office_hours_day_segment">After noon</th>
+        </tr>
+        <tr>
+            {% for key,day_segments in forms.items %}
+            <td class="office_hours_day">
+                <div id="day_{{key}}"></div>
+            </td>
+            {% for form in day_segments %}
+            <td class="office_hours_day_segment">
+                {% for field in form.visible_fields %}
+                <div id="div_{{ field.html_name }}" class="form-group{% if field.errors %} has-error{% endif %} input-field validate office_hours_day_segment_time">
+                    {{ field }} {{ field.label_tag }}
+                    <div class="help-block">
+                        {{ field.errors }}
+                    </div>
+                </div>
+                {% endfor %} {% for hidden in form.hidden_fields %} {{ hidden }} {% endfor %}
+            </td>
+            {% cycle '' '</tr><tr>' %}
+        {% endfor %} {% endfor %} {% csrf_token %}
+    </table>
+    <div class="form-group">
+        <input type="submit" value="Submit" name="submit_btn" class="btn btn-primary" />
+    </div>
+</form>
+<script type="text/javascript">
+    var days = {{ days_in_week|safe }}
+    for (i = 0; i < 7; i++) {
+        day = document.getElementById('day_' + i);
+        day.innerHTML = days[i];
+    }
+    {% if bad_time_input %}
+        var errors = "{{ bad_time_input|striptags }}"
+        Materialize.toast("You did not enter a valid time " + errors, 10000);
+    {% endif %}
+</script>
+{% endblock %}

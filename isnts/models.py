@@ -108,8 +108,8 @@ class OfficeHours(models.Model):
         (7, 'Sunday')
     )
     day = models.SmallIntegerField(choices=DAYS_OF_WEEK)
-    open_time = models.TimeField()
-    close_time = models.TimeField()
+    open_time = models.TimeField(blank=True)
+    close_time = models.TimeField(blank=True)
 
 
 class Announcement(models.Model):
@@ -220,6 +220,6 @@ class BloodExtraction(models.Model):
     barcode = models.CharField(max_length=255)
     id_donor = models.ForeignKey(Donor, on_delete=models.CASCADE)
     id_nts = models.ForeignKey(NTS, on_delete=models.SET_NULL, null=True)
-    date = models.DateTimeField()
+    date = models.DateTimeField(auto_now_add=True)
     postpone = models.DateTimeField(null=True)
     note = models.CharField(max_length=255)

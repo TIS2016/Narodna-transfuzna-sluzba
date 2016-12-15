@@ -1,0 +1,12 @@
+{% extends "base.html" %} {% load staticfiles %} {% block title %}Employee Login{% endblock %} {% block content %} 
+<section class="row">
+    <h2 style="font-size: 2em;text-align: center;font-weight: bold;color: #3b62a9;">List of bookings</h2>
+    {% for booking in bookings %}
+    <div id="booking_{{booking.id}}">
+    <span>In NTS {{ booking.id_nts.name }}</span>
+    <span>Donor:<a href="/donors/{{booking.id_donor.id}}"> {{booking.id_donor}}</a></span>
+    <span>At: {{ booking.booking_time }}</span>
+    </div>
+    {% endfor %}
+</section>
+{% endblock %}
