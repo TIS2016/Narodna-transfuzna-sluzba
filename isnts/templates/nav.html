@@ -29,7 +29,7 @@
     {% if perms.isnts.is_employee %}
     <li class="{% if request.resolver_match.url_name == 'donors' %}active{% endif %}"><a id="donor" href="/donors/">Donors</a></li>
     <li class="{% if request.resolver_match.url_name == 'terms' %}active{% endif %}"><a href="/employees/terms">Terms</a></li>
-    <li class"{% if request.resolver_match.url_name == 'office_hours' %}active{% endif %}"><a href="/employees/officehours">Office hours</a></li>
+    <li class="{% if request.resolver_match.url_name == 'office_hours' %}active{% endif %}"><a href="/employees/officehours">Office hours</a></li>
     <li class="{% if request.resolver_match.url_name == 'blood_extraction' %}active{% endif %}"><a id="blood" href="/blood_extraction/">Blood extractions</a></li>
     {% endif %} 
     {% if perms.isnts.is_donor and perms.isnts.is_employee %}
