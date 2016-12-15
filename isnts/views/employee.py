@@ -137,6 +137,7 @@ def check_office_hours(office_hours=[], oh_bn=None, oh_an=None, day=None, id_nts
                 list(oh_bn)[i].delete()
     return office_hours
 
+
 @login_required(login_url='/employees/login/')
 @permission_required('isnts.is_employee', login_url='/donors/information/')
 def office_hours(request):
@@ -148,10 +149,13 @@ def office_hours(request):
     forms = {}
     office_hours = []
     for day in range(1, 8):
-        oh_bn = OfficeHours.objects.filter(id_nts=employee.id_nts, day=day, close_time__lte=noon)
-        oh_an = OfficeHours.objects.filter(id_nts=employee.id_nts, day=day, close_time__gt=noon)
-        office_hours = check_office_hours(office_hours=office_hours, oh_bn=oh_bn, oh_an=oh_an, day=day, id_nts=employee.id_nts)
-        
+        oh_bn = OfficeHours.objects.filter(
+            id_nts=employee.id_nts, day=day, close_time__lte=noon)
+        oh_an = OfficeHours.objects.filter(
+            id_nts=employee.id_nts, day=day, close_time__gt=noon)
+        office_hours = check_office_hours(
+            office_hours=office_hours, oh_bn=oh_bn, oh_an=oh_an, day=day, id_nts=employee.id_nts)
+
     for i in range(len(office_hours)):
         p = forms.get(i // 2, [])
         form = OfficeHoursForm(request.POST or None, instance=office_hours[i])
