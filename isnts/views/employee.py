@@ -189,7 +189,6 @@ def office_hours(request):
             office_hours[k].close_time = time(int(ct[0]), int(ct[1]))
             office_hours[k].save()
         else:
-            print(form.errors)
             return render(request, 'employees/officehours.html', {'forms': forms, 'days_in_week': days_in_week, 'bad_time_input': form.errors})
 
     return render(request, 'employees/officehours.html', {'forms': forms, 'days_in_week': days_in_week})
