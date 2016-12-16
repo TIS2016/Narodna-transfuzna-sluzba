@@ -1,0 +1,35 @@
+Dátum stretnutia: 29.11.2016     
+Zoznam prítomných členov týmu: Samuel Mitas, Jakub Trubač, Martin Mašek, Patrik Hudák, Marián Skrip    
+Priebeh stretnutia:   
+     
+1."Stand up meeting":    
+     
+Martin Mašek pracoval na dizajne sekcie pre darcov.
+Jakub Trubač pridal secret key, views pre superusera a views na zmenu hesla a secret key.
+Marián Skrip opravoval chyby pri skupinách užívatelov a pridával prístupové práva pre hotové views.   
+Samuel Mitas spravil tokeny pre registráciu a password reset.
+Patrik Hudák pracoval na dizajne administrácie a styloval views ktoré boli hotové.
+   
+2.Správa o celkovom pokračovaní projektu pre cvičiaceho:   
+
+Práca frontendovej časti sa do mastera nedostala kvôli problémom s mergom.
+Nastylovaný bol aj prehlad darcov.
+Martin mašek popísal svoju prácu na dizajne darcovskéj agendy.
+Vysvetlili sme cvičiacemu už dokončené skupiny zamestnancov.
+Pokus kontaktovať zadávateľa bol neúspešný.
+ 
+3.Spätná väzba od cvičiaceho o odovzdanej dokumentácii a pokračovaní projektu:   
+   
+S prácou backendovej časti týmu bol cvičiaci spokojný.
+Cvičiacemu sa nepozdávalo tlačidlo na pridávanie zamestnancov v pravom dolnom rohu.
+Cvičiaci vyzdvihol dôležitosť dokončenia agendy termínov.
+   
+4.Diskusia:   
+  
+Prediskutovali sme pokrok v oblasti frontend implementácie.
+Zhodli sme sa že treba pracovať na agende termínov.
+Cvičiacemu sme odprezentovali overovanie registrácie cez mail.
+Dohodli sme sa že treba zorganizovať stretnutie s zadávateľom.
+Cvičiaci konštatoval že za týždeň a pol by mala byť prvá funkčná verzia nášho IS.
+Prediskutovali sme ďalší postup frontend týmu.
+Cvičiaci nás upozornil že do ďalšieho týždňa by mali byť termíny takmer hotové.
