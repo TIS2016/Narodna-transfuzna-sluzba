@@ -1,0 +1,26 @@
+Dátum stretnutia: 13.12.2016     
+Zoznam prítomných členov týmu: Samuel Mitas, Jakub Trubač, Patrik Hudák, Marián Skrip    
+Priebeh stretnutia:   
+     
+1."Stand up meeting":    
+     
+Jakub Trubač robil opravy agendy superusera a zamestnancov.
+Marián Skrip spravil objednávanie na termíny pre darcov a robil drobné opravy.
+Samuel Mitas zorganizoval stretnutie s zadávateľom a pracoval na agende termínov.
+Patrik Hudák riešil problém s mergom a dokončil prácu na dizajne.
+   
+2.Správa o celkovom pokračovaní projektu pre cvičiaceho:   
+
+Cvičiacemu sme odprezentovali vtedajšiu verziu IS pričom sme objavili dve chyby.
+Z hľadiska backend implementácie bolo okrem termínov všetko dokončené.
+Cvičiacemu sme neboli schopný odprezentovať prácu martina mašeka lebo bol neprítomný a všetku prácu mal na lokálnej branch.
+ 
+3.Spätná väzba od cvičiaceho o odovzdanej dokumentácii a pokračovaní projektu:   
+
+Cvičiaci vyjadril svoju nespokojnosť s množstvom chýb vo vtedajšej verzii IS.
+Našu prácu s githubom cvičiaci hodnotil veľmi pozitívne.
+   
+4.Diskusia:   
+
+Prediskutovali sme priebeh stretnutia s zadávateľom ktorý bol s IS spokojný.
+Cvičiaci nám určil termín dokončenia funkčnej verzie IS.
