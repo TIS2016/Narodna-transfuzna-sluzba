@@ -133,3 +133,5 @@ EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
 EMAIL_HOST_USER = 'ntssrdebug@gmail.com'
 EMAIL_HOST_PASSWORD = '4hh-4ea24cc0b2ff4f3d41d1'
+
+MESSAGE_STORAGE = 'django.contrib.messages.storage.cookie.CookieStorage'

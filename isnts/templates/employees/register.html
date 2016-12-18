@@ -1,8 +1,10 @@
 {% extends "public/base.html" %} {% load staticfiles %} {% block title %}Employee Registration{% endblock %} {% block content %} {% include "public/nav.html" %}
 
 <script type="text/javascript">
-    {% if error_msg %}
-    Materialize.toast("{{ error_msg }}", 4000);
+    {% if messages %}
+        {% for msg in messages %}
+            Materialize.toast("{{ msg }}", 5000);
+        {% endfor %}
     {% endif %}
 </script>
 

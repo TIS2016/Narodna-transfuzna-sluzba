@@ -16,6 +16,7 @@ from django.contrib.auth.views import password_reset, password_reset_confirm
 from django.contrib.auth.forms import PasswordChangeForm
 from django.core.mail import EmailMultiAlternatives
 from django.contrib.auth.hashers import make_password, check_password
+from django.contrib import messages
 
 
 
@@ -143,14 +144,12 @@ def password_change(request):
     return render(request, 'auth/password_change.html', {'form': password_change_form})
 
 
-def employee_login(request, registration_msg=None):
+def employee_login(request):
     def render_form():
         employee_login_form = EmployeeLogin(
             request.POST if request.POST else None)
-        if registration_msg is None:
-            return render(request, 'employees/login.html', {'form': employee_login_form})
-        else:
-            return render(request, 'employees/login.html', {'form': employee_login_form, 'registration_msg': registration_msg})
+        return render(request, 'employees/login.html', {'form': employee_login_form})
+
 
     if not request.user.is_authenticated():
         if request.method == 'POST':
@@ -193,7 +192,9 @@ def employee_register(request):
                 data = employee_registration_form.cleaned_data
                 nts = get_nts(data["secret_key"])
                 if nts is None:
-                    return render(request, 'employees/register.html', {'form': employee_registration_form, 'error_msg': 'Registration unsuccessful, NTS does not exist.'})
+                    msg = 'Registration unsuccessful, NTS does not exist.'
+                    messages.info(request, msg)
+                    return render(request, 'employees/register.html', {'form': employee_registration_form})
                 user = employee_registration_form.save()
                 user.set_password(user.password)
                 user.is_active = False
@@ -203,7 +204,8 @@ def employee_register(request):
                 g.user_set.add(user)
                 user.save()
                 msg = "Registration successful, wait for account activation from your local administrator."
-                return employee_login(request, registration_msg = msg)
+                messages.info(request, msg)
+                return HttpResponseRedirect('/employees/login')
             else:
                 return render_form()
         else:
