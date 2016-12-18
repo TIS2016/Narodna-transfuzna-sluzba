@@ -33,7 +33,6 @@ urlpatterns = [
     url(r'^blood_extraction/(?P<blood_extraction_id>[0-9]+)/$', views.blood_extraction.detailview, name="blood_extraction"),
     url(r'^blood_extraction/$', views.blood_extraction.listview, name="blood_extraction"),
     url(r'^login/$', views.auth.donor_login),
-    url(r'^logout/$', views.auth._logout),
     url(r'^registration/confirm/(?P<donor_id>[0-9]+)/(?P<token>[0-9A-Za-z]{1,13}-[0-9A-Za-z]{1,20})/$', views.auth.donor_registration_confirm),
     url(r'^registration/$', views.auth.donor_registration),
     url(r'^registration/success/$', views.auth.donor_registration_success),

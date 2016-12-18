@@ -143,11 +143,14 @@ def password_change(request):
     return render(request, 'auth/password_change.html', {'form': password_change_form})
 
 
-def employee_login(request):
+def employee_login(request, registration_msg=None):
     def render_form():
         employee_login_form = EmployeeLogin(
             request.POST if request.POST else None)
-        return render(request, 'employees/login.html', {'form': employee_login_form})
+        if registration_msg is None:
+            return render(request, 'employees/login.html', {'form': employee_login_form})
+        else:
+            return render(request, 'employees/login.html', {'form': employee_login_form, 'registration_msg': registration_msg})
 
     if not request.user.is_authenticated():
         if request.method == 'POST':
@@ -164,6 +167,12 @@ def employee_login(request):
             return render_form()
     return HttpResponseRedirect('/')
 
+def get_nts(secret_key=""):
+    nts_list = NTS.objects.all()
+    for nts in nts_list:
+        if check_password(secret_key, nts.secret_key):
+            return nts
+    return None
 
 def employee_register(request):
     e_types = [('', '---------')]
@@ -182,23 +191,19 @@ def employee_register(request):
 
             if employee_registration_form.is_valid():
                 data = employee_registration_form.cleaned_data
-                employee_secret_key = make_password(data['secret_key'])
+                nts = get_nts(data["secret_key"])
+                if nts is None:
+                    return render(request, 'employees/register.html', {'form': employee_registration_form, 'error_msg': 'Registration unsuccessful, NTS does not exist.'})
                 user = employee_registration_form.save()
                 user.set_password(user.password)
                 user.is_active = False
+                user.id_nts = nts
                 g = Group.objects.get(
                     id=employee_registration_form.cleaned_data['employee_type'])
                 g.user_set.add(user)
                 user.save()
-                nts_list = NTS.objects.all()
-                employee = Employee.objects.get(id=user.id)
-                for nts in nts_list:
-                    if check_password(data['secret_key'], nts.secret_key):
-                        employee.id_nts = nts
-                        break
-                if employee.id_nts == None:
-                    return render(request, 'employees/registration_decline_message.html')
-                return render(request, 'employees/register_message.html', {'form': employee_registration_form})
+                msg = "Registration successful, wait for account activation from your local administrator."
+                return employee_login(request, registration_msg = msg)
             else:
                 return render_form()
         else:
@@ -207,9 +212,10 @@ def employee_register(request):
 
 
 def _logout(request):
-    if request.user.has_perm("isnts.is_donor"):
-        logout(request)
-        return HttpResponseRedirect('/login')
-    elif request.user.has_perm("isnts.is_employee"):
+    if request.user.has_perm("isnts.is_employee"):
         logout(request)
         return HttpResponseRedirect("/employees/login")
+    elif request.user.has_perm("isnts.is_donor"):
+        logout(request)
+        return HttpResponseRedirect('/login')
+    

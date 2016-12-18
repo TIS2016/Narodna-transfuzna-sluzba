@@ -45,6 +45,8 @@ def detailview(request, employee_id):
         employee_form = EmployeeRegister(
             request.POST, instance=employee, emp_types=e_types)
         employee_form.fields['active'] = forms.BooleanField(initial=employee.is_active)
+        employee_form.fields.pop('password')
+        employee_form.fields.pop('secret_key')
         if employee_form.is_valid():
             new_g = Group.objects.get(
                 id=employee_form.cleaned_data['employee_type'])
@@ -57,6 +59,8 @@ def detailview(request, employee_id):
     else:
         employee_form = EmployeeRegister(instance=employee, emp_types=e_types)
         employee_form.fields['active'] = forms.BooleanField(initial=employee.is_active)
+        employee_form.fields.pop('password')
+        employee_form.fields.pop('secret_key')
     employee_form.fields['employee_type'].initial = employee.groups.all()[0].id
     return render(request, 'employees/detailview.html', {'form': employee_form})
 
