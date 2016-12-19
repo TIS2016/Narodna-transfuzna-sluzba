@@ -1,4 +1,13 @@
 {% extends "public/base.html" %} {% load staticfiles %} {% block title %}Employee Registration{% endblock %} {% block content %} {% include "public/nav.html" %}
+
+<script type="text/javascript">
+    {% if messages %}
+        {% for msg in messages %}
+            Materialize.toast("{{ msg }}", 5000);
+        {% endfor %}
+    {% endif %}
+</script>
+
 <section class="row">
     <div class="col m4 s12 offset-m4 employee_login_box">
         <h2 id="napis">Employee registration</h2>

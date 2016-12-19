@@ -6,6 +6,7 @@ from django.contrib.auth.decorators import login_required, user_passes_test, per
 from django.core.exceptions import ObjectDoesNotExist
 from datetime import time
 from django.http import HttpResponseRedirect
+from django import forms
 
 
 def get_or_none(model, *args, **kwargs):
@@ -43,16 +44,23 @@ def detailview(request, employee_id):
     if request.method == 'POST':
         employee_form = EmployeeRegister(
             request.POST, instance=employee, emp_types=e_types)
+        employee_form.fields['active'] = forms.BooleanField(initial=employee.is_active)
+        employee_form.fields.pop('password')
+        employee_form.fields.pop('secret_key')
         if employee_form.is_valid():
             new_g = Group.objects.get(
                 id=employee_form.cleaned_data['employee_type'])
             old_g = employee.groups.all()[0]
             old_g.user_set.remove(employee)
             new_g.user_set.add(employee)
+            employee.is_active = employee_form.cleaned_data['active']
             employee_form.save()
             return render(request, 'employees/detailview.html', {'form': employee_form})
     else:
         employee_form = EmployeeRegister(instance=employee, emp_types=e_types)
+        employee_form.fields['active'] = forms.BooleanField(initial=employee.is_active)
+        employee_form.fields.pop('password')
+        employee_form.fields.pop('secret_key')
     employee_form.fields['employee_type'].initial = employee.groups.all()[0].id
     return render(request, 'employees/detailview.html', {'form': employee_form})
 

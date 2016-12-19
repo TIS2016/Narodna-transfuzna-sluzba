@@ -16,6 +16,7 @@ from django.contrib.auth.views import password_reset, password_reset_confirm
 from django.contrib.auth.forms import PasswordChangeForm
 from django.core.mail import EmailMultiAlternatives
 from django.contrib.auth.hashers import make_password, check_password
+from django.contrib import messages
 
 
 
@@ -72,7 +73,6 @@ def donor_registration(request):
             g = Group.objects.get(name='Donor')
             g.user_set.add(user)
             user.save()
-
             token = default_token_generator.make_token(user)
             context = Context({
                 'first_name': user.first_name,
@@ -87,7 +87,6 @@ def donor_registration(request):
             html_content = get_template('emails/verification.html').render(context)
             message = EmailMultiAlternatives(subject, text_content,'ntssrdebug@gmail.com', [user.email])
             message.attach_alternative(html_content, "text/html")
-
             try:
                 message.send()
             except:
@@ -148,7 +147,6 @@ def employee_login(request):
         employee_login_form = EmployeeLogin(
             request.POST if request.POST else None)
         return render(request, 'employees/login.html', {'form': employee_login_form})
-
     if not request.user.is_authenticated():
         if request.method == 'POST':
             user = authenticate(username=request.POST.get('username'),
@@ -164,6 +162,12 @@ def employee_login(request):
             return render_form()
     return HttpResponseRedirect('/')
 
+def get_nts(secret_key=""):
+    nts_list = NTS.objects.all()
+    for nts in nts_list:
+        if check_password(secret_key, nts.secret_key):
+            return nts
+    return None
 
 def employee_register(request):
     e_types = [('', '---------')]
@@ -182,23 +186,22 @@ def employee_register(request):
 
             if employee_registration_form.is_valid():
                 data = employee_registration_form.cleaned_data
-                employee_secret_key = make_password(data['secret_key'])
+                nts = get_nts(data["secret_key"])
+                if nts is None:
+                    msg = 'Registration unsuccessful, NTS does not exist.'
+                    messages.info(request, msg)
+                    return render(request, 'employees/register.html', {'form': employee_registration_form})
                 user = employee_registration_form.save()
                 user.set_password(user.password)
                 user.is_active = False
+                user.id_nts = nts
                 g = Group.objects.get(
                     id=employee_registration_form.cleaned_data['employee_type'])
                 g.user_set.add(user)
                 user.save()
-                nts_list = NTS.objects.all()
-                employee = Employee.objects.get(id=user.id)
-                for nts in nts_list:
-                    if check_password(data['secret_key'], nts.secret_key):
-                        employee.id_nts = nts
-                        break
-                if employee.id_nts == None:
-                    return render(request, 'employees/registration_decline_message.html')
-                return render(request, 'employees/register_message.html', {'form': employee_registration_form})
+                msg = "Registration successful, wait for account activation from your local administrator."
+                messages.info(request, msg)
+                return HttpResponseRedirect('/employees/login')
             else:
                 return render_form()
         else:
@@ -207,9 +210,10 @@ def employee_register(request):
 
 
 def _logout(request):
-    if request.user.has_perm("isnts.is_donor"):
-        logout(request)
-        return HttpResponseRedirect('/login')
-    elif request.user.has_perm("isnts.is_employee"):
+    if request.user.has_perm("isnts.is_employee"):
         logout(request)
         return HttpResponseRedirect("/employees/login")
+    elif request.user.has_perm("isnts.is_donor"):
+        logout(request)
+        return HttpResponseRedirect('/login')
+    
