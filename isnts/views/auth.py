@@ -73,7 +73,6 @@ def donor_registration(request):
             g = Group.objects.get(name='Donor')
             g.user_set.add(user)
             user.save()
-
             token = default_token_generator.make_token(user)
             context = Context({
                 'first_name': user.first_name,
@@ -88,7 +87,6 @@ def donor_registration(request):
             html_content = get_template('emails/verification.html').render(context)
             message = EmailMultiAlternatives(subject, text_content,'ntssrdebug@gmail.com', [user.email])
             message.attach_alternative(html_content, "text/html")
-
             try:
                 message.send()
             except:
@@ -149,8 +147,6 @@ def employee_login(request):
         employee_login_form = EmployeeLogin(
             request.POST if request.POST else None)
         return render(request, 'employees/login.html', {'form': employee_login_form})
-
-
     if not request.user.is_authenticated():
         if request.method == 'POST':
             user = authenticate(username=request.POST.get('username'),
