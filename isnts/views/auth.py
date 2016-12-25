@@ -138,7 +138,10 @@ def password_change(request):
         if password_change_form.is_valid():
             password_change_form.save()
             update_session_auth_hash(request, password_change_form.user)
+            messages.success(request, 'Password has been changed!')
             return HttpResponseRedirect('/login/')
+        else:
+            messages.success(request, 'Error! Please fill your form with valid values!')
     return render(request, 'auth/password_change.html', {'form': password_change_form})
 
 
@@ -157,6 +160,7 @@ def employee_login(request):
                 login(request, user)
                 return HttpResponseRedirect('/')
             else:
+                messages.success(request, 'Invalid login or password!')
                 return render_form()
         else:
             return render_form()

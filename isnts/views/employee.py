@@ -7,7 +7,7 @@ from django.core.exceptions import ObjectDoesNotExist
 from datetime import time
 from django.http import HttpResponseRedirect
 from django import forms
-
+from django.contrib import messages
 
 def get_or_none(model, *args, **kwargs):
     try:
@@ -200,7 +200,9 @@ def office_hours(request):
             office_hours[k].open_time = time(int(ot[0]), int(ot[1]))
             office_hours[k].close_time = time(int(ct[0]), int(ct[1]))
             office_hours[k].save()
+            messages.success(request, 'Office hours has been saved!')
         else:
+            messages.success(request, 'Error! Please fill your form with valid values!')
             return render(request, 'employees/officehours.html', {'forms': forms, 'days_in_week': days_in_week, 'bad_time_input': form.errors})
 
     return render(request, 'employees/officehours.html', {'forms': forms, 'days_in_week': days_in_week})

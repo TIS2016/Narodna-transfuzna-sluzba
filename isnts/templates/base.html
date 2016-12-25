@@ -12,39 +12,40 @@
     <link rel="stylesheet" href="{% static 'isnts/css/style.css' %}">
     <script src="{% static 'isnts/js/materialize.min.js' %}"></script>
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="shortcut icon" href="../static/isnts/images/icon.ico"/>
 </head>
 
 <body>
-    {% include "nav.html" %}
-    <div class="progress-wrapper">
-        <div class="preloader-wrapper big active">
-            <div class="spinner-layer spinner-blue-only">
-                <div class="circle-clipper left">
-                    <div class="circle"></div>
-                </div>
-                <div class="gap-patch">
-                    <div class="circle"></div>
-                </div>
-                <div class="circle-clipper right">
-                    <div class="circle"></div>
-                </div>
+{% include "nav.html" %}
+<div class="progress-wrapper">
+    <div class="preloader-wrapper big active">
+        <div class="spinner-layer spinner-blue-only">
+            <div class="circle-clipper left">
+                <div class="circle"></div>
+            </div>
+            <div class="gap-patch">
+                <div class="circle"></div>
+            </div>
+            <div class="circle-clipper right">
+                <div class="circle"></div>
             </div>
         </div>
     </div>
-    <main>
-        {% block content %}{% endblock %}
-    </main>
+</div>
+<main>
+    {% block content %}{% endblock %}
+</main>
 
-  <script>
-        $(document).ready(function() {
-            $('select').material_select();
-            $(".button-collapse").sideNav();
-            $(".dropdown-button").dropdown();
-            $('.parallax').parallax();
-            $(".progress-wrapper").fadeOut();
-            $("main").fadeIn();
-        });
-    </script>
+<script>
+    $(document).ready(function () {
+        $('select').material_select();
+        $(".button-collapse").sideNav();
+        $(".dropdown-button").dropdown();
+        $('.parallax').parallax();
+        $(".progress-wrapper").fadeOut();
+        $("main").fadeIn();
+    });
+</script>
 </body>
 
 </html>

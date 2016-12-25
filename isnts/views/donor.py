@@ -15,6 +15,7 @@ from isnts.models import *
 from isnts.questions_enum import QUESTION_COUNT
 from django.core import serializers
 from django.db.models import Max
+from django.contrib import messages
 
 
 def get_or_none(model, *args, **kwargs):
@@ -50,6 +51,9 @@ def create_new(request):
             perm_address_form.save()
             temp_address_form.save()
             donor_form.save()
+            messages.success(request, 'Donnor has been created!')
+        else:
+            messages.success(request, 'Error! Please fill your form with valid values!')
     return render(request, 'donors/create_new.html', {
         'donor_form': donor_form,
         'perm_address': perm_address_form,
@@ -79,6 +83,9 @@ def detailview(request, donor_id):
             perm_address_form.save()
             temp_address_form.save()
             donor_form.save()
+            messages.success(request, 'Form has been saved')
+        else:
+            messages.success(request, 'Error! Please fill your form with valid values!')
     return render(request, 'donors/detailview.html', {
         'donor_form': donor_form,
         'perm_address': perm_address_form,
@@ -110,6 +117,7 @@ def quastionnaire(request, donor_id, questionnaire_id):
         if questions_forms.is_valid() and questionnaire_form.is_valid():
             questionnaire_form.id_donor = donor_id
             questionnaire_form.save()
+            messages.success(request, 'Questionnaire has been saved!')
             if questionnaire:
                 for questions_form in questions_forms:
                     cleaned_data = questions_form.cleaned_data
@@ -122,6 +130,8 @@ def quastionnaire(request, donor_id, questionnaire_id):
                 for questions_form in questions_forms:
                     questions_form.instance.questionnaire = questionnaire_form.instance
                     questions_form.save()
+        else:
+            messages.success(request, 'Error! Please fill your form with valid values!')
     return render(request, 'donors/questionnaire/detailview.html', {
         'donor': donor,
         'questionnaire_form': questionnaire_form,

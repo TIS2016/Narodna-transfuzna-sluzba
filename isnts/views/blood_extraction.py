@@ -35,4 +35,6 @@ def detailview(request, blood_extraction_id):
         if blood_extraction_form.is_valid():
             blood_extraction_form.save()
             messages.success(request, 'Blood extraction has been saved!')
+        else:
+            messages.success(request, 'Error! Please fill your form with valid values!')
     return render(request, 'blood_extraction/detailview.html', {'blood_extraction_form': blood_extraction_form})
