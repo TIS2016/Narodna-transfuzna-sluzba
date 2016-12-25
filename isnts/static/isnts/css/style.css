@@ -184,4 +184,7 @@ body {
     width: 40%;
 }
 
+.help-block li {
+    color: red;
+}
 
