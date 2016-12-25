@@ -3,4 +3,9 @@ venv/
 *.sqlite3
 migrations/
 !migrations/__init__.py
+<<<<<<< Updated upstream
 .sass-cache/
+=======
+.sass-cache/
+/.idea/
+>>>>>>> Stashed changes
