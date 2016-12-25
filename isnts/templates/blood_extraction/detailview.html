@@ -2,21 +2,33 @@
 {% load staticfiles %}
 {% block title %}Blood sample{% endblock %}
 {% block content %}
-<section>
-    <a href="/blood_extraction">Back</a>
-    <h2>Blood sample</h2>
-    <form method="post" role="form">
-        {% for field in blood_extraction_form.visible_fields %}
-        <div id="div_{{ field.html_name }}" class="form-group{% if field.errors %} has-error{% endif %} input-field">
-            {{ field }} {{ field.label_tag }}
-            <div class="help-block">
-                {{ field.errors }}
+    {% if messages %}
+        {% for message in messages %}
+            <script>
+                Materialize.toast('{{ message }}', 4000)
+            </script>
+        {% endfor %}
+    {% endif %}
+    <section>
+        <br>
+        <a href="/blood_extraction">Back</a>
+        <h2 id="napisL">Blood sample</h2>
+        <hr>
+        <br><br>
+        <form method="post" role="form">
+            {% for field in blood_extraction_form.visible_fields %}
+                <div id="div_{{ field.html_name }}"
+                     class="form-group{% if field.errors %} has-error{% endif %} input-field">
+                    {{ field }} {{ field.label_tag }}
+                    <div class="help-block">
+                        {{ field.errors }}
+                    </div>
+                </div>
+            {% endfor %} {% for hidden in blood_extraction_form.hidden_fields %}
+            {{ hidden }} {% endfor %} {% csrf_token %}
+            <div class="form-group">
+                <input type="submit" value="Submit" class="btn btn-primary"/>
             </div>
-        </div>
-        {% endfor %} {% for hidden in blood_extraction_form.hidden_fields %} {{ hidden }} {% endfor %} {% csrf_token %}
-        <div class="form-group">
-            <input type="submit" value="Submit" class="btn btn-primary" />
-        </div>
-    </form>
-</section>
+        </form>
+    </section>
 {% endblock %}

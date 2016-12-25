@@ -2,6 +2,7 @@ from django.contrib.auth.decorators import login_required, user_passes_test, per
 from django.shortcuts import render
 from isnts.models import *
 from isnts.forms import *
+from django.contrib import messages
 
 
 def get_or_none(model, *args, **kwargs):
@@ -33,4 +34,5 @@ def detailview(request, blood_extraction_id):
     if request.method == 'POST':
         if blood_extraction_form.is_valid():
             blood_extraction_form.save()
+            messages.success(request, 'Blood extraction has been saved!')
     return render(request, 'blood_extraction/detailview.html', {'blood_extraction_form': blood_extraction_form})
