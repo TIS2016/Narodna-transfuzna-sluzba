@@ -4,3 +4,4 @@ venv/
 migrations/
 !migrations/__init__.py
 .sass-cache/
+.idea
