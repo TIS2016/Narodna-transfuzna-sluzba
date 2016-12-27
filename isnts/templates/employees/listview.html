@@ -1,10 +1,9 @@
 {% extends "base.html" %} {% load staticfiles %} {% block title %}Employees{% endblock %} {% block content %}
-<div class="fixed-action-btn">
-    <a href="register/" class="btn-floating btn-large waves-effect waves-light blue"><i class="material-icons">add</i></a>
-</div>
-
-<main>
-
+    <div class="fixed-action-btn">
+        <a href="register/" class="btn-floating btn-large waves-effect waves-light blue"><i
+                class="material-icons">add</i>
+        </a>
+    </div>
     <h2 id="napisL">Employees</h2>
     <hr>
     <div class="row" style="margin: 5% 0;">
@@ -15,7 +14,8 @@
                 <label for="icon_prefix">Zadajte kľúčové slovo</label>
             </div>
             <div class="input-field col s12 m2 l2">
-                <input type="submit" value="Search" id="main_btn1" name="login_btn" class="btn btn-primary" style="width:100%;float:left;" />
+                <input type="submit" value="Search" id="main_btn1" name="login_btn" class="btn btn-primary"
+                       style="width:100%;float:left;"/>
             </div>
 
 
@@ -24,16 +24,16 @@
 
     <table class="responsive-table">
         <thead>
-            <tr>
-                <th data-field="id">ID</th>
-                <th data-field="name">First name</th>
-                <th data-field="price">Last name</th>
-                <th data-field="price">Active</th>
-            </tr>
+        <tr>
+            <th data-field="id">ID</th>
+            <th data-field="name">First name</th>
+            <th data-field="price">Last name</th>
+            <th data-field="price">Active</th>
+        </tr>
         </thead>
 
         <tbody>
-            {% for employee in employees %}
+        {% for employee in employees %}
             <tr class="picker__list-item--highlighted" onclick="location.href='{{ employee.id }}'">
 
                 <td>{{ employee.id }}</td>
@@ -42,14 +42,14 @@
 
                 <td>
                     {% if employee.is_active %}
-                    <i class="material-icons green-text">done</i> {% else %}
-                    <i class="material-icons red-text">clear</i> {% endif %}
+                        <i class="material-icons green-text">done</i> {% else %}
+                        <i class="material-icons red-text">clear</i> {% endif %}
                 </td>
                 </td>
             </tr>
-            {% endfor %}
+        {% endfor %}
         </tbody>
     </table>
 
-</main>
+
 {% endblock %}

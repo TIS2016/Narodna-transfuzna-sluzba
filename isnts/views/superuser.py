@@ -2,6 +2,7 @@ from isnts.models import *
 from isnts.forms import *
 from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseRedirect
+from django.contrib import messages
 
 
 
@@ -22,7 +23,11 @@ def secret_key_change(request):
             if data['secret_key_new'] == data['secret_key_new2']:
                 nts.secret_key = data['secret_key_new2']
                 nts.save()
+                messages.success(request, 'Secret key has been changed!')
                 return HttpResponseRedirect('/login/')
+            else:
+                messages.success(request, 'Error! Please fill your form with valid values!')
+
     return render(request, 'superuser/secret_key_change.html', {'form': secret_key_change_form})
 
 
