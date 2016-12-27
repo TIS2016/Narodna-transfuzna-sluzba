@@ -79,14 +79,14 @@ WSGI_APPLICATION = 'nts.wsgi.application'
 from urllib.parse import urlparse
 
 DATABASES = {}
-if 'OPENSHIFT_POSTGRESQL_DB_URL' in os.environ:
-    url = urlparse.urlparse(os.environ.get('OPENSHIFT_POSTGRESQL_DB_URL'))
+if 'POSTGRESQL_DATABASE' in os.environ:
+    url = urlparse.urlparse(os.environ.get('POSTGRESQL_DATABASE'))
 
     DATABASES['default'] = {
         'ENGINE' : 'django.db.backends.postgresql_psycopg2',
         'NAME': os.environ['OPENSHIFT_APP_NAME'],
-        'USER': url.username,
-        'PASSWORD': url.password,
+        'USER': os.environ['POSTGRESQL_USER'],
+        'PASSWORD': os.environ['POSTGRESQL_PASSWORD'],
         'HOST': url.hostname,
         'PORT': url.port,
         }
