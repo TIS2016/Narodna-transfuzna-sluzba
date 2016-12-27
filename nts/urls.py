@@ -15,10 +15,12 @@ Including another URLconf
 """
 from django.conf.urls import url, include
 from django.contrib import admin
+from isnts import views
 
 handler404 = 'isnts.views.error404'
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
+    url(r'^health/', views.auth.health),
     url(r'^',  include('isnts.urls')),
 ]
