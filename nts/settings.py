@@ -76,30 +76,11 @@ WSGI_APPLICATION = 'nts.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/1.9/ref/settings/#databases
 
-from urllib.parse import urlparse
+from . import database
 
-DATABASES = {}
-if 'POSTGRESQL_DATABASE' in os.environ:
-    url = urlparse.urlparse(os.environ.get('POSTGRESQL_DATABASE'))
-
-    DATABASES['default'] = {
-        'ENGINE' : 'django.db.backends.postgresql_psycopg2',
-        'NAME': os.environ['OPENSHIFT_APP_NAME'],
-        'USER': os.environ['POSTGRESQL_USER'],
-        'PASSWORD': os.environ['POSTGRESQL_PASSWORD'],
-        'HOST': url.hostname,
-        'PORT': url.port,
-        }
-
-else:
-    DATABASES['default'] = {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': 'dev.db',
-        'USER': '',
-        'PASSWORD': '',
-        'HOST': '',
-        'PORT': '',
-        }
+DATABASES = {
+    'default': database.config()
+}
 
 
 # Password validation
