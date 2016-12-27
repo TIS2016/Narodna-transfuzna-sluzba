@@ -8,5 +8,5 @@ setup(name='nts',
     packages=find_packages(),
     include_package_data=True,
     description='Non commercial application for NTS',
-    install_requires=['Django==1.10',],
+    install_requires=['Django==1.10','django-jquery==3.1.0'],
 )
