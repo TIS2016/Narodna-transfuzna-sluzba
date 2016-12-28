@@ -28,7 +28,7 @@ SECRET_KEY = os.getenv(
 
 DEBUG = not (os.getenv('ENVIRONMENT', '') == 'production')
 
-ALLOWED_HOSTS = ['localhost']
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
