@@ -6,6 +6,15 @@
         "content_type": 15,
         "codename": "is_employee"
     }
+},
+{
+    "model": "auth.permission",
+    "pk": 103,
+    "fields": {
+        "name": "Is NTS Superuser",
+        "content_type": 15,
+        "codename": "is_ntssu"
+    }
 }, {
     "model": "auth.permission",
     "pk": 101,

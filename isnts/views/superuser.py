@@ -2,8 +2,8 @@ from isnts.models import *
 from isnts.forms import *
 from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseRedirect
+from django.contrib.auth.decorators import login_required, user_passes_test, permission_required
 from django.contrib import messages
-
 
 
 def get_or_none(model, *args, **kwargs):
@@ -13,6 +13,8 @@ def get_or_none(model, *args, **kwargs):
         return None
 
 
+@login_required(login_url='/employees/login/')
+@permission_required('isnts.is_ntssu', login_url='/nopermission/')
 def secret_key_change(request):
     secret_key_change_form = SecretKeyChange(request.POST or None)
     if request.method == 'POST':
@@ -26,16 +28,21 @@ def secret_key_change(request):
                 messages.success(request, 'Secret key has been changed!')
                 return HttpResponseRedirect('/login/')
             else:
-                messages.success(request, 'Error! Please fill your form with valid values!')
+                messages.success(
+                    request, 'Error! Please fill your form with valid values!')
 
     return render(request, 'superuser/secret_key_change.html', {'form': secret_key_change_form})
 
 
+@login_required(login_url='/employees/login/')
+@permission_required('isnts.is_ntssu', login_url='/nopermission/')
 def employee_administration(request):
     employees = Employee.objects.all()
     return render(request, 'superuser/employee_administration.html', {'employees': employees})
 
 
+@login_required(login_url='/employees/login/')
+@permission_required('isnts.is_ntssu', login_url='/nopermission/')
 def employee_activation(request, employee_id):
     employees = Employee.objects.all()
     employee = get_or_none(Employee, id=employee_id)

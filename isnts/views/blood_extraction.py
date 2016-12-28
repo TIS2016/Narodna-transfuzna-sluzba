@@ -5,6 +5,7 @@ from isnts.forms import *
 from django.contrib import messages
 
 
+
 def get_or_none(model, *args, **kwargs):
     try:
         return model.objects.get(*args, **kwargs)
