@@ -1,6 +1,8 @@
 from django import forms
 from .models import *
 from datetime import time
+from nocaptcha_recaptcha.fields import NoReCaptchaField
+from django.contrib.auth.forms import PasswordResetForm
 
 
 class PlainTextWidget(forms.Widget):
@@ -61,6 +63,9 @@ class Register(forms.ModelForm):
         widgets = {
             'password': forms.PasswordInput()
         }
+
+class PasswordResetFormRecaptcha(PasswordResetForm):
+    captcha = NoReCaptchaField(label="")
 
 
 class EmployeeRegister(forms.ModelForm):
@@ -197,7 +202,7 @@ class OfficeHoursForm(forms.ModelForm):
             elif 'close_time' in field:
                 ct = field
         is_good = True
-       
+
         if self.data[ot] != '' and self.data[ct] != '':
             k = self.data[ot].split(':')
             open_time = time(int(k[0]), int(k[1]))

@@ -19,7 +19,6 @@ from django.contrib.auth.hashers import make_password, check_password
 from django.contrib import messages
 
 
-
 def get_or_none(model, *args, **kwargs):
     try:
         return model.objects.get(*args, **kwargs)
@@ -122,7 +121,9 @@ def _password_reset_confirm(request, uidb64=None, token=None):
 
 
 def _password_reset(request):
-    return password_reset(request, template_name='auth/password_reset_form.html',
+    return password_reset(request,
+        password_reset_form=PasswordResetFormRecaptcha,
+        template_name='auth/password_reset_form.html',
         email_template_name='emails/password_reset.txt',
         html_email_template_name='emails/password_reset.html',
         subject_template_name='emails/password_reset_subject.txt',
