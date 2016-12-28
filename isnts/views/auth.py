@@ -26,6 +26,8 @@ def get_or_none(model, *args, **kwargs):
     except model.DoesNotExist:
         return None
 
+def health(request):
+    return HttpResponse("Server is alive")
 
 def error404(request):
     return HttpResponse("404 error")
@@ -220,4 +222,3 @@ def _logout(request):
     elif request.user.has_perm("isnts.is_donor"):
         logout(request)
         return HttpResponseRedirect('/login')
-    
