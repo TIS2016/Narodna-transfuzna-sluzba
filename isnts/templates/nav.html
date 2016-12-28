@@ -32,11 +32,11 @@
     <li class="{% if request.resolver_match.url_name == 'office_hours' %}active{% endif %}"><a href="/employees/officehours">Office hours</a></li>
     <li class="{% if request.resolver_match.url_name == 'blood_extraction' %}active{% endif %}"><a id="blood" href="/blood_extraction/">Blood extractions</a></li>
     {% endif %} 
-    {% if perms.isnts.is_donor and perms.isnts.is_employee %}
+    {% if perms.isnts.is_ntssu %}
     <li class="{% if request.resolver_match.url_name == 'employees' %}active{% endif %}"><a id="employee" href="/employees/">Employees</a></li>
     <li class="{% if request.resolver_match.url_name == 'superuser_keychange' %}active{% endif %}"><a id="employee" href="/superuser/secret_key_change/">Change secret key</a></li>
     {% endif %}
-    {% if perms.isnts.is_donor and not perms.isnts.is_employee %}
+    {% if perms.isnts.is_donor  %}
     <li class="{% if request.resolver_match.url_name == 'terms' %}active{% endif %}"><a href="/donors/terms">New Term</a></li>
     <li class="{% if request.resolver_match.url_name == 'my_terms' %}active{% endif %}"><a href="/donors/terms/list">My Terms</a></li>
     {% endif %}

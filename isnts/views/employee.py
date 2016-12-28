@@ -9,6 +9,7 @@ from django.http import HttpResponseRedirect
 from django import forms
 from django.contrib import messages
 
+
 def get_or_none(model, *args, **kwargs):
     try:
         return model.objects.get(*args, **kwargs)
@@ -17,20 +18,14 @@ def get_or_none(model, *args, **kwargs):
 
 
 @login_required(login_url='/employees/login/')
-@permission_required('isnts.is_employee', login_url='/nopermission/')
+@permission_required('isnts.is_ntssu', login_url='/nopermission/')
 def listview(request):
     employees = Employee.objects.filter(groups__name__in=['Doctor', 'Nurse'])
     return render(request, 'employees/listview.html', {'employees': employees})
 
 
-def is_ntssu(user):
-    g = Group.objects.get(name='NTSsu')
-    return g in user.groups.all()
-
-
 @login_required(login_url='/employees/login/')
-@permission_required('isnts.is_employee', login_url='/nopermission/')
-@user_passes_test(is_ntssu, login_url='/nopermission/')
+@permission_required('isnts.is_ntssu', login_url='/nopermission/')
 def detailview(request, employee_id):
     user = get_or_none(Employee, id=request.user.id)
     employee = get_or_none(Employee, id=employee_id)
@@ -44,7 +39,8 @@ def detailview(request, employee_id):
     if request.method == 'POST':
         employee_form = EmployeeRegister(
             request.POST, instance=employee, emp_types=e_types)
-        employee_form.fields['active'] = forms.BooleanField(initial=employee.is_active)
+        employee_form.fields['active'] = forms.BooleanField(
+            initial=employee.is_active)
         employee_form.fields.pop('password')
         employee_form.fields.pop('secret_key')
         if employee_form.is_valid():
@@ -58,7 +54,8 @@ def detailview(request, employee_id):
             return render(request, 'employees/detailview.html', {'form': employee_form})
     else:
         employee_form = EmployeeRegister(instance=employee, emp_types=e_types)
-        employee_form.fields['active'] = forms.BooleanField(initial=employee.is_active)
+        employee_form.fields['active'] = forms.BooleanField(
+            initial=employee.is_active)
         employee_form.fields.pop('password')
         employee_form.fields.pop('secret_key')
     employee_form.fields['employee_type'].initial = employee.groups.all()[0].id
@@ -202,7 +199,8 @@ def office_hours(request):
             office_hours[k].save()
             messages.success(request, 'Office hours has been saved!')
         else:
-            messages.success(request, 'Error! Please fill your form with valid values!')
+            messages.success(
+                request, 'Error! Please fill your form with valid values!')
             return render(request, 'employees/officehours.html', {'forms': forms, 'days_in_week': days_in_week, 'bad_time_input': form.errors})
 
     return render(request, 'employees/officehours.html', {'forms': forms, 'days_in_week': days_in_week})
