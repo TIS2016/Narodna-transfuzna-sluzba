@@ -1,5 +1,5 @@
 from datetime import datetime, timedelta
-
+from django.contrib.auth.tokens import default_token_generator
 from django import forms
 from django.contrib.auth.decorators import (login_required,
                                             permission_required,
@@ -9,13 +9,20 @@ from django.forms import formset_factory
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
 from django.utils import timezone
-
 from isnts.forms import *
 from isnts.models import *
 from isnts.questions_enum import QUESTION_COUNT
 from django.core import serializers
 from django.db.models import Max
 from django.contrib import messages
+from django.contrib.auth.models import Group
+from django.core.mail import send_mail
+from django.template.loader import get_template
+from django.template import Context
+from django.utils.encoding import force_bytes
+from django.utils.http import urlsafe_base64_encode
+from django.core.mail import EmailMultiAlternatives
+import uuid
 
 
 def get_or_none(model, *args, **kwargs):
@@ -31,15 +38,20 @@ def home(request):
     return render(request, 'home.html')
 
 
-@login_required(login_url='/login/')
-@permission_required('isnts.is_employee', login_url='/nopermission/')
+#@login_required(login_url='/login/')
+#@permission_required('isnts.is_employee', login_url='/nopermission/')
 def listview(request):
-    donors = Donor.objects.all()
-    return render(request, 'donors/listview.html', {'donors': donors})
+    donors_active = Donor.objects.filter(is_active=True)
+    donors_not_allowed = Donor.objects.filter(is_active=False)
+    return render(request, 'donors/listview.html', {
+        'donors_active': donors_active,
+        'donors_not_allowed': donors_not_allowed
+        }
+    )
 
 
-@login_required(login_url='/login/')
-@permission_required('isnts.is_employee', login_url='/nopermission/')
+#@login_required(login_url='/login/')
+#@permission_required('isnts.is_employee', login_url='/nopermission/')
 def create_new(request):
     donor_form = CreateDonorForm(request.POST or None)
     perm_address_form = AddressForm(
@@ -48,9 +60,38 @@ def create_new(request):
         request.POST or None, prefix='temp_address_form')
     if request.method == 'POST':
         if donor_form.is_valid() and perm_address_form.is_valid() and temp_address_form.is_valid():
+            donor_form.instance.username = (donor_form.instance.first_name + donor_form.instance.last_name).lower()
             perm_address_form.save()
             temp_address_form.save()
+            donor_form.instance.id_address_perm = perm_address_form.instance
+            donor_form.instance.id_address_temp = temp_address_form.instance
             donor_form.save()
+            if donor_form.instance.email != '':
+                user = get_or_none(User, id=donor_form.instance.id)
+                user.set_password(uuid.uuid4().hex)
+                g = Group.objects.get(name='Donor')
+                g.user_set.add(user)
+                user.save()
+                token = default_token_generator.make_token(user)
+                uidb = urlsafe_base64_encode(force_bytes(user.pk))
+                token = uidb.decode("UTF-8") + '-' + token
+                context = Context({
+                    'first_name': user.first_name,
+                    'last_name': user.last_name,
+                    'protocol': request.scheme,
+                    'domain': request.get_host,
+                    'token': token
+                })
+                subject = 'Verification'
+                text_content = get_template('emails/newaccount.txt').render(context)
+                html_content = get_template('emails/newaccount.html').render(context)
+                message = EmailMultiAlternatives(subject, text_content,'ntssrdebug@gmail.com', [user.email])
+                message.attach_alternative(html_content, "text/html")
+                try:
+                    message.send()
+                    messages.success(request, 'An email was sent to donor!')
+                except:
+                    messages.success(request, 'Cannot send an email!')
             messages.success(request, 'Donnor has been created!')
         else:
             messages.success(request, 'Error! Please fill your form with valid values!')
@@ -61,8 +102,8 @@ def create_new(request):
     })
 
 
-@login_required(login_url='/login/')
-@permission_required('isnts.is_employee', login_url='/nopermission/')
+#@login_required(login_url='/login/')
+#@permission_required('isnts.is_employee', login_url='/nopermission/')
 def detailview(request, donor_id):
     donor = get_or_none(DonorCard, id=donor_id)
     if not donor:

@@ -75,10 +75,10 @@ class Town(models.Model):
 
 
 class Address(models.Model):
-    town = models.ForeignKey(Town, on_delete=models.SET_NULL, null=True)
-    zip_code = models.CharField(max_length=10, null=True)
-    street = models.CharField(max_length=30, null=True)
-    number = models.CharField(max_length=10, null=True)
+    town = models.ForeignKey(Town, on_delete=models.SET_NULL, null=True, blank=True)
+    zip_code = models.CharField(max_length=10, null=True, blank=True)
+    street = models.CharField(max_length=30, null=True, blank=True)
+    number = models.CharField(max_length=10, null=True, blank=True)
 
 
 class NTS(models.Model):
@@ -139,24 +139,24 @@ class Donor(User):
         (Gender.male.value, 'male')
     )
 
-    gender = models.PositiveSmallIntegerField(choices=GENDER_CHOICES)
+    gender = models.PositiveSmallIntegerField(choices=GENDER_CHOICES, default=0)
 
 
 class DonorCard(Donor):
-    name = models.CharField(max_length=30)
+    name = models.CharField(max_length=30, blank=True)
     #date_of_birth = models.DateField(null=True)
     id_blood_type = models.ForeignKey(
-        BloodType, on_delete=models.SET_NULL, null=True)
-    phone_num = models.CharField(max_length=20)
+        BloodType, on_delete=models.SET_NULL, null=True, blank=True)
+    phone_num = models.CharField(max_length=20, blank=True)
     id_address_perm = models.ForeignKey(
-        Address, on_delete=models.PROTECT, null=True, related_name="perm")
+        Address, on_delete=models.PROTECT, null=True, related_name="perm", blank=True)
     id_address_temp = models.ForeignKey(
-        Address, on_delete=models.SET_NULL, null=True, related_name="temp")
-    card_created_date = models.DateTimeField(auto_now_add=True)
+        Address, on_delete=models.SET_NULL, null=True, related_name="temp", blank=True)
+    card_created_date = models.DateTimeField(auto_now_add=True, blank=True)
     card_created_by = models.ForeignKey(
-        Employee, on_delete=models.SET_NULL, null=True)
-    info = models.CharField(max_length=255, null=True)
-    can_donate_from = models.DateField(null=True)
+        Employee, on_delete=models.SET_NULL, null=True, blank=True)
+    info = models.CharField(max_length=255, null=True, blank=True)
+    can_donate_from = models.DateField(null=True, blank=True)
 
 
 class Questionnaire(models.Model):

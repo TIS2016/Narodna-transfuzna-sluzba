@@ -16,7 +16,10 @@ class DonorForm(forms.ModelForm):
         model = DonorCard
         exclude = ['password', 'card_created_by', 'id_address_perm', 'id_address_temp',
                    'last_login', 'is_superuser', 'email_verification_token', 'name', 'is_staff',
-                   'groups', 'user_permissions', 'is_active', 'active_acount', 'email']
+                   'groups', 'user_permissions', 'is_active', 'active_acount', 'email', 'date_joined', 'username']
+        widgets = {
+            'can_donate_from': forms.DateInput(attrs={'class': 'datepicker', 'type': 'date', 'id': 'datepicker'})
+        }
 
 
 class CreateDonorForm(forms.ModelForm):
@@ -25,8 +28,10 @@ class CreateDonorForm(forms.ModelForm):
         model = DonorCard
         exclude = ['password', 'card_created_by', 'id_address_perm', 'id_address_temp',
                    'last_login', 'is_superuser', 'email_verification_token', 'name', 'is_staff',
-                   'groups', 'user_permissions', 'is_active', 'active_acount']
-
+                   'groups', 'user_permissions', 'is_active', 'active_acount', 'date_joined', 'username']
+        widgets = {
+            'can_donate_from': forms.DateInput(attrs={'class': 'datepicker', 'type': 'date', 'id': 'datepicker'})
+        }
 
 class AddressForm(forms.ModelForm):
 
@@ -197,7 +202,7 @@ class OfficeHoursForm(forms.ModelForm):
             elif 'close_time' in field:
                 ct = field
         is_good = True
-       
+
         if self.data[ot] != '' and self.data[ct] != '':
             k = self.data[ot].split(':')
             open_time = time(int(k[0]), int(k[1]))
