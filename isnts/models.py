@@ -126,7 +126,7 @@ class Employee(User):
 
 
 class Donor(User):
-    active_acount = models.SmallIntegerField(default=0)
+    active_acount = models.BooleanField(default=False)
     email_verification_token = models.CharField(max_length=100, null=True)
 
     @unique
@@ -219,7 +219,7 @@ class BloodExtraction(models.Model):
     blood_type = models.ForeignKey(BloodType, on_delete=models.CASCADE)
     barcode = models.CharField(max_length=255)
     id_donor = models.ForeignKey(Donor, on_delete=models.CASCADE)
-    id_nts = models.ForeignKey(NTS, on_delete=models.SET_NULL, null=True)
+    id_nts = models.ForeignKey(NTS, on_delete=models.SET_NULL, null=True, blank=True)
     date = models.DateTimeField(auto_now_add=True)
-    postpone = models.DateTimeField(null=True)
-    note = models.CharField(max_length=255)
+    postpone = models.DateTimeField(null=True, blank=True)
+    note = models.CharField(max_length=255, blank=True)

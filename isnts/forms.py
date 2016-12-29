@@ -11,12 +11,12 @@ class PlainTextWidget(forms.Widget):
 
 
 class DonorForm(forms.ModelForm):
-
+    field_order = ['active_acount']
     class Meta:
         model = DonorCard
         exclude = ['password', 'card_created_by', 'id_address_perm', 'id_address_temp',
                    'last_login', 'is_superuser', 'email_verification_token', 'name', 'is_staff',
-                   'groups', 'user_permissions', 'is_active', 'active_acount', 'email', 'date_joined', 'username']
+                   'groups', 'user_permissions', 'is_active', 'email', 'date_joined', 'username']
         widgets = {
             'can_donate_from': forms.DateInput(attrs={'class': 'datepicker', 'type': 'date', 'id': 'datepicker'})
         }
@@ -44,7 +44,7 @@ class BloodExtractionForm(forms.ModelForm):
 
     class Meta:
         model = BloodExtraction
-        exclude = ['id_nts', 'date']
+        exclude = ['id_nts', 'date', 'id_donor']
 
 
 class Login(forms.ModelForm):
@@ -100,7 +100,7 @@ class QuestionnaireForm(forms.ModelForm):
 
     class Meta:
         model = Questionnaire
-        fields = ['weight', 'height', 'id_donor']
+        fields = ['weight', 'height']
         widget = {
             'id_donor': forms.HiddenInput()
         }

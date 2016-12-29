@@ -38,11 +38,11 @@ def home(request):
     return render(request, 'home.html')
 
 
-#@login_required(login_url='/login/')
-#@permission_required('isnts.is_employee', login_url='/nopermission/')
+@login_required(login_url='/login/')
+@permission_required('isnts.is_employee', login_url='/nopermission/')
 def listview(request):
-    donors_active = Donor.objects.filter(is_active=True)
-    donors_not_allowed = Donor.objects.filter(is_active=False)
+    donors_active = Donor.objects.filter(active_acount=True)
+    donors_not_allowed = Donor.objects.filter(active_acount=False)
     return render(request, 'donors/listview.html', {
         'donors_active': donors_active,
         'donors_not_allowed': donors_not_allowed
@@ -50,8 +50,8 @@ def listview(request):
     )
 
 
-#@login_required(login_url='/login/')
-#@permission_required('isnts.is_employee', login_url='/nopermission/')
+@login_required(login_url='/login/')
+@permission_required('isnts.is_employee', login_url='/nopermission/')
 def create_new(request):
     donor_form = CreateDonorForm(request.POST or None)
     perm_address_form = AddressForm(
@@ -102,8 +102,8 @@ def create_new(request):
     })
 
 
-#@login_required(login_url='/login/')
-#@permission_required('isnts.is_employee', login_url='/nopermission/')
+@login_required(login_url='/login/')
+@permission_required('isnts.is_employee', login_url='/nopermission/')
 def detailview(request, donor_id):
     donor = get_or_none(DonorCard, id=donor_id)
     if not donor:
@@ -156,7 +156,7 @@ def quastionnaire(request, donor_id, questionnaire_id):
     questions_forms = QuestionsFormSet(request.POST or None, initial=questions)
     if request.method == 'POST':
         if questions_forms.is_valid() and questionnaire_form.is_valid():
-            questionnaire_form.id_donor = donor_id
+            questionnaire_form.instance.id_donor = donor
             questionnaire_form.save()
             messages.success(request, 'Questionnaire has been saved!')
             if questionnaire:
@@ -194,6 +194,7 @@ def blood_extraction(request, donor_id, blood_extraction_id):
         request.POST or None, instance=blood_extraction)
     if request.method == 'POST':
         if blood_extraction_form.is_valid():
+            blood_extraction_form.instance.id_donor = donor
             blood_extraction_form.save()
             blood_extraction.id_nts = employee.id_nts
     return render(request, 'donors/blood_extraction/detailview.html', {
