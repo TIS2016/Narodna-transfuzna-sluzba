@@ -18,9 +18,10 @@ To activate virtual environemnt on Windows, run:
 
 `  .\venv\Scripts\activate`
 
-For the first time you have to install requirements:
+For the first time you have to install requirements and build sass source files:
 
 ` $ make install`
+` $ make build`
 
 Finally, to run the app:
 
