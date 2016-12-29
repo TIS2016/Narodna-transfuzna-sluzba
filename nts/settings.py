@@ -41,7 +41,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'isnts',
-    'jquery'
+    'jquery',
+    'nocaptcha_recaptcha'
 ]
 
 MIDDLEWARE_CLASSES = [
@@ -143,3 +144,14 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+
+
+
+NORECAPTCHA_SITE_KEY = os.getenv(
+    'NORECAPTCHA_SITE_KEY',
+    ''
+)
+NORECAPTCHA_SECRET_KEY = os.getenv(
+    'NORECAPTCHA_SECRET_KEY',
+    ''
+)

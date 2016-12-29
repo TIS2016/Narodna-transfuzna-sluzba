@@ -1,6 +1,8 @@
 from django import forms
 from .models import *
 from datetime import time
+from nocaptcha_recaptcha.fields import NoReCaptchaField
+from django.contrib.auth.forms import PasswordResetForm
 
 
 class PlainTextWidget(forms.Widget):
@@ -68,6 +70,9 @@ class Register(forms.ModelForm):
         widgets = {
             'password': forms.PasswordInput()
         }
+
+class PasswordResetFormRecaptcha(PasswordResetForm):
+    captcha = NoReCaptchaField(label="")
 
 
 class EmployeeRegister(forms.ModelForm):
