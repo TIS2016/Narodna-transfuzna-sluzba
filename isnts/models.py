@@ -221,5 +221,5 @@ class BloodExtraction(models.Model):
     id_donor = models.ForeignKey(Donor, on_delete=models.CASCADE)
     id_nts = models.ForeignKey(NTS, on_delete=models.SET_NULL, null=True, blank=True)
     date = models.DateTimeField(auto_now_add=True)
-    postpone = models.DateTimeField(null=True, blank=True)
+    postpone = models.DateField(null=True, blank=True)
     note = models.CharField(max_length=255, blank=True)

@@ -45,7 +45,9 @@ class BloodExtractionForm(forms.ModelForm):
     class Meta:
         model = BloodExtraction
         exclude = ['id_nts', 'date', 'id_donor']
-
+        widgets = {
+            'postpone': forms.DateInput(attrs={'class': 'datepicker', 'type': 'date', 'id': 'datepicker'})
+        }
 
 class Login(forms.ModelForm):
 
