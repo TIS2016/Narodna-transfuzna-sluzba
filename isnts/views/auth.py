@@ -25,8 +25,10 @@ def get_or_none(model, *args, **kwargs):
     except model.DoesNotExist:
         return None
 
+
 def health(request):
     return HttpResponse("Server is alive")
+
 
 def error404(request):
     return HttpResponse("404 error")
@@ -84,16 +86,23 @@ def donor_registration(request):
                 'token': token
             })
             subject = 'Verification'
-            text_content = get_template('emails/verification.txt').render(context)
-            html_content = get_template('emails/verification.html').render(context)
-            message = EmailMultiAlternatives(subject, text_content,'ntssrdebug@gmail.com', [user.email])
+            text_content = get_template(
+                'emails/verification.txt').render(context)
+            html_content = get_template(
+                'emails/verification.html').render(context)
+            message = EmailMultiAlternatives(
+                subject, text_content, 'ntssrdebug@gmail.com', [user.email])
             message.attach_alternative(html_content, "text/html")
             try:
                 message.send()
+                msg = "Registration successful, confirmation email has been sent."
+                messages.success(request, msg)
             except:
+                msg = ""
                 return HttpResponseRedirect("/registration/send_email_error")
-            return HttpResponseRedirect("/registration/success")
+            return HttpResponseRedirect("/")
     return render(request, 'donors/registration.html', {'registration_form': registration_form})
+
 
 def donor_registration_confirm(request, donor_id, token):
     if donor_id is not None and token is not None:
@@ -109,29 +118,28 @@ def donor_registration_confirm(request, donor_id, token):
             pass
     return render(request, "donors/registration_confirm.html", {'validlink': validlink})
 
-def donor_registration_success(request):
-    return render(request, 'donors/registration_success.html')
 
 # Views below is defined for Donors and Employees
 
 
 def _password_reset_confirm(request, uidb64=None, token=None):
     return password_reset_confirm(request, template_name='auth/password_reset_confirm.html',
-        uidb64=uidb64, token=token, post_reset_redirect='/login')
+                                  uidb64=uidb64, token=token, post_reset_redirect='/login')
 
 
 def _password_reset(request):
     return password_reset(request,
-        password_reset_form=PasswordResetFormRecaptcha,
-        template_name='auth/password_reset_form.html',
-        email_template_name='emails/password_reset.txt',
-        html_email_template_name='emails/password_reset.html',
-        subject_template_name='emails/password_reset_subject.txt',
-        post_reset_redirect='/password_reset_sent')
+                          password_reset_form=PasswordResetFormRecaptcha,
+                          template_name='auth/password_reset_form.html',
+                          email_template_name='emails/password_reset.txt',
+                          html_email_template_name='emails/password_reset.html',
+                          subject_template_name='emails/password_reset_subject.txt',
+                          post_reset_redirect='/password_reset_sent')
 
 
 def password_reset_sent(request):
     return render(request, 'auth/password_reset_sent.html')
+
 
 @login_required(login_url='/login/')
 def password_change(request):
@@ -144,7 +152,8 @@ def password_change(request):
             messages.success(request, 'Password has been changed!')
             return HttpResponseRedirect('/login/')
         else:
-            messages.success(request, 'Error! Please fill your form with valid values!')
+            messages.success(
+                request, 'Error! Please fill your form with valid values!')
     return render(request, 'auth/password_change.html', {'form': password_change_form})
 
 
@@ -169,12 +178,14 @@ def employee_login(request):
             return render_form()
     return HttpResponseRedirect('/')
 
+
 def get_nts(secret_key=""):
     nts_list = NTS.objects.all()
     for nts in nts_list:
         if check_password(secret_key, nts.secret_key):
             return nts
     return None
+
 
 def employee_register(request):
     e_types = [('', '---------')]
