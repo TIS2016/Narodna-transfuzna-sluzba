@@ -93,12 +93,12 @@ def create_new(request):
                         message.send()
                         messages.success(request, 'An email was sent to donor!')
                     except:
-                        messages.success(request, 'Cannot send an email!')
+                        messages.error(request, 'Cannot send an email!')
                 messages.success(request, 'Donor has been created!')
             else:
-                messages.success(request, 'Donor with this personal idenfication number already exist')
+                messages.error(request, 'Donor with this personal idenfication number already exist')
         else:
-            messages.success(request, 'Error! Please fill your form with valid values!')
+            messages.error(request, 'Error! Please fill your form with valid values!')
     return render(request, 'donors/create_new.html', {
         'donor_form': donor_form,
         'perm_address': perm_address_form,
@@ -130,7 +130,7 @@ def detailview(request, donor_id):
             donor_form.save()
             messages.success(request, 'Form has been saved')
         else:
-            messages.success(request, 'Error! Please fill your form with valid values!')
+            messages.error(request, 'Error! Please fill your form with valid values!')
     return render(request, 'donors/detailview.html', {
         'donor_form': donor_form,
         'perm_address': perm_address_form,
@@ -176,7 +176,7 @@ def quastionnaire(request, donor_id, questionnaire_id):
                     questions_form.instance.questionnaire = questionnaire_form.instance
                     questions_form.save()
         else:
-            messages.success(request, 'Error! Please fill your form with valid values!')
+            messages.error(request, 'Error! Please fill your form with valid values!')
     return render(request, 'donors/questionnaire/detailview.html', {
         'donor': donor,
         'questionnaire_form': questionnaire_form,
