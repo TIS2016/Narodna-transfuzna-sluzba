@@ -21,6 +21,14 @@
     });
 </script>
 
+<script>
+    {% if messages %}
+        {% for message in messages %}
+            Materialize.toast('{{ message }}', 4000)
+        {% endfor %}
+    {% endif %}
+</script>
+
 <div class="parallax-container" id="main_para">
     <div class="parallax">
         <img src="../../static\isnts\images\mainpage\header.jpg">

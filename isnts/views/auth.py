@@ -98,7 +98,8 @@ def donor_registration(request):
                 msg = "Registration successful, confirmation email has been sent."
                 messages.success(request, msg)
             except:
-                return HttpResponseRedirect("/registration/send_email_error")
+                msg = "Error while sending email."
+                messages.error(request, msg)
             return HttpResponseRedirect("/")
     return render(request, 'donors/registration.html', {'registration_form': registration_form})
 
@@ -113,8 +114,14 @@ def donor_registration_confirm(request, donor_id, token):
                 validlink = True
                 user.is_active = True
                 user.save()
+                msg = "Congratulations, account as been activated. You can login with your credentials."
+                messages.success(request, msg)
+            else:
+                msg = "Error! Link is not valid, or user account is already active."
+                messages.error(request, msg)
         except:
-            pass
+            msg = "There has been an error in user activation."
+            messages.error(request, msg)
     return render(request, "donors/registration_confirm.html", {'validlink': validlink})
 
 
