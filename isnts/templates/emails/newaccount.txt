@@ -1,7 +1,7 @@
 Dear {{ first_name }} {{ last_name }}!
 
 We craete for you an account.
-Please click to link below and set up your password.
+Please click to link below and set up your password.Than you can use your personal idenfication number as username to sign in.
 {{ request.scheme }}://{{ request.get_host }}/password_reset/confirm/{{ token }}
 
 best regards
