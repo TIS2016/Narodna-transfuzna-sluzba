@@ -98,7 +98,6 @@ def donor_registration(request):
                 msg = "Registration successful, confirmation email has been sent."
                 messages.success(request, msg)
             except:
-                msg = ""
                 return HttpResponseRedirect("/registration/send_email_error")
             return HttpResponseRedirect("/")
     return render(request, 'donors/registration.html', {'registration_form': registration_form})
