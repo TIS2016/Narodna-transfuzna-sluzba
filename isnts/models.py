@@ -128,7 +128,7 @@ class Employee(User):
 class Donor(User):
     active_acount = models.BooleanField(default=False)
     email_verification_token = models.CharField(max_length=100, null=True)
-
+    personal_identification_number = models.DecimalField(max_digits=20, decimal_places=0)
     @unique
     class Gender(Enum):
         male = 0
@@ -140,11 +140,13 @@ class Donor(User):
     )
 
     gender = models.PositiveSmallIntegerField(choices=GENDER_CHOICES, default=0)
+    class Meta:
+        unique_together = ('personal_identification_number',)
 
 
 class DonorCard(Donor):
     name = models.CharField(max_length=30, blank=True)
-    #date_of_birth = models.DateField(null=True)
+    date_of_birth = models.DateField(null=True, blank=True)
     id_blood_type = models.ForeignKey(
         BloodType, on_delete=models.SET_NULL, null=True, blank=True)
     phone_num = models.CharField(max_length=20, blank=True)

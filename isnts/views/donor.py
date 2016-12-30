@@ -60,39 +60,43 @@ def create_new(request):
         request.POST or None, prefix='temp_address_form')
     if request.method == 'POST':
         if donor_form.is_valid() and perm_address_form.is_valid() and temp_address_form.is_valid():
-            donor_form.instance.username = (donor_form.instance.first_name + donor_form.instance.last_name).lower()
-            perm_address_form.save()
-            temp_address_form.save()
-            donor_form.instance.id_address_perm = perm_address_form.instance
-            donor_form.instance.id_address_temp = temp_address_form.instance
-            donor_form.save()
-            if donor_form.instance.email != '':
-                user = get_or_none(User, id=donor_form.instance.id)
-                user.set_password(uuid.uuid4().hex)
-                g = Group.objects.get(name='Donor')
-                g.user_set.add(user)
-                user.save()
-                token = default_token_generator.make_token(user)
-                uidb = urlsafe_base64_encode(force_bytes(user.pk))
-                token = uidb.decode("UTF-8") + '-' + token
-                context = Context({
-                    'first_name': user.first_name,
-                    'last_name': user.last_name,
-                    'protocol': request.scheme,
-                    'domain': request.get_host,
-                    'token': token
-                })
-                subject = 'Verification'
-                text_content = get_template('emails/newaccount.txt').render(context)
-                html_content = get_template('emails/newaccount.html').render(context)
-                message = EmailMultiAlternatives(subject, text_content,'ntssrdebug@gmail.com', [user.email])
-                message.attach_alternative(html_content, "text/html")
-                try:
-                    message.send()
-                    messages.success(request, 'An email was sent to donor!')
-                except:
-                    messages.success(request, 'Cannot send an email!')
-            messages.success(request, 'Donnor has been created!')
+            donor = get_or_none(User, username=donor_form.instance.personal_identification_number)
+            if not donor:
+                donor_form.instance.username = str(donor_form.instance.personal_identification_number)
+                perm_address_form.save()
+                temp_address_form.save()
+                donor_form.instance.id_address_perm = perm_address_form.instance
+                donor_form.instance.id_address_temp = temp_address_form.instance
+                donor_form.save()
+                if donor_form.instance.email != '':
+                    user = get_or_none(User, id=donor_form.instance.id)
+                    user.set_password(uuid.uuid4().hex)
+                    g = Group.objects.get(name='Donor')
+                    g.user_set.add(user)
+                    user.save()
+                    token = default_token_generator.make_token(user)
+                    uidb = urlsafe_base64_encode(force_bytes(user.pk))
+                    token = uidb.decode("UTF-8") + '-' + token
+                    context = Context({
+                        'first_name': user.first_name,
+                        'last_name': user.last_name,
+                        'protocol': request.scheme,
+                        'domain': request.get_host,
+                        'token': token
+                    })
+                    subject = 'Verification'
+                    text_content = get_template('emails/newaccount.txt').render(context)
+                    html_content = get_template('emails/newaccount.html').render(context)
+                    message = EmailMultiAlternatives(subject, text_content,'ntssrdebug@gmail.com', [user.email])
+                    message.attach_alternative(html_content, "text/html")
+                    try:
+                        message.send()
+                        messages.success(request, 'An email was sent to donor!')
+                    except:
+                        messages.success(request, 'Cannot send an email!')
+                messages.success(request, 'Donor has been created!')
+            else:
+                messages.success(request, 'Donor with this personal idenfication number already exist')
         else:
             messages.success(request, 'Error! Please fill your form with valid values!')
     return render(request, 'donors/create_new.html', {

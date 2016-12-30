@@ -65,7 +65,7 @@ class Register(forms.ModelForm):
 
     class Meta:
         model = DonorCard
-        fields = ['first_name', 'last_name',
+        fields = ['first_name', 'last_name', 'personal_identification_number',
                   'username', 'email', 'password', 'gender']
         widgets = {
             'password': forms.PasswordInput()
