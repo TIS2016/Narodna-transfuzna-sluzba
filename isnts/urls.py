@@ -35,7 +35,6 @@ urlpatterns = [
     url(r'^login/$', views.auth.donor_login),
     url(r'^registration/confirm/(?P<donor_id>[0-9]+)/(?P<token>[0-9A-Za-z]{1,13}-[0-9A-Za-z]{1,20})/$', views.auth.donor_registration_confirm),
     url(r'^registration/$', views.auth.donor_registration),
-    url(r'^registration/success/$', views.auth.donor_registration_success),
     url(r'^password_change/$', views.auth.password_change),
     url(r'^password_reset/confirm/(?P<uidb64>[0-9A-Za-z]+)-(?P<token>.+)/$', views.auth._password_reset_confirm),
     url(r'^password_reset/$', views.auth._password_reset),
