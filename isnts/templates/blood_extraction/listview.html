@@ -1,109 +1,95 @@
 {% extends "base.html" %} {% load staticfiles %} {% block title %}Blood samples{% endblock %} {% block content %}
+<section>
+    <h2 id="napisL">Blood extractions</h2>
+    <hr>
+    <div class="row">
+        <div class="col s12">
+            <ul class="tabs tabs-fixed-width">
+                <li class="tab col s3"><a class="active" href="#test1">New samples</a></li>
+                <li class="tab col s3"><a href="#test2">Ready for expedition</a></li>
+                <li class="tab col s3"><a href="#test3">Shipped samples</a></li>
+            </ul>
+        </div>
+        <div id="test1" class="col s12">
+            <table class="responsive-table">
+                <thead>
+                    <tr>
+                        <th data-field="id">Blood ID</th>
+                        <th data-field="name">Donnor ID</th>
+                        <th data-field="price">State</th>
+                        <th data-field="price">Date</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% if samples_new %} {% for blood in samples_new %}
+                    <tr class="picker__list-item--highlighted" onclick="window.location.href = '{{ blood.id }}';">
+                        <td><span>{{ blood.id }}</span></td>
+                        <td><span>{{ blood.id_donor }}</span></td>
+                        <td><span>{{ blood.get_state_display }}</span></td>
+                        <td><span>{{ blood.date }}</span></td>
+                    </tr>
+                    {% endfor %} {% else %}
+                    <tr>
+                        <td>There are no new blood samples for now</td>
+                    </tr>
+                    {% endif %}
 
-    <div class="fixed-action-btn">
-        <a class="btn-floating btn-large blue" href="0">
-            <i class="large material-icons">add</i>
-        </a>
+                </tbody>
+            </table>
+        </div>
+        <div id="test2" class="col s12">
+            <table class="responsive-table">
+                <thead>
+                    <tr>
+                        <th data-field="id">Blood ID</th>
+                        <th data-field="name">Donnor ID</th>
+                        <th data-field="price">State</th>
+                        <th data-field="price">Date</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% if samples_ready_for_exp %} {% for blood in samples_ready_for_exp %}
+                    <tr class="picker__list-item--highlighted" onclick="window.location.href = '{{ blood.id }}';">
+                        <td><span>{{ blood.id }}</span></td>
+                        <td><span>{{ blood.id_donor }}</span></td>
+                        <td><span>{{ blood.get_state_display }}</span></td>
+                        <td><span>{{ blood.date }}</span></td>
+                    </tr>
+                    {% endfor %} {% else %}
+                    <tr>
+                        <td>There are no ready blood samples for now</td>
+                    </tr>
+                    {% endif %}
+                </tbody>
+            </table>
+        </div>
+        <div id="test3" class="col s12">
+            <table class="responsive-table">
+                <thead>
+                    <tr>
+                        <th data-field="id">Blood ID</th>
+                        <th data-field="name">Donnor ID</th>
+                        <th data-field="price">State</th>
+                        <th data-field="price">Date</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% if samples_shipped %} {% for blood in samples_shipped %}
+                    <tr class="picker__list-item--highlighted" onclick="window.location.href = '{{ blood.id }}';">
+                        <td><span>{{ blood.id }}</span></td>
+                        <td><span>{{ blood.id_donor }}</span></td>
+                        <td><span>{{ blood.get_state_display }}</span></td>
+                        <td><span>{{ blood.date }}</span></td>
+                    </tr>
+                    {% endfor %} {% else %}
+                    <tr>
+                        <td>There are no blood samples for now</td>
+                    </tr>
+                    {% endif %}
+                </tbody>
+            </table>
+        </div>
     </div>
-    <section>
-        <h2 id="napisL">Blood extractions</h2>
-        <hr>
-        <div class="row">
-            <div class="col s12">
-                <h5>New samples</h5>
-                <table class="responsive-table">
-                    <thead>
-                    <tr>
-                        <th data-field="id">Blood ID</th>
-                        <th data-field="name">Donnor ID</th>
-                        <th data-field="price">State</th>
-                        <th data-field="price">Date</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    {% if samples_new %}
-                        {% for blood in samples_new %}
-                            <tr class="picker__list-item--highlighted"
-                                onclick="window.location.href = '{{ blood.id }}';">
-                                <td><span>{{ blood.id }}</span></td>
-                                <td><span>{{ blood.id_donor }}</span></td>
-                                <td><span>{{ blood.get_state_display }}</span></td>
-                                <td><span>{{ blood.date }}</span></td>
-                            </tr>
-                        {% endfor %}
-                    {% else %}
-                        <tr>
-                            <td>There are no new blood samples for now</td>
-                        </tr>
-                    {% endif %}
 
-                    </tbody>
-                </table>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col s12">
-                <h5>Ready for expedition</h5>
-                <table class="responsive-table">
-                    <thead>
-                    <tr>
-                        <th data-field="id">Blood ID</th>
-                        <th data-field="name">Donnor ID</th>
-                        <th data-field="price">State</th>
-                        <th data-field="price">Date</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    {% if samples_ready_for_exp %}
-                        {% for blood in samples_ready_for_exp %}
-                            <tr class="picker__list-item--highlighted"
-                                onclick="window.location.href = '{{ blood.id }}';">
-                                <td><span>{{ blood.id }}</span></td>
-                                <td><span>{{ blood.id_donor }}</span></td>
-                                <td><span>{{ blood.get_state_display }}</span></td>
-                                <td><span>{{ blood.date }}</span></td>
-                            </tr>
-                        {% endfor %}
-                    {% else %}
-                        <tr>
-                            <td>There are no ready blood samples for now</td>
-                        </tr>
-                    {% endif %}
-                    </tbody>
-                </table>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col s12">
-                <h5>Shipped samples</h5>
-                <table class="responsive-table">
-                    <thead>
-                    <tr>
-                        <th data-field="id">Blood ID</th>
-                        <th data-field="name">Donnor ID</th>
-                        <th data-field="price">State</th>
-                        <th data-field="price">Date</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    {% if samples_shipped %}
-                        {% for blood in samples_shipped %}
-                            <tr class="picker__list-item--highlighted"
-                                onclick="window.location.href = '{{ blood.id }}';">
-                                <td><span>{{ blood.id }}</span></td>
-                                <td><span>{{ blood.id_donor }}</span></td>
-                                <td><span>{{ blood.get_state_display }}</span></td>
-                                <td><span>{{ blood.date }}</span></td>
-                            </tr>
-                        {% endfor %}
-                    {% else %}
-                        <tr>
-                            <td>There are no blood samples for now</td>
-                        </tr>
-                    {% endif %}
-                    </tbody>
-                </table>
-            </div>
-        </div>
-    </section>
+</section>
 {% endblock %}

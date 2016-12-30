@@ -1,5 +1,5 @@
 from datetime import datetime, timedelta
-
+from django.contrib.auth.tokens import default_token_generator
 from django import forms
 from django.contrib.auth.decorators import (login_required,
                                             permission_required,
@@ -9,13 +9,20 @@ from django.forms import formset_factory
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
 from django.utils import timezone
-
 from isnts.forms import *
 from isnts.models import *
 from isnts.questions_enum import QUESTION_COUNT
 from django.core import serializers
 from django.db.models import Max
 from django.contrib import messages
+from django.contrib.auth.models import Group
+from django.core.mail import send_mail
+from django.template.loader import get_template
+from django.template import Context
+from django.utils.encoding import force_bytes
+from django.utils.http import urlsafe_base64_encode
+from django.core.mail import EmailMultiAlternatives
+import uuid
 
 
 def get_or_none(model, *args, **kwargs):
@@ -34,8 +41,13 @@ def home(request):
 @login_required(login_url='/login/')
 @permission_required('isnts.is_employee', login_url='/nopermission/')
 def listview(request):
-    donors = Donor.objects.all()
-    return render(request, 'donors/listview.html', {'donors': donors})
+    donors_active = Donor.objects.filter(active_acount=True)
+    donors_not_allowed = Donor.objects.filter(active_acount=False)
+    return render(request, 'donors/listview.html', {
+        'donors_active': donors_active,
+        'donors_not_allowed': donors_not_allowed
+        }
+    )
 
 
 @login_required(login_url='/login/')
@@ -48,12 +60,45 @@ def create_new(request):
         request.POST or None, prefix='temp_address_form')
     if request.method == 'POST':
         if donor_form.is_valid() and perm_address_form.is_valid() and temp_address_form.is_valid():
-            perm_address_form.save()
-            temp_address_form.save()
-            donor_form.save()
-            messages.success(request, 'Donnor has been created!')
+            donor = get_or_none(User, username=donor_form.instance.personal_identification_number)
+            if not donor:
+                donor_form.instance.username = str(donor_form.instance.personal_identification_number)
+                perm_address_form.save()
+                temp_address_form.save()
+                donor_form.instance.id_address_perm = perm_address_form.instance
+                donor_form.instance.id_address_temp = temp_address_form.instance
+                donor_form.save()
+                if donor_form.instance.email != '':
+                    user = get_or_none(User, id=donor_form.instance.id)
+                    user.set_password(uuid.uuid4().hex)
+                    g = Group.objects.get(name='Donor')
+                    g.user_set.add(user)
+                    user.save()
+                    token = default_token_generator.make_token(user)
+                    uidb = urlsafe_base64_encode(force_bytes(user.pk))
+                    token = uidb.decode("UTF-8") + '-' + token
+                    context = Context({
+                        'first_name': user.first_name,
+                        'last_name': user.last_name,
+                        'protocol': request.scheme,
+                        'domain': request.get_host,
+                        'token': token
+                    })
+                    subject = 'Verification'
+                    text_content = get_template('emails/newaccount.txt').render(context)
+                    html_content = get_template('emails/newaccount.html').render(context)
+                    message = EmailMultiAlternatives(subject, text_content,'ntssrdebug@gmail.com', [user.email])
+                    message.attach_alternative(html_content, "text/html")
+                    try:
+                        message.send()
+                        messages.success(request, 'An email was sent to donor!')
+                    except:
+                        messages.error(request, 'Cannot send an email!')
+                messages.success(request, 'Donor has been created!')
+            else:
+                messages.error(request, 'Donor with this personal idenfication number already exist')
         else:
-            messages.success(request, 'Error! Please fill your form with valid values!')
+            messages.error(request, 'Error! Please fill your form with valid values!')
     return render(request, 'donors/create_new.html', {
         'donor_form': donor_form,
         'perm_address': perm_address_form,
@@ -85,7 +130,7 @@ def detailview(request, donor_id):
             donor_form.save()
             messages.success(request, 'Form has been saved')
         else:
-            messages.success(request, 'Error! Please fill your form with valid values!')
+            messages.error(request, 'Error! Please fill your form with valid values!')
     return render(request, 'donors/detailview.html', {
         'donor_form': donor_form,
         'perm_address': perm_address_form,
@@ -115,7 +160,7 @@ def quastionnaire(request, donor_id, questionnaire_id):
     questions_forms = QuestionsFormSet(request.POST or None, initial=questions)
     if request.method == 'POST':
         if questions_forms.is_valid() and questionnaire_form.is_valid():
-            questionnaire_form.id_donor = donor_id
+            questionnaire_form.instance.id_donor = donor
             questionnaire_form.save()
             messages.success(request, 'Questionnaire has been saved!')
             if questionnaire:
@@ -131,7 +176,7 @@ def quastionnaire(request, donor_id, questionnaire_id):
                     questions_form.instance.questionnaire = questionnaire_form.instance
                     questions_form.save()
         else:
-            messages.success(request, 'Error! Please fill your form with valid values!')
+            messages.error(request, 'Error! Please fill your form with valid values!')
     return render(request, 'donors/questionnaire/detailview.html', {
         'donor': donor,
         'questionnaire_form': questionnaire_form,
@@ -153,6 +198,7 @@ def blood_extraction(request, donor_id, blood_extraction_id):
         request.POST or None, instance=blood_extraction)
     if request.method == 'POST':
         if blood_extraction_form.is_valid():
+            blood_extraction_form.instance.id_donor = donor
             blood_extraction_form.save()
             blood_extraction.id_nts = employee.id_nts
     return render(request, 'donors/blood_extraction/detailview.html', {
