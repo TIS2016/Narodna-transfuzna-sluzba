@@ -1,4 +1,13 @@
 {% extends "public/base.html" %} {% load staticfiles %} {% block title %}Registration{% endblock %} {% block content %} {% include "public/nav.html" %}
+
+<script>
+    {% if messages %}
+        {% for message in messages %}
+            Materialize.toast('{{ message }}', 4000)
+        {% endfor %}
+    {% endif %}
+</script>
+
 <main>
     <h2 id="napisL">Donor registration cofirm</h2>
     <hr>
