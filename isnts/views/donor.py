@@ -46,7 +46,7 @@ def listview(request):
     return render(request, 'donors/listview.html', {
         'donors_active': donors_active,
         'donors_not_allowed': donors_not_allowed
-        }
+    }
     )
 
 
@@ -60,9 +60,11 @@ def create_new(request):
         request.POST or None, prefix='temp_address_form')
     if request.method == 'POST':
         if donor_form.is_valid() and perm_address_form.is_valid() and temp_address_form.is_valid():
-            donor = get_or_none(User, username=donor_form.instance.personal_identification_number)
+            donor = get_or_none(
+                User, username=donor_form.instance.personal_identification_number)
             if not donor:
-                donor_form.instance.username = str(donor_form.instance.personal_identification_number)
+                donor_form.instance.username = str(
+                    donor_form.instance.personal_identification_number)
                 perm_address_form.save()
                 temp_address_form.save()
                 donor_form.instance.id_address_perm = perm_address_form.instance
@@ -85,20 +87,26 @@ def create_new(request):
                         'token': token
                     })
                     subject = 'Verification'
-                    text_content = get_template('emails/newaccount.txt').render(context)
-                    html_content = get_template('emails/newaccount.html').render(context)
-                    message = EmailMultiAlternatives(subject, text_content,'ntssrdebug@gmail.com', [user.email])
+                    text_content = get_template(
+                        'emails/newaccount.txt').render(context)
+                    html_content = get_template(
+                        'emails/newaccount.html').render(context)
+                    message = EmailMultiAlternatives(
+                        subject, text_content, 'ntssrdebug@gmail.com', [user.email])
                     message.attach_alternative(html_content, "text/html")
                     try:
                         message.send()
-                        messages.success(request, 'An email was sent to donor!')
+                        messages.success(
+                            request, 'An email was sent to donor!')
                     except:
                         messages.error(request, 'Cannot send an email!')
                 messages.success(request, 'Donor has been created!')
             else:
-                messages.error(request, 'Donor with this personal idenfication number already exist')
+                messages.error(
+                    request, 'Donor with this personal idenfication number already exist')
         else:
-            messages.error(request, 'Error! Please fill your form with valid values!')
+            messages.error(
+                request, 'Error! Please fill your form with valid values!')
     return render(request, 'donors/create_new.html', {
         'donor_form': donor_form,
         'perm_address': perm_address_form,
@@ -130,7 +138,8 @@ def detailview(request, donor_id):
             donor_form.save()
             messages.success(request, 'Form has been saved')
         else:
-            messages.error(request, 'Error! Please fill your form with valid values!')
+            messages.error(
+                request, 'Error! Please fill your form with valid values!')
     return render(request, 'donors/detailview.html', {
         'donor_form': donor_form,
         'perm_address': perm_address_form,
@@ -160,7 +169,8 @@ def quastionnaire(request, donor_id, questionnaire_id):
     questions_forms = QuestionsFormSet(request.POST or None, initial=questions)
     if request.user.has_perm('isnts.is_employee'):
         for question_form in questions_forms:
-            question_form.fields['employee_additional_info'] = forms.CharField(max_length=255, label='employee_additional_info',widget=forms.TextInput(attrs={'placeholder': 'Employee\'s additional info'}), required=False)
+            question_form.fields['employee_additional_info'] = forms.CharField(max_length=255, label='employee_additional_info', widget=forms.TextInput(attrs={
+                                                                               'placeholder': 'Employee\'s additional info'}), required=False)
     if request.method == 'POST':
         if questions_forms.is_valid() and questionnaire_form.is_valid():
             questionnaire_form.instance.id_donor = donor
@@ -177,18 +187,21 @@ def quastionnaire(request, donor_id, questionnaire_id):
                     )
                     if request.user.has_perm('isnts.is_employee'):
                         Questions.objects.filter(
-                        questionnaire_id=questionnaire.id).filter(
-                        question=cleaned_data.get('question')).update(
-                        employee_additional_info = cleaned_data.get('employee_additional_info')
-                    )
+                            questionnaire_id=questionnaire.id).filter(
+                            question=cleaned_data.get('question')).update(
+                            employee_additional_info=cleaned_data.get(
+                                'employee_additional_info')
+                        )
             else:
                 for questions_form in questions_forms:
                     cleaned_data = questions_form.cleaned_data
                     questions_form.instance.questionnaire = questionnaire_form.instance
-                    question_form.instance.employee_additional_info = cleaned_data.get('employee_additional_info')
+                    question_form.instance.employee_additional_info = cleaned_data.get(
+                        'employee_additional_info')
                     questions_form.save()
         else:
-            messages.error(request, 'Error! Please fill your form with valid values!')
+            messages.error(
+                request, 'Error! Please fill your form with valid values!')
     return render(request, 'donors/questionnaire/detailview.html', {
         'donor': donor,
         'questionnaire_form': questionnaire_form,
@@ -283,8 +296,10 @@ def terms_choose_day(request, nts_id=None):
                 create_booking_form = CreateBookingForm(
                     request.POST or None, times=list(times))
                 create_booking_form.fields['day'].initial = picked_date
-            most_recent_date = BloodExtraction.objects.filter(id_donor=donor).aggregate(Max('date'))['date__max']
-            most_recent_blood_extraction = get_or_none(BloodExtraction, date=most_recent_date)
+            most_recent_date = BloodExtraction.objects.filter(
+                id_donor=donor).aggregate(Max('date'))['date__max']
+            most_recent_blood_extraction = get_or_none(
+                BloodExtraction, date=most_recent_date)
             if most_recent_blood_extraction is not None:
                 postpone = most_recent_blood_extraction.postpone
             else:
@@ -298,7 +313,7 @@ def terms_choose_day(request, nts_id=None):
             time = request.POST['time']
             time = time.split(':')
             dt = datetime(int(day[2]), int(day[1]), int(
-                day[0]), int(time[0])+1, int(time[1]))
+                day[0]), int(time[0]) + 1, int(time[1]))
             booking = Booking(id_nts=nts, id_donor=donor, booking_time=dt)
             booking.save()
 
