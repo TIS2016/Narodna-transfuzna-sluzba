@@ -170,7 +170,7 @@ def quastionnaire(request, donor_id, questionnaire_id):
     if request.user.has_perm('isnts.is_employee'):
         for question_form in questions_forms:
             question_form.fields['employee_additional_info'] = forms.CharField(max_length=255, label='employee_additional_info', widget=forms.TextInput(attrs={
-                                                                               'placeholder': 'Employee\'s additional info'}), required=False)
+                                                                               'placeholder': 'Employee\'s additional information'}), required=False)
     if request.method == 'POST':
         if questions_forms.is_valid() and questionnaire_form.is_valid():
             questionnaire_form.instance.id_donor = donor
