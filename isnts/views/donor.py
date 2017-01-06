@@ -151,13 +151,16 @@ def quastionnaire(request, donor_id, questionnaire_id):
     questionnaire = get_or_none(Questionnaire, id=questionnaire_id)
     if questionnaire:
         questions = Questions.objects.filter(
-            questionnaire_id=questionnaire.id).values('id', 'question', 'answer')
+            questionnaire_id=questionnaire.id).values('id', 'question', 'answer', 'additional_info', 'employee_additional_info')
     else:
         questions = list({'question': x} for x in range(1, QUESTION_COUNT + 1))
     QuestionsFormSet = formset_factory(QuestionsForm, extra=0)
     questionnaire_form = QuestionnaireForm(
         request.POST or None, instance=questionnaire)
     questions_forms = QuestionsFormSet(request.POST or None, initial=questions)
+    if request.user.has_perm('isnts.is_employee'):
+        for question_form in questions_forms:
+            question_form.fields['employee_additional_info'] = forms.CharField(max_length=255, label='employee_additional_info',widget=forms.TextInput(attrs={'placeholder': 'Employee\'s additional info'}), required=False)
     if request.method == 'POST':
         if questions_forms.is_valid() and questionnaire_form.is_valid():
             questionnaire_form.instance.id_donor = donor
@@ -169,11 +172,20 @@ def quastionnaire(request, donor_id, questionnaire_id):
                     Questions.objects.filter(
                         questionnaire_id=questionnaire.id).filter(
                         question=cleaned_data.get('question')).update(
-                        answer=cleaned_data.get('answer')
+                        answer=cleaned_data.get('answer'),
+                        additional_info=cleaned_data.get('additional_info')
+                    )
+                    if request.user.has_perm('isnts.is_employee'):
+                        Questions.objects.filter(
+                        questionnaire_id=questionnaire.id).filter(
+                        question=cleaned_data.get('question')).update(
+                        employee_additional_info = cleaned_data.get('employee_additional_info')
                     )
             else:
                 for questions_form in questions_forms:
+                    cleaned_data = questions_form.cleaned_data
                     questions_form.instance.questionnaire = questionnaire_form.instance
+                    question_form.instance.employee_additional_info = cleaned_data.get('employee_additional_info')
                     questions_form.save()
         else:
             messages.error(request, 'Error! Please fill your form with valid values!')

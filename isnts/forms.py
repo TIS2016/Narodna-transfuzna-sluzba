@@ -117,9 +117,10 @@ class QuestionsForm(forms.ModelForm):
 
     class Meta:
         model = Questions
-        fields = ['question', 'answer']
+        fields = ['question', 'answer', 'additional_info']
         widgets = {
             'question': PlainTextWidget(),
+            'additional_info': forms.TextInput(attrs={'placeholder': 'Info'})
         }
 
 

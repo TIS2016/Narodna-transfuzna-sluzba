@@ -163,8 +163,8 @@ class DonorCard(Donor):
 
 class Questionnaire(models.Model):
     id_donor = models.ForeignKey(Donor, on_delete=models.CASCADE)
-    weight = models.DecimalField(max_digits=6, decimal_places=3)
-    height = models.DecimalField(max_digits=6, decimal_places=6)
+    weight = models.DecimalField(max_digits=6, decimal_places=2)
+    height = models.DecimalField(max_digits=6, decimal_places=2)
     phone = models.CharField(max_length=20)
     created_address = models.ForeignKey(
         Address, on_delete=models.SET_NULL, null=True, related_name="created")
@@ -188,6 +188,8 @@ class Questions(models.Model):
     question = models.PositiveSmallIntegerField(choices=QUESTION_CHOICES)
     questionnaire = models.ForeignKey(Questionnaire, on_delete=models.CASCADE)
     answer = models.PositiveSmallIntegerField(choices=ANSWER_CHOICES)
+    additional_info = models.CharField(max_length=255, blank=True)
+    employee_additional_info = models.CharField(max_length=255, blank=True)
 
     class Meta:
         unique_together = ('questionnaire', 'question')
