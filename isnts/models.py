@@ -75,7 +75,8 @@ class Town(models.Model):
 
 
 class Address(models.Model):
-    town = models.ForeignKey(Town, on_delete=models.SET_NULL, null=True, blank=True)
+    town = models.ForeignKey(
+        Town, on_delete=models.SET_NULL, null=True, blank=True)
     zip_code = models.CharField(max_length=10, null=True, blank=True)
     street = models.CharField(max_length=30, null=True, blank=True)
     number = models.CharField(max_length=10, null=True, blank=True)
@@ -128,7 +129,9 @@ class Employee(User):
 class Donor(User):
     active_acount = models.BooleanField(default=False)
     email_verification_token = models.CharField(max_length=100, null=True)
-    personal_identification_number = models.DecimalField(max_digits=20, decimal_places=0)
+    personal_identification_number = models.DecimalField(
+        max_digits=20, decimal_places=0)
+
     @unique
     class Gender(Enum):
         male = 0
@@ -139,7 +142,9 @@ class Donor(User):
         (Gender.male.value, 'male')
     )
 
-    gender = models.PositiveSmallIntegerField(choices=GENDER_CHOICES, default=0)
+    gender = models.PositiveSmallIntegerField(
+        choices=GENDER_CHOICES, default=0)
+
     class Meta:
         unique_together = ('personal_identification_number',)
 
@@ -163,8 +168,8 @@ class DonorCard(Donor):
 
 class Questionnaire(models.Model):
     id_donor = models.ForeignKey(Donor, on_delete=models.CASCADE)
-    weight = models.DecimalField(max_digits=6, decimal_places=3)
-    height = models.DecimalField(max_digits=6, decimal_places=6)
+    weight = models.DecimalField(max_digits=6, decimal_places=2)
+    height = models.DecimalField(max_digits=6, decimal_places=2)
     phone = models.CharField(max_length=20)
     created_address = models.ForeignKey(
         Address, on_delete=models.SET_NULL, null=True, related_name="created")
@@ -188,6 +193,8 @@ class Questions(models.Model):
     question = models.PositiveSmallIntegerField(choices=QUESTION_CHOICES)
     questionnaire = models.ForeignKey(Questionnaire, on_delete=models.CASCADE)
     answer = models.PositiveSmallIntegerField(choices=ANSWER_CHOICES)
+    additional_info = models.CharField(max_length=255, blank=True)
+    employee_additional_info = models.CharField(max_length=255, blank=True)
 
     class Meta:
         unique_together = ('questionnaire', 'question')
@@ -221,7 +228,8 @@ class BloodExtraction(models.Model):
     blood_type = models.ForeignKey(BloodType, on_delete=models.CASCADE)
     barcode = models.CharField(max_length=255)
     id_donor = models.ForeignKey(Donor, on_delete=models.CASCADE)
-    id_nts = models.ForeignKey(NTS, on_delete=models.SET_NULL, null=True, blank=True)
+    id_nts = models.ForeignKey(
+        NTS, on_delete=models.SET_NULL, null=True, blank=True)
     date = models.DateTimeField(auto_now_add=True)
     postpone = models.DateField(null=True, blank=True)
     note = models.CharField(max_length=255, blank=True)

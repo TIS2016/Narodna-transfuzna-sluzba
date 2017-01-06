@@ -14,6 +14,7 @@ class PlainTextWidget(forms.Widget):
 
 class DonorForm(forms.ModelForm):
     field_order = ['active_acount']
+
     class Meta:
         model = DonorCard
         exclude = ['password', 'card_created_by', 'id_address_perm', 'id_address_temp',
@@ -35,6 +36,7 @@ class CreateDonorForm(forms.ModelForm):
             'can_donate_from': forms.DateInput(attrs={'class': 'datepicker', 'type': 'date', 'id': 'datepicker'})
         }
 
+
 class AddressForm(forms.ModelForm):
 
     class Meta:
@@ -50,6 +52,7 @@ class BloodExtractionForm(forms.ModelForm):
         widgets = {
             'postpone': forms.DateInput(attrs={'class': 'datepicker', 'type': 'date', 'id': 'datepicker'})
         }
+
 
 class Login(forms.ModelForm):
 
@@ -70,6 +73,7 @@ class Register(forms.ModelForm):
         widgets = {
             'password': forms.PasswordInput()
         }
+
 
 class PasswordResetFormRecaptcha(PasswordResetForm):
     captcha = NoReCaptchaField(label="")
@@ -117,9 +121,10 @@ class QuestionsForm(forms.ModelForm):
 
     class Meta:
         model = Questions
-        fields = ['question', 'answer']
+        fields = ['question', 'answer', 'additional_info']
         widgets = {
             'question': PlainTextWidget(),
+            'additional_info': forms.TextInput(attrs={'placeholder': 'Info'})
         }
 
 
