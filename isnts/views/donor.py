@@ -213,6 +213,15 @@ def information(request):
     donor = User.objects.get(id=request.user.id)
     return render(request, 'donors/information.html', {'donor': donor})
 
+@login_required(login_url='/login/')
+@permission_required('isnts.is_donor', login_url='/employees/interface/')
+def my_profile(request):
+    donor = User.objects.get(id=request.user.id)
+    blood_extractions = BloodExtraction.objects.filter(id_donor=request.user.id)
+    return render(request, 'donors/my_profile.html', {
+        'donor': donor,
+        'blood_extractions': blood_extractions
+    })
 
 @login_required(login_url="/login/")
 @permission_required("isnts.is_donor", login_url="/employees/interface/")

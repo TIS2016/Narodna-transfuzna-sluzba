@@ -19,6 +19,9 @@ from isnts import views
 from django.conf.urls.static import static
 from . import settings
 
+from django.conf.urls.i18n import i18n_patterns
+
+
 handler404 = 'isnts.views.error404'
 
 urlpatterns = [

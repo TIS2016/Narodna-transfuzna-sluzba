@@ -18,6 +18,7 @@ urlpatterns = [
     url(r'^donors/terms/$', views.donor.terms_choose_nts, name="terms"),
     url(r'^donors/terms/list/$', views.donor.terms_listview, name="my_terms"),
     url(r'^donors/terms/remove/(?P<booking_id>[0-9]+)/$', views.donor.terms_remove),
+    url(r'^donors/my_profile/', views.donor.my_profile),
     url(r'^donors/$', views.donor.listview, name="donors"),
     url(r'^employees/(?P<employee_id>[0-9]+)/$', views.employee.detailview, name="employees"),
     url(r'^employees/$', views.employee.listview, name="employees"),
