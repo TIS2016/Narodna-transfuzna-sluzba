@@ -218,3 +218,13 @@ body {
     width: 250px;
     margin: 0px auto;
 }
+
+h2.donor_layout {
+    color: #777;
+    font-size: 18px;
+}
+
+h4 {
+    color: #c4c4c4;
+    font-size: 18px;
+}

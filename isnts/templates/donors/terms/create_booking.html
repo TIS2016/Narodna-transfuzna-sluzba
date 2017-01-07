@@ -3,8 +3,7 @@
 {% block title %}Choose NTS{% endblock %}
 {% block content %}
 <section>
-    <a href="/donors/{{ donor.id }}">Back</a>
-
+    <h2 class="donor_layout">Select date you want to come:</h2>
     <form method="post" role="form">
 
         {% for field in create_booking_form.visible_fields %}
@@ -22,7 +21,7 @@
         </div>
     </form>
     <form action="#" method="get">
-      <button type="submit" class="btn" name="datepicked" id="datepicked" >Confirm date</button>
+        <button type="submit" class="btn" name="datepicked" id="datepicked" >Confirm date</button>
     </form>
 </section>
 

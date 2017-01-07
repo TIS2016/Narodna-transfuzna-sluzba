@@ -20,7 +20,8 @@
 </div>
 <ul id="slide-out" class="side-nav fixed">
     <li class="logo">
-        <a href="#!"><img src="../../static/isnts/images/mainpage/logo.png"></a>
+        {% load static %}
+        <a href="#!"><img src="{% static "isnts/images/mainpage/logo.png" %}"></a>
     </li>
     {% if perms.isnts.is_donor %}
     <li class="{% if request.resolver_match.url_name == 'information' %}active{% endif %}"><a id="dash" href="/donors/information">My Profile</a></li>

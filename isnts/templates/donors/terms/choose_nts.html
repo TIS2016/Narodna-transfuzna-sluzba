@@ -9,7 +9,7 @@ Materialize.toast('NTS {{ no_office_hours.name }} does not have any office hours
 </script>
 
 <section>
-    <a href="/donors/{{ donor.id }}">Back</a>
+    <h2 class="donor_layout">Choose NTS you want to create booking</h2>
     <form method="post" role="form">
         {% for field in choose_nts_form.visible_fields %}
         <div id="div_{{ field.html_name }}" class="form-group{% if field.errors %} has-error{% endif %} input-field">
@@ -25,4 +25,3 @@ Materialize.toast('NTS {{ no_office_hours.name }} does not have any office hours
     </form>
 </section>
 {% endblock %}
-
