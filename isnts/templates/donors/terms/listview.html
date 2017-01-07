@@ -19,18 +19,23 @@ remove = function(booking){
                 alert(err.Message);
             }
         });
-    };          
+    };
 </script>
-<h2>My bookings</h2>
-<a href="/donors/terms"  class="row">New booking</a>
+
+<h2 class="donor_layout">My bookings</h2>
 <div class="bookings" id="bookings">
+{% if bookings %}
+<ul class="collection with-header">
 {% for booking in bookings %}
-    <div id="booking_{{booking.id}}">
-        <span>{{ booking.id_nts.name }}</span>
-        <span>{{ booking.booking_time }}</span>
-        <span><a href="#" onclick="remove( {{ booking.id }} );" >Remove</a></span> 
-        <br>
-    </div>
+<li class="collection-item" id="booking_{{booking.id}}"><div>{{ booking.id_nts.name }} {{ booking.booking_time }} <a href="#"  onclick="remove( {{ booking.id }} );"  class="secondary-content"><i class="material-icons">delete</i></a></div></li>
 {% endfor %}
+</ul>
+{% else %}
+<div class="row empty_bookings">
+    <h3>You have no bookings</h3>
+    <i class="material-icons">access_time</i>
+    <a href="/donors/terms/" class="waves-effect waves-light btn">Create new booking</a>
+</div>
+{% endif %}
 </div>
 {% endblock %}

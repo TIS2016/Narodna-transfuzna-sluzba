@@ -135,6 +135,8 @@ def detailview(request, donor_id):
         if donor_form.is_valid() and perm_address_form.is_valid() and temp_address_form.is_valid():
             perm_address_form.save()
             temp_address_form.save()
+            donor_form.instance.id_address_perm = perm_address_form.instance
+            donor_form.instance.id_address_temp = temp_address_form.instance
             donor_form.save()
             messages.success(request, 'Form has been saved')
         else:
@@ -235,9 +237,18 @@ def blood_extraction(request, donor_id, blood_extraction_id):
 @login_required(login_url='/login/')
 @permission_required('isnts.is_donor', login_url='/employees/interface/')
 def information(request):
-    donor = User.objects.get(id=request.user.id)
+    donor = DonorCard.objects.get(id=request.user.id)
     return render(request, 'donors/information.html', {'donor': donor})
 
+@login_required(login_url='/login/')
+@permission_required('isnts.is_donor', login_url='/employees/interface/')
+def my_profile(request):
+    donor = User.objects.get(id=request.user.id)
+    blood_extractions = BloodExtraction.objects.filter(id_donor=request.user.id)
+    return render(request, 'donors/my_profile.html', {
+        'donor': donor,
+        'blood_extractions': blood_extractions
+    })
 
 @login_required(login_url="/login/")
 @permission_required("isnts.is_donor", login_url="/employees/interface/")

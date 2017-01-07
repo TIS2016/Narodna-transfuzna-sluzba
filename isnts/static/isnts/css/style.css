@@ -188,3 +188,43 @@ body {
     color: red;
 }
 
+.person {
+}
+
+.person i {
+    color: #777;
+    font-size: 150px;
+    width: 150px;
+    margin: 50px auto;
+    display: block;
+}
+
+
+.empty_bookings h3, .empty_bookings i, .empty_bookings a {
+    display: block;
+    text-align: center;
+}
+.empty_bookings h3 {
+    color: #c4c4c4;
+}
+.empty_bookings i {
+    font-size: 200px;
+    color: #c4c4c4;
+    width: 200px;
+    margin: 50px auto;
+}
+
+.empty_bookings a {
+    width: 250px;
+    margin: 0px auto;
+}
+
+h2.donor_layout {
+    color: #777;
+    font-size: 18px;
+}
+
+h4 {
+    color: #c4c4c4;
+    font-size: 18px;
+}
