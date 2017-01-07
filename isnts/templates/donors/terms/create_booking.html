@@ -20,13 +20,17 @@
             <input type="submit" value="Submit" class="btn btn-primary" />
         </div>
     </form>
-    <form action="#" method="get">
+    <form action="#" method="get" id="get_date" style="display: none">
         <button type="submit" class="btn" name="datepicked" id="datepicked" >Confirm date</button>
     </form>
 </section>
 
 <script type="text/javascript">
 $('.datepicker').pickadate({
+  onClose: function() {
+      document.getElementById('datepicked').value = document.getElementById('id_day').value;
+      document.getElementById('datepicked').click();
+  },
   disable: {{not_avail_days}},
   labelMonthNext: 'Go to the next month',
   labelMonthPrev: 'Go to the previous month',

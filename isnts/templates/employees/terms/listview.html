@@ -1,13 +1,26 @@
 {% extends "base.html" %} {% load staticfiles %} {% block title %}Employee Login{% endblock %} {% block content %}
-    <section class="row">
-        <h2 id="napisL">Terms</h2>
-        <hr>
-        {% for booking in bookings %}
-            <div id="booking_{{ booking.id }}">
-                <span>In NTS {{ booking.id_nts.name }}</span>
-                <span>Donor:<a href="/donors/{{ booking.id_donor.id }}"> {{ booking.id_donor }}</a></span>
-                <span>At: {{ booking.booking_time }}</span>
-            </div>
-        {% endfor %}
-    </section>
+<section class="row">
+    <h2 id="napisL">Terms</h2>
+    <hr>
+
+    <table class="responsive-table">
+        <thead>
+            <tr>
+                <th data-field="id">NTS</th>
+                <th data-field="price">Donor</th>
+                <th data-field="name">Time</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            {% for booking in bookings %}
+            <tr class="picker__list-item--highlighted" onclick="location.href='/donors/{{ booking.id_donor.id }}'">
+                <td>{{ booking.id_nts.name }}</td>
+                <td>{{ booking.id_donor }}</td>
+                <td>{{ booking.booking_time }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+
+</section>
 {% endblock %}
