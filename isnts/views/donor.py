@@ -198,7 +198,7 @@ def quastionnaire(request, donor_id, questionnaire_id):
                 for questions_form in questions_forms:
                     cleaned_data = questions_form.cleaned_data
                     questions_form.instance.questionnaire = questionnaire_form.instance
-                    question_form.instance.employee_additional_info = cleaned_data.get(
+                    questions_form.instance.employee_additional_info = cleaned_data.get(
                         'employee_additional_info')
                     questions_form.save()
         else:
