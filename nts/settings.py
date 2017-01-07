@@ -44,14 +44,12 @@ INSTALLED_APPS = [
     'isnts',
     'jquery',
     'nocaptcha_recaptcha',
-
 ]
 
 MIDDLEWARE_CLASSES = [
     'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
-    'django.middleware.locale.LocaleMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -123,10 +121,6 @@ USE_L10N = True
 
 USE_TZ = True
 
-#LANGUAGES = [
-#  ('en', _('English')),
-#  ('sk', _('Slovak')),
-#]
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.9/howto/static-files/
