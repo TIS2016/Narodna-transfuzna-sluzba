@@ -154,7 +154,7 @@ def detailview(request, donor_id):
 
 @login_required(login_url='/login/')
 def quastionnaire(request, donor_id, questionnaire_id):
-    if request.user.has_perm('isnts.is_employee') == False and donor_id != request.user.id:
+    if request.user.has_perm('isnts.is_employee') == False and int(donor_id) != request.user.id:
         return HttpResponseRedirect('/nopermission/')
     donor = get_or_none(Donor, id=donor_id)
     if not donor:
@@ -198,7 +198,7 @@ def quastionnaire(request, donor_id, questionnaire_id):
                 for questions_form in questions_forms:
                     cleaned_data = questions_form.cleaned_data
                     questions_form.instance.questionnaire = questionnaire_form.instance
-                    question_form.instance.employee_additional_info = cleaned_data.get(
+                    questions_form.instance.employee_additional_info = cleaned_data.get(
                         'employee_additional_info')
                     questions_form.save()
         else:
@@ -238,7 +238,13 @@ def blood_extraction(request, donor_id, blood_extraction_id):
 @permission_required('isnts.is_donor', login_url='/employees/interface/')
 def information(request):
     donor = DonorCard.objects.get(id=request.user.id)
-    return render(request, 'donors/information.html', {'donor': donor})
+    questionnaires = Questionnaire.objects.filter(id_donor=request.user.id)
+    blood_extractions = BloodExtraction.objects.filter(id_donor=request.user.id)
+    return render(request, 'donors/information.html', {
+        'donor': donor,
+        'questionnaires': questionnaires,
+        'blood_extractions': blood_extractions
+        })
 
 @login_required(login_url='/login/')
 @permission_required('isnts.is_donor', login_url='/employees/interface/')

@@ -19,4 +19,20 @@
         </div>
     </form>
 </section>
+
+<script type="text/javascript">
+$('.datepicker').pickadate({
+  labelMonthNext: 'Go to the next month',
+  labelMonthPrev: 'Go to the previous month',
+  labelMonthSelect: 'Pick a month from the dropdown',
+  labelYearSelect: 'Pick a year from the dropdown',
+  selectMonths: true,
+  selectYears: true,
+  firstDay: 1 ,
+  min: new Date(),
+  format: 'yyyy-mm-dd',
+  formatSubmit: 'yyyy-mm-dd',
+});
+</script>
+
 {% endblock %}

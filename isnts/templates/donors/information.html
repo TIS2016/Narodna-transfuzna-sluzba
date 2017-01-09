@@ -92,7 +92,7 @@
             </thead>
             <tbody>
                 {% if questionnaires %} {% for questionnaire in questionnaires %}
-                <tr class="picker__list-item--highlighted" onclick="window.location.href = 'questionnaire/{{ questionnaire.id }}';">
+                <tr class="picker__list-item--highlighted" onclick="window.location.href = '/donors/{{ donor.id }}/questionnaire/{{ questionnaire.id }}';">
                     <td><span>{{ questionnaire.id }}</span></td>
                     <td><span>{{ questionnaire.id_donor }}</span></td>
                     <td><span>{{ questionnaire.phone }}</span></td>
@@ -118,7 +118,7 @@
             </thead>
             <tbody>
                 {% if blood_extractions %} {% for blood_extraction in blood_extractions %}
-                <tr class="picker__list-item--highlighted" onclick="window.location.href = 'blood_extraction/{{ blood_extraction.id }}';">
+                <tr class="picker__list-item--highlighted" >
                     <td><span>{{ blood_extraction.id }}</span></td>
                     <td><span>{{ blood_extraction.id_donor }}</span></td>
                     <td><span>{{ blood_extraction.get_state_display }}</span></td>
