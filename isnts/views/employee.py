@@ -20,7 +20,9 @@ def get_or_none(model, *args, **kwargs):
 @login_required(login_url='/employees/login/')
 @permission_required('isnts.is_ntssu', login_url='/nopermission/')
 def listview(request):
-    employees = Employee.objects.filter(groups__name__in=['Doctor', 'Nurse'])
+    user = Employee.objects.get(id=request.user.id)
+    nts = user.id_nts
+    employees = Employee.objects.filter(id_nts=nts, groups__name__in=['Doctor', 'Nurse'])
     return render(request, 'employees/listview.html', {'employees': employees})
 
 
