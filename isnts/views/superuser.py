@@ -4,6 +4,7 @@ from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseRedirect
 from django.contrib.auth.decorators import login_required, user_passes_test, permission_required
 from django.contrib import messages
+from django.contrib.auth.hashers import make_password
 
 
 def get_or_none(model, *args, **kwargs):
@@ -23,10 +24,10 @@ def secret_key_change(request):
             data = secret_key_change_form.cleaned_data
             nts = employee.id_nts
             if data['secret_key_new'] == data['secret_key_new2']:
-                nts.secret_key = data['secret_key_new2']
+                nts.secret_key = make_password(data['secret_key_new2'])
                 nts.save()
                 messages.success(request, 'Secret key has been changed!')
-                return HttpResponseRedirect('/login/')
+                return render(request, 'superuser/secret_key_change.html', {'form': secret_key_change_form})
             else:
                 messages.success(
                     request, 'Error! Please fill your form with valid values!')

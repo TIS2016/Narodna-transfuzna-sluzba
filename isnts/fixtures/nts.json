@@ -10,7 +10,7 @@
         "phone": "",
         "email": "",
         "other_contact": "",
-        "info": "",
+        "info": "12345",
         "id_boss": 8,
         "secret_key": "pbkdf2_sha256$30000$tF1fjlt2Z2oG$EQI6kcXjNffWAZiyxeqw6PngAkjduzreNKBVgkvviuI="
     }
@@ -27,8 +27,8 @@
         "phone": "",
         "email": "",
         "other_contact": "",
-        "info": "",
+        "info": "noofficehours",
         "id_boss": 7,
-        "secret_key": "pbkdf2_sha256$30000$tF1fjlt2Z2oG$EQI6kcXjNffWAZiyxeqw6PngAkjduzreNKBVgkvviuI="
+        "secret_key": "pbkdf2_sha256$30000$UkSFWyuMso8U$sLSOox53W4yzu+7xSymIuswRv8n/eBi98UCRagmjLsg="
     }
 }]
