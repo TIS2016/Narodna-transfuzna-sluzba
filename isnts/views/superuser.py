@@ -27,7 +27,6 @@ def secret_key_change(request):
                 nts.secret_key = make_password(data['secret_key_new2'])
                 nts.save()
                 messages.success(request, 'Secret key has been changed!')
-                return render(request, 'superuser/secret_key_change.html', {'form': secret_key_change_form})
             else:
                 messages.success(
                     request, 'Error! Please fill your form with valid values!')
