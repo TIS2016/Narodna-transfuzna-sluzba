@@ -11,9 +11,19 @@
         {% endfor %}
     {% endif %}
     <br>
-    <a href="/donors/{{ donor.id }}">back</a>
-    <h2 id="napisL">{{ donor.first_name }} {{ donor.last_name }} questionnare</h2>
+    {% if perms.isnts.is_donor %}
+    <div class="nav">
+        <a href="/donors/information/" class="waves-effect"><i class="material-icons">arrow_back</i></a>
+        <h2 id="napisL">{{ donor.first_name }} {{ donor.last_name }} questionnare</h2>
+    </div>
+    {% else %}
+    <div class="nav">
+        <a href="/donors/{{ donor.id }}/" class="waves-effect"><i class="material-icons">arrow_back</i></a>
+        <h2 id="napisL">{{ donor.first_name }} {{ donor.last_name }} questionnare</h2>
+    </div>
+    {% endif %}
     <hr>
+
     <br>
     <form method="post" role="form">
         {{ questions_forms.management_form }}
