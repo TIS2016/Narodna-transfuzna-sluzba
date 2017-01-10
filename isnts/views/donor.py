@@ -201,6 +201,7 @@ def quastionnaire(request, donor_id, questionnaire_id):
                     questions_form.instance.employee_additional_info = cleaned_data.get(
                         'employee_additional_info')
                     questions_form.save()
+            return HttpResponseRedirect("/donors/"+str(donor_id)+"/questionnaire/"+str(questionnaire_form.instance.id))
         else:
             messages.error(
                 request, 'Error! Please fill your form with valid values!')
