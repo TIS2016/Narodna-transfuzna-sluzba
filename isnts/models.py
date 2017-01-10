@@ -193,8 +193,8 @@ class Questions(models.Model):
     question = models.PositiveSmallIntegerField(choices=QUESTION_CHOICES)
     questionnaire = models.ForeignKey(Questionnaire, on_delete=models.CASCADE)
     answer = models.PositiveSmallIntegerField(choices=ANSWER_CHOICES)
-    additional_info = models.CharField(max_length=255, blank=True)
-    employee_additional_info = models.CharField(max_length=255, blank=True)
+    additional_info = models.CharField(max_length=255, blank=True, null=True)
+    employee_additional_info = models.CharField(max_length=255, blank=True, null=True)
 
     class Meta:
         unique_together = ('questionnaire', 'question')
