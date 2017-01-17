@@ -1,0 +1,13 @@
+Dátum stretnutia:           12.12.2016
+Prítomní členovia tímu:     Patrik Hudák, Marián Skrip, Jakub Trubač, Martin Mašek, Samuel Mitas
+
+Dôvod: všeobecná konzultácia ohľadom nezrovnalostí
+
+Keďže sa implementácia projektu pomaly finalizovala a začínali sa prázdniny, 
+spravili sme si tento predprázdninový meeting zameraný na otázky a prípadné nezrovnalosti v IS.
+Sfinalizovala sa funkcionalita overovania všetkých účtov. Zaviedol sa toast z frameworku Materialize ako jednotný spôsob,
+akým bude používateľ informovaný o priebehu jednotlivých akcií (či sa dotazník vytvoril a pod.). 
+Na základe mentor meetingu tiez Marián opravil na mieste nájdené bugy v agende termíny.
+
+
+
