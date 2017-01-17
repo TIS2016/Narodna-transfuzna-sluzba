@@ -1,0 +1,19 @@
+Dátum stretnutia:           02.12.2016
+Prítomní členovia tímu:     Patrik Hudák, Marián Skrip, Jakub Trubač, Martin Mašek, Samuel Mitas
+
+Dôvod: zabezpečenie pri registrácii zamestnancov a darcov, konzultácia ohľadom spôsobu zmeny hesla
+
+1. Zabezpečenie registrácie zamestnancov
+Predmetom konzultácie bol fakt, že do NTS sa vedel ako zamestnanec zaregistrovať každý. Hľadali sme spôsob, ktorý
+by tento fakt ošetril. Rozhodli sme sa použiť tajný kľúč, ktorý poznali len určení zamestnanci NTS. Tento kľúč je 
+nevyhnutný pri registrácii zamestnanca a bude sa môcť kedykoľvek zmeniť.
+
+2. Zabezpečenie registrácie darcov
+Ďalším predmetom konzultácie bola možnosť duplicitnej registrácie darcov.
+Rozhodli sme sa pridať automatické overovanie darcov prostredníctvom emailu, ktorý im bude zaslaný na adresu 
+zadanú pri registrácii. Lekár si tak bude môcť na základe tejto adresy overiť totožnosť darcu.
+
+3. Zmena hesla
+V implementácii je zahrnutá aj možnosť zmeny hesla, ktorá sa písala custom. Samuel nás upozornil na vstavanú funkciu
+frameworku django, ktorá umožňuje efektívne a bezpečne zmeniť heslo. Po podrobnom vysvetlení sme dospeli k záveru, 
+že táto vstavaná funkcia nahradí našu starú custom verziu.

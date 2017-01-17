@@ -1,0 +1,21 @@
+Dátum stretnutia:           09.12.2016
+Prítomní členovia tímu:     Patrik Hudák, Marián Skrip, Jakub Trubač, Martin Mašek, Samuel Mitas
+
+Dôvod: riešenie problému jazykovej mutácie, riešenie bugov s prihlasovaním, technológia SASS
+
+1. Jazyková mutácia
+Predmetom tochto meetingu bol problém s jazykovou mutáciou aplikácie. Aplikácia sa robila celá v angličtine
+z dôvodu jednoduchšieho neskoršieho prepisovania do iných jazykov. V aplikácii sa našli niektoré atribúty a funkcie
+v slovenčine, čo bolo potrebné rýchlo opraviť.
+
+2. Bugy pri prihlasovaní
+Po implementácii prihlasovania a registrácie sa našli problémy s modulom prihlásenia. Tie sa opravili počas meetingu.
+
+3. SASS
+Samuel prišiel s riešením jednoduchej úpravy farieb a iných štýlov vo front-endovom frameworku Materialize.
+Oboznámil nás teda s technológiou SASS ktorá po skompilovaní globálne mení prednastavené defaultné hodnoty front-endového frameworku.
+Pomohol nám tiež nastaviť kompilátor pre túto technológiu.  
+
+Marián si tiež zobral na starosť na tvorbu termínov.
+
+

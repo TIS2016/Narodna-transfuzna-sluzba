@@ -1,0 +1,15 @@
+Dátum stretnutia:           11.11.2016
+Prítomní členovia tímu:     Patrik Hudák, Marián Skrip, Jakub Trubač, Martin Mašek, Samuel Mitas
+
+Dôvod: konzultácia o front-end technológiách
+
+Na žiadosť Samuela Mitasa sme zvolali tento meeting. Cieľom bolo prediskutovať technológie, ktoré sa 
+budú využívať na grafické zobrazenie IS.
+Pôvodne sme plánovali využiť zaužívaný grafický framework Bootstrap. Po dohadovaní a predložených argumentov
+sme sa nakoniec rozhodli využiť nový framework Materialize, ktorý je postavený na striktných pravidlách 
+dokumentácie Google Material Design. Material Design hovorí o tom ako by mali správne vyzerať moderné webové 
+aplikácie a stránky. Jeden z hlavných dôvodov bol tiež ten, že sme sa chceli naučiť novú technológiu a rozšíriť si
+tak obzory pri tvorbe grafiky webu.
+
+Prekonzultovali sme tiež modely IS, ktoré už boli implementované. Po konzultácii sme tak mali presnú predstavu o 
+jednotlivých tabuľkách a atribútoch v databáze IS.

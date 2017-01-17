@@ -1,0 +1,10 @@
+Dátum stretnutia:           18.11.2016
+Prítomní členovia tímu:     Patrik Hudák, Marián Skrip, Jakub Trubač, Martin Mašek, Samuel Mitas
+
+Dôvod: konzultácia ohľadom agiend po prihlásení
+
+V IS bolo implementované prihlasovanie a dokončené finálne modely IS. Tento meeting sme potrebovali na upresnenie jednotlivých
+agiend, ktoré uvidia prihlásení používatelia. Najviac sme sa zamerali na agendu zamestnancov nakoľko jej obsahová stránka bola
+podstatné väčšia ako u darcov.
+Navrhli sme si štruktúru týchto agiend a zaradili ich do menu. Ku každej agende sme konzultovali prístupové práva 
+( kto má právo robiť jednotlivé úkony ).

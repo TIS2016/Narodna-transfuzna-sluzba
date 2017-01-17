@@ -1,0 +1,11 @@
+Dátum stretnutia:           04.11.2016
+Prítomní členovia tímu:     Patrik Hudák, Marián Skrip, Jakub Trubač, Martin Mašek, Samuel Mitas
+
+Dôvod: konzultácia a finalizácia navrhnutých diagramov, začiatok implementácie, rozdelenie úloh
+
+Po konzultácii s mentorom a dokončení diagramov potrebných na implementáciu sme zvolali tento meeting. Cieľom
+bolo ujasnenie si niektorých nedostatkov v návrhu a finalizácia diagramov.
+Konkrétne sme konzultovali správnosť triedneho diagramu, ktorý bol potrebný na správny návrh modelov pri implementácii.
+
+Všetky nedostatky ohľadom diagramov sme prekonzultovali a ujasnili sme si, akým spôsobom budeme tvoriť modely.
+Taktiež sme si načrtli jednotlivé agendy IS a ich delenie.

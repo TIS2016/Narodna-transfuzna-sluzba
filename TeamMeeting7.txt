@@ -1,0 +1,22 @@
+Dátum stretnutia:           25.11.2016
+Prítomní členovia tímu:     Patrik Hudák, Marián Skrip, Jakub Trubač, Martin Mašek, Samuel Mitas
+
+Dôvod: návrh na zefektívnenie testovania IS, konzultácia požiadaviek zo strany front-end, delenie úloh na back-end
+
+1.
+Zo strany back-endu prišiel návrh na zefektívnenie testovania IS, ktorý sme potrebovali prekonzultovať a pochopiť.
+Jednalo sa o to, že všetky testovacie dáta sa nebudú do IS zadávať ručne ale budú vytvorené tzv. dump súbory.
+Tie nám automaticky po spustení vytvoria používateľov a krvné vzorky. Nemusíme sa tak registrovať a overovať 
+správnosť e-mailovej adresy po každej migrácii databázy.
+
+2.
+Z front-endu prišla požiadavka na oddelenie registrácie a prihlasovania užívateľa do dvoch separátnych stránok. 
+Po predložených argumentoch, ktoré sa týkali grafického rozhrania a použiteľnosti webu, sa back-end rozhodol požiadavke vyhovieť
+a tak sa prihlásenie zobrazí na úvodnej stránke IS a registrácia sa zobrazí až po kliknutí na tlačidlo "registrovať".
+
+3. 
+Back-end potreboval prekonzultovať delenie ďalších prác na IS. Upresnila sa tvorba dotazníka a krvných vzoriek
+z hľadiska funkcionality, ktoré si vzal na starosť Samuel. Marián si vzal na starosť views a nastavovanie prístupových práv 
+po prihlásení zamestnanca NTS. Jakub začne pracovať na požiadavke front-endu, konkrétne na rozdelení registrácie a prihlásenia.
+
+Na záver sme sa dohodli na verziovaní migrácií databázy v gite. 
